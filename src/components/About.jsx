@@ -1,7 +1,13 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Code2, Rocket, Users, Zap, Sparkles } from 'lucide-react';
+import { Code2, Rocket, Users, Zap, Sparkles, Globe } from 'lucide-react';
+
+const stats = [
+  { icon: Code2, value: '3+', label: 'Years Coding' },
+  { icon: Globe, value: '15+', label: 'Projects Built' },
+  { icon: Zap, value: '7+', label: 'Websites Managed' },
+];
 
 const highlights = [
   {
@@ -68,6 +74,22 @@ export default function About() {
               About <span className="gradient-text">Me</span>
             </h2>
             <div className="w-16 h-1 bg-gradient-to-r from-violet-600 to-sky-400 rounded-full mx-auto" />
+          </motion.div>
+
+          {/* Stats Row */}
+          <motion.div
+            variants={itemVariants}
+            className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto mb-16"
+          >
+            {stats.map(({ icon: Icon, value, label }) => (
+              <div key={label} className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 rounded-2xl bg-violet-500/15 flex items-center justify-center mb-3">
+                  <Icon size={22} className="text-violet-400" />
+                </div>
+                <span className="text-3xl md:text-4xl font-extrabold gradient-text">{value}</span>
+                <span className="text-slate-400 text-xs sm:text-sm mt-1">{label}</span>
+              </div>
+            ))}
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-12 items-start">

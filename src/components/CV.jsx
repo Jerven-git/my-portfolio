@@ -1,6 +1,9 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Download, FileText, Briefcase, GraduationCap, Sparkles } from 'lucide-react';
+import { Download, FileText, Briefcase, GraduationCap, Sparkles, User } from 'lucide-react';
+
+const summary =
+  'Full-Stack Web Developer with 3+ years of experience building and maintaining web applications using Laravel and Vue.js/Nuxt.js. I also have hands-on experience with Django, React.js, and Shopify in e-commerce development. Passionate about modern web technologies and continuously exploring how AI can improve development workflows and enhance product innovation.';
 
 const experience = [
   {
@@ -80,6 +83,24 @@ export default function CV() {
             <FileText size={16} className="opacity-70" />
           </motion.a>
           <p className="text-slate-400 text-xs mt-3">PDF · Updated 2026</p>
+        </motion.div>
+
+        {/* Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="glass rounded-2xl p-6 mb-12"
+          style={{ border: '1px solid rgba(108,99,255,0.15)' }}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center">
+              <User size={20} className="text-violet-400" />
+            </div>
+            <h3 className="text-slate-100 font-bold text-xl">Summary</h3>
+          </div>
+          <p className="text-slate-400 text-sm md:text-base leading-relaxed">{summary}</p>
         </motion.div>
 
         {/* Content Grid */}

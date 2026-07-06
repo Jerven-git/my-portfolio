@@ -121,7 +121,7 @@ export default function AIDevelopment() {
           <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-5">
             AI <span className="gradient-text">Development</span>
           </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-pink-500 to-violet-500 rounded-full mx-auto mb-5" />
+          <div className="w-16 h-1 bg-linear-to-r from-pink-500 to-violet-500 rounded-full mx-auto mb-5" />
           <p className="text-slate-400 max-w-xl mx-auto">
             Full-scale applications I've built faster and smarter using AI-assisted development tools and workflows.
           </p>
