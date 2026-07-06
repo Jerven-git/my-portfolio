@@ -72,7 +72,7 @@ export default function CV() {
 
           {/* Download Button */}
           <motion.a
-            href="/cv.pdf"
+            href={`${import.meta.env.BASE_URL}cv.pdf`}
             download="Jerven_Latayada_CV.pdf"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.97 }}
