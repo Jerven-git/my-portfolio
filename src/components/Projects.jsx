@@ -14,7 +14,6 @@ const projects = [
     gradient: 'from-violet-600/20 to-indigo-600/10',
     featured: true,
     demo: 'https://crm.databasy.io/login',
-    demoLabel: 'Visit Site',
   },
   {
     id: 2,
@@ -201,11 +200,10 @@ export default function Projects() {
             <button
               key={cat}
               onClick={() => setActiveFilter(cat)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                activeFilter === cat
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${activeFilter === cat
                   ? 'bg-violet-600 text-slate-100 shadow-lg shadow-violet-500/25'
                   : 'glass text-slate-400 hover:text-slate-100 hover:border-violet-500/30'
-              }`}
+                }`}
             >
               {cat}
             </button>
