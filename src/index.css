@@ -29,6 +29,8 @@
   --f-body: 'Bricolage Grotesque', system-ui, sans-serif;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-slop="on"] {
@@ -148,6 +150,112 @@
 
 .orb {
   animation: float 8s ease-in-out infinite;
+}
+
+/* ── AI Mode: the View Transition ───────────────────────────────
+   The site's signature moment.
+
+   Choreography, in order:
+     0—220ms   the vermilion panel wipes off to the right; the old
+               headline blurs and clears out
+     140—640ms the page ground crossfades beneath everything
+     220—660ms the new headline arrives, unblurring, having travelled
+               from the left column to page centre
+     180—880ms the orb wash blooms up
+
+   Two rules learned from watching it run:
+
+   1. The headline's old and new snapshots must not overlap. They are
+      different sentences at different sizes and alignments; crossfading
+      them produces a double-exposure smear. Old is gone by 220ms, new
+      starts at 220ms. The shared group still interpolates the box, so
+      the eye reads travel rather than a cut.
+
+   2. The panel and the orb wash carry different view-transition-names.
+      Sharing one name made the group morph a 38%-wide panel into a
+      full-viewport box, stretching the vermilion across the whole page
+      as a red flash. Separate names give an exit-only and an enter-only
+      animation, which is what the moment actually wants.
+
+   Firefox has no startViewTransition yet, so none of this runs there.
+   The mode still works; the body colour/font transition carries it.
+   ─────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 500ms;
+    animation-delay: 140ms;
+    animation-timing-function: var(--ease-out-quart);
+  }
+
+  ::view-transition-group(hero-headline) {
+    animation-duration: 660ms;
+    animation-timing-function: var(--ease-out-expo);
+  }
+
+  ::view-transition-old(hero-headline) {
+    animation: vt-fade-out 200ms var(--ease-out-quart) forwards,
+               vt-blur-out 220ms var(--ease-out-quart) forwards;
+  }
+
+  ::view-transition-new(hero-headline) {
+    animation: vt-fade-in 380ms 220ms var(--ease-out-quart) backwards,
+               vt-blur-in 440ms 220ms var(--ease-out-expo) backwards;
+  }
+
+  /* Exit-only: no `new` carries this name. */
+  ::view-transition-old(mode-field) {
+    animation: vt-wipe-out 420ms var(--ease-out-expo) forwards;
+  }
+
+  /* Enter-only, reverse direction (AI Mode -> crafted). */
+  ::view-transition-new(mode-field) {
+    animation: vt-wipe-in 560ms 120ms var(--ease-out-expo) backwards;
+  }
+
+  ::view-transition-new(mode-wash) {
+    animation: vt-bloom 700ms 180ms var(--ease-out-expo) backwards;
+  }
+
+  ::view-transition-old(mode-wash) {
+    animation: vt-fade-out 260ms var(--ease-out-quart) forwards;
+  }
+
+  /* The thing the user just touched. It stays legible the whole way
+     across, and above everything else. */
+  ::view-transition-group(mode-toggle) {
+    animation-duration: 650ms;
+    animation-timing-function: var(--ease-out-quint);
+    z-index: 10;
+  }
+}
+
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-blur-in {
+  from { filter: blur(8px); }
+}
+@keyframes vt-blur-out {
+  to { filter: blur(8px); }
+}
+@keyframes vt-bloom {
+  from { opacity: 0; transform: scale(1.05); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* The panel leaves the way it arrived: edge-on, to the right. */
+@keyframes vt-wipe-out {
+  from { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(0 0 0 100%); }
+}
+@keyframes vt-wipe-in {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
 }
 
 /* ── Scrollbar ──────────────────────────────────────────────────── */

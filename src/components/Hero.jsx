@@ -1,4 +1,5 @@
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useCallback, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 import { useSlopMode } from '../useSlopMode';
 
@@ -10,16 +11,42 @@ const socialLinks = [
 
 const EASE_OUT_QUART = [0.25, 1, 0.5, 1];
 
-/** Entrance that degrades to a pure crossfade when motion is reduced. */
-function useRise(reduced) {
-  return (delay = 0) => ({
-    initial: { opacity: 0, y: reduced ? 0 : 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: reduced ? 0.2 : 0.7, delay: reduced ? 0 : delay, ease: EASE_OUT_QUART },
-  });
-}
+/* View-transition names. Exactly one element may carry a given name at a time;
+   the craft and slop heroes never render together, so these are morph targets
+   across the swap, not duplicates.
+ *
+ * `headline` and `toggle` are shared: the same conceptual object exists on both
+ * sides, so the browser interpolates its box and it reads as travel.
+ *
+ * `field` and `wash` are deliberately NOT shared. Sharing them made the group
+ * morph from the right-hand panel to the full-viewport orb container, which
+ * stretched the vermilion snapshot into a red wash over the whole page. Two
+ * names means two independent animations: the panel wipes out, the orbs bloom
+ * in. Enter-only and exit-only groups are legal and are what we want here. */
+const VT = {
+  headline: { viewTransitionName: 'hero-headline' },
+  field: { viewTransitionName: 'mode-field' },
+  wash: { viewTransitionName: 'mode-wash' },
+  toggle: { viewTransitionName: 'mode-toggle' },
+};
 
-/* ── The toggle. The whole thesis of the page hangs off this button. ── */
+/**
+ * Entrance choreography, first page load only.
+ *
+ * On a mode toggle the View Transition snapshots the new DOM the instant React
+ * commits. If framer were still holding `opacity: 0` for its entrance, that's
+ * what the browser would capture — the page would morph into nothing.
+ */
+function useRise(reduced, enabled) {
+  return (delay = 0) => {
+    if (!enabled) return {};
+    return {
+      initial: { opacity: 0, y: reduced ? 0 : 24 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: reduced ? 0.2 : 0.7, delay: reduced ? 0 : delay, ease: EASE_OUT_QUART },
+    };
+  };
+}
 
 function AIModeToggle({ slop, onToggle, tone }) {
   const onVermilion = tone === 'vermilion';
@@ -29,6 +56,7 @@ function AIModeToggle({ slop, onToggle, tone }) {
       type="button"
       onClick={onToggle}
       aria-pressed={slop}
+      style={VT.toggle}
       className={
         onVermilion
           ? 'group inline-flex items-center gap-2 self-start rounded-full border border-ink/25 px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-verm'
@@ -44,16 +72,14 @@ function AIModeToggle({ slop, onToggle, tone }) {
   );
 }
 
-/* ── AI Mode: the page as an unsupervised model would have made it. ──
-   Kept faithful on purpose. If this looks like a decent portfolio, the
-   joke fails.                                                          */
-
-function SlopHero({ onToggle, reduced }) {
-  const rise = useRise(reduced);
+/* AI Mode: the page as an unsupervised model would have made it. Kept faithful
+   on purpose. If this looks like a decent portfolio, the joke fails. */
+function SlopHero({ onToggle, reduced, entrance }) {
+  const rise = useRise(reduced, entrance);
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-grid px-6">
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div aria-hidden style={VT.wash} className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
           className="orb absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-20"
           style={{ background: 'radial-gradient(circle, #6c63ff 0%, transparent 70%)', filter: 'blur(60px)' }}
@@ -73,11 +99,18 @@ function SlopHero({ onToggle, reduced }) {
           Available for new projects
         </motion.div>
 
-        <motion.h1 {...rise(0.1)} className="mb-4 text-5xl font-extrabold leading-tight tracking-tight md:text-7xl">
+        <motion.h1
+          {...rise(0.1)}
+          style={VT.headline}
+          className="mb-4 text-5xl font-extrabold leading-tight tracking-tight md:text-7xl"
+        >
           Hi, I&apos;m <span className="gradient-text glow-text">Jerven Latayada</span>
         </motion.h1>
 
-        <motion.p {...rise(0.2)} className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl">
+        <motion.p
+          {...rise(0.2)}
+          className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl"
+        >
           I build modern full-stack web applications and enjoy learning emerging technologies to
           deliver scalable, maintainable solutions that help businesses grow and succeed.
         </motion.p>
@@ -102,16 +135,14 @@ function SlopHero({ onToggle, reduced }) {
   );
 }
 
-/* ── The crafted hero. ── */
-
-function CraftHero({ onToggle, reduced }) {
-  const rise = useRise(reduced);
+function CraftHero({ onToggle, reduced, entrance }) {
+  const rise = useRise(reduced, entrance);
 
   return (
     <div className="relative min-h-screen">
       <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-x-10 px-6 md:grid-cols-12">
         <div className="py-24 md:col-span-7 md:py-0">
-          <motion.h1 {...rise(0)} className="display mb-7">
+          <motion.h1 {...rise(0)} style={VT.headline} className="display mb-7">
             I build entire
             <br />
             systems. Alone.
@@ -157,9 +188,11 @@ function CraftHero({ onToggle, reduced }) {
         </div>
       </div>
 
-      {/* Committed vermilion field: ~38% of the surface. */}
+      {/* Committed vermilion field: ~38% of the surface. Morphs into the orb
+          wash when AI Mode engages. */}
       <motion.aside
         {...rise(0.1)}
+        style={VT.field}
         className="flex flex-col justify-end gap-7 bg-verm px-8 py-16 md:absolute md:inset-y-0 md:right-0 md:w-[38%] md:px-12 md:py-14"
       >
         <p className="max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-ink md:text-5xl">
@@ -188,23 +221,25 @@ export default function Hero() {
   const [slop, toggle] = useSlopMode();
   const reduced = useReducedMotion();
 
+  // The entrance choreography belongs to first paint only. Once the user has
+  // toggled, the View Transition owns the motion — and framer must not be
+  // holding `opacity: 0` when the browser snapshots the incoming DOM.
+  const [hasToggled, setHasToggled] = useState(false);
+
+  const handleToggle = useCallback(() => {
+    setHasToggled(true);
+    toggle();
+  }, [toggle]);
+
+  const entrance = !hasToggled;
+
   return (
     <section id="hero" className="relative overflow-hidden bg-canvas text-ink">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={slop ? 'slop' : 'craft'}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: reduced ? 0.12 : 0.4, ease: EASE_OUT_QUART }}
-        >
-          {slop ? (
-            <SlopHero onToggle={toggle} reduced={reduced} />
-          ) : (
-            <CraftHero onToggle={toggle} reduced={reduced} />
-          )}
-        </motion.div>
-      </AnimatePresence>
+      {slop ? (
+        <SlopHero onToggle={handleToggle} reduced={reduced} entrance={entrance} />
+      ) : (
+        <CraftHero onToggle={handleToggle} reduced={reduced} entrance={entrance} />
+      )}
     </section>
   );
 }
