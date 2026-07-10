@@ -1,25 +1,124 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────────
+   Token layer
+
+   :root            crafted system — committed vermilion on warm
+                    off-white, single variable family.
+   [data-slop=on]   the old AI-template system. Not dead code: the
+                    hero's AI Mode toggle swaps the page into it on
+                    purpose, and the joke only lands if it's faithful.
+   [data-legacy]    sections not yet redesigned. Keeps them on the
+                    dark system so hero-first doesn't strand them.
+
+   Contrast verified against WCAG 2.2 AA (see PRODUCT.md):
+     ink on canvas ....... 17.68:1
+     muted on canvas ...... 6.60:1
+     vermink on canvas .... 5.76:1
+     ink on vermilion ..... 4.66:1
+     verm on canvas ....... 3.80:1   fills and large text only
+   ───────────────────────────────────────────────────────────────── */
+
+:root {
+  --c-canvas: oklch(0.981 0.008 40);
+  --c-surface: oklch(0.955 0.012 40);
+  --c-ink: oklch(0.185 0.021 35);
+  --c-muted: oklch(0.468 0.032 35);
+  --c-verm: oklch(0.62 0.21 31);
+  --c-vermink: oklch(0.52 0.2 31);
+
+  --f-body: 'Bricolage Grotesque', system-ui, sans-serif;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+[data-slop="on"],
+[data-legacy] {
+  --c-canvas: #0a0a0f;
+  --c-surface: #111118;
+  --c-ink: #e2e8f0;
+  --c-muted: #94a3b8;
+  --c-verm: #6c63ff;
+  --c-vermink: #a78bfa;
+
+  --f-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+[data-legacy] {
+  background-color: var(--c-canvas);
+  color: var(--c-ink);
+}
+
+@theme inline {
+  --color-canvas: var(--c-canvas);
+  --color-surface: var(--c-surface);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-verm: var(--c-verm);
+  --color-vermink: var(--c-vermink);
+
+  --font-body: var(--f-body);
+}
+
 @layer base {
   * {
-    scroll-behavior: smooth;
     box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
     margin: 0;
-    background-color: #0a0a0f;
-    color: #e2e8f0;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--c-canvas);
+    color: var(--c-ink);
+    font-family: var(--f-body);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.55s var(--ease-out-quart),
+                color 0.55s var(--ease-out-quart);
   }
 
   ::selection {
-    background: #6c63ff44;
+    background: var(--c-verm);
     color: #fff;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--c-vermink);
+    outline-offset: 3px;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
 }
+
+/* ── Crafted system ─────────────────────────────────────────────── */
+
+.display {
+  font-size: clamp(2.75rem, 8.2vw, 6rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+}
+
+.lede {
+  font-size: clamp(1.05rem, 1.5vw, 1.28rem);
+  line-height: 1.55;
+  max-width: 58ch;
+}
+
+/* ── Legacy / parody system ─────────────────────────────────────
+   Global on purpose: the six not-yet-redesigned sections still use
+   these, and the hero's AI Mode reuses them verbatim.
+   ─────────────────────────────────────────────────────────────── */
 
 @layer utilities {
   .glow {
@@ -66,22 +165,6 @@
   }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a0f;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(108, 99, 255, 0.4);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(108, 99, 255, 0.7);
-}
-
-/* Grid background */
 .bg-grid {
   background-image:
     linear-gradient(rgba(108, 99, 255, 0.035) 1px, transparent 1px),
@@ -89,7 +172,6 @@
   background-size: 64px 64px;
 }
 
-/* Animated gradient orbs */
 @keyframes float {
   0%, 100% { transform: translateY(0px) scale(1); }
   50% { transform: translateY(-20px) scale(1.05); }
@@ -100,15 +182,45 @@
   50% { opacity: 0.8; }
 }
 
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 .orb {
   animation: float 8s ease-in-out infinite;
 }
 
 .orb-pulse {
   animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--c-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-verm);
+  border-radius: 10px;
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* The theme swap is the site's signature moment. Keep it as a fast
+     crossfade rather than removing the feedback entirely. */
+  body {
+    transition: background-color 0.15s linear, color 0.15s linear !important;
+  }
 }

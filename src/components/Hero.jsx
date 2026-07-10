@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { ArrowDown, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
+import { useSlopMode } from '../useSlopMode';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/Jerven-git', label: 'GitHub' },
@@ -7,139 +8,203 @@ const socialLinks = [
   { icon: Mail, href: 'mailto:latayada1233@gmail.com', label: 'Email' },
 ];
 
-export default function Hero() {
+const EASE_OUT_QUART = [0.25, 1, 0.5, 1];
+
+/** Entrance that degrades to a pure crossfade when motion is reduced. */
+function useRise(reduced) {
+  return (delay = 0) => ({
+    initial: { opacity: 0, y: reduced ? 0 : 24 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: reduced ? 0.2 : 0.7, delay: reduced ? 0 : delay, ease: EASE_OUT_QUART },
+  });
+}
+
+/* ── The toggle. The whole thesis of the page hangs off this button. ── */
+
+function AIModeToggle({ slop, onToggle, tone }) {
+  const onVermilion = tone === 'vermilion';
+
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center bg-grid overflow-hidden px-6"
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={slop}
+      className={
+        onVermilion
+          ? 'group inline-flex items-center gap-2 self-start rounded-full border border-ink/25 px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-verm'
+          : 'group inline-flex items-center gap-2 self-start rounded-full border border-violet-400/40 bg-violet-500/10 px-5 py-2.5 text-sm font-semibold text-violet-200 transition-colors duration-200 hover:bg-violet-500/20'
+      }
     >
-      {/* Background Orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {slop ? 'Back to the real one' : 'See the AI version'}
+      <ArrowUpRight
+        size={15}
+        className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      />
+    </button>
+  );
+}
+
+/* ── AI Mode: the page as an unsupervised model would have made it. ──
+   Kept faithful on purpose. If this looks like a decent portfolio, the
+   joke fails.                                                          */
+
+function SlopHero({ onToggle, reduced }) {
+  const rise = useRise(reduced);
+
+  return (
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-grid px-6">
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="orb absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20"
-          style={{
-            background: 'radial-gradient(circle, #6c63ff 0%, transparent 70%)',
-            filter: 'blur(60px)',
-            animationDelay: '0s',
-          }}
+          className="orb absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-20"
+          style={{ background: 'radial-gradient(circle, #6c63ff 0%, transparent 70%)', filter: 'blur(60px)' }}
         />
         <div
-          className="orb absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full opacity-15"
-          style={{
-            background: 'radial-gradient(circle, #38bdf8 0%, transparent 70%)',
-            filter: 'blur(60px)',
-            animationDelay: '3s',
-          }}
-        />
-        <div
-          className="orb absolute top-1/2 right-1/3 w-64 h-64 rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, #a78bfa 0%, transparent 70%)',
-            filter: 'blur(50px)',
-            animationDelay: '1.5s',
-          }}
+          className="orb absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full opacity-15"
+          style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 70%)', filter: 'blur(60px)', animationDelay: '3s' }}
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 text-center max-w-4xl mx-auto">
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm"
+          {...rise(0)}
+          className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-sm text-violet-300"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
           Available for new projects
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 leading-tight"
-        >
-          Hi, I'm{' '}
-          <span className="gradient-text glow-text">Jerven Latayada</span>
+        <motion.h1 {...rise(0.1)} className="mb-4 text-5xl font-extrabold leading-tight tracking-tight md:text-7xl">
+          Hi, I&apos;m <span className="gradient-text glow-text">Jerven Latayada</span>
         </motion.h1>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-2xl md:text-3xl font-semibold text-slate-300 mb-6"
-        >
-          Full-Stack Web Developer
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
-        >
-          I build modern full-stack web applications and enjoy learning emerging
-          technologies to deliver scalable, maintainable solutions that help
-          businesses grow and succeed.
+        <motion.p {...rise(0.2)} className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl">
+          I build modern full-stack web applications and enjoy learning emerging technologies to
+          deliver scalable, maintainable solutions that help businesses grow and succeed.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-14"
-        >
-          <a
-            href="#projects"
-            className="px-7 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 transition-all duration-300 glow-sm hover:scale-105 active:scale-95"
-          >
+        <motion.div {...rise(0.3)} className="mb-12 flex flex-wrap items-center justify-center gap-4">
+          <span className="glow-sm rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-7 py-3 font-semibold text-white">
             View My Work
-          </a>
-          <a
-            href="#cv"
-            className="px-7 py-3 rounded-xl font-semibold text-slate-200 border border-slate-600 hover:border-violet-500/60 hover:bg-violet-500/5 transition-all duration-300 hover:scale-105 active:scale-95"
-          >
+          </span>
+          <span className="rounded-xl border border-slate-600 px-7 py-3 font-semibold text-slate-200">
             Download CV
-          </a>
+          </span>
         </motion.div>
 
-        {/* Social Links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="flex items-center justify-center gap-5"
-        >
-          {socialLinks.map(({ icon: Icon, href, label }) => (
-            <motion.a
-              key={label}
-              href={href}
-              whileHover={{ scale: 1.2, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              aria-label={label}
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-violet-500/50 hover:bg-violet-500/10 transition-colors duration-200"
-            >
-              <Icon size={18} />
-            </motion.a>
-          ))}
+        <motion.div {...rise(0.45)} className="flex flex-col items-center gap-5">
+          <p className="text-sm text-slate-500">
+            Every AI portfolio looks like this. Yours probably did too.
+          </p>
+          <AIModeToggle slop onToggle={onToggle} tone="violet" />
         </motion.div>
       </div>
+    </div>
+  );
+}
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 text-xs"
+/* ── The crafted hero. ── */
+
+function CraftHero({ onToggle, reduced }) {
+  const rise = useRise(reduced);
+
+  return (
+    <div className="relative min-h-screen">
+      <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-x-10 px-6 md:grid-cols-12">
+        <div className="py-24 md:col-span-7 md:py-0">
+          <motion.h1 {...rise(0)} className="display mb-7">
+            I build entire
+            <br />
+            systems. Alone.
+          </motion.h1>
+
+          <motion.p {...rise(0.08)} className="lede mb-10 text-muted">
+            Full-stack developer. CRM platforms, storefronts, and modular CMSs — architected,
+            built, and shipped end to end.
+          </motion.p>
+
+          <motion.div {...rise(0.16)} className="mb-8 flex flex-wrap items-center gap-3">
+            <a
+              href="mailto:latayada1233@gmail.com"
+              className="rounded-full bg-verm px-7 py-3.5 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0"
+            >
+              Email me
+            </a>
+            <a
+              href="#cv"
+              className="rounded-full border border-ink/20 px-7 py-3.5 font-semibold text-ink transition-colors duration-200 hover:border-ink/50"
+            >
+              Download CV
+            </a>
+          </motion.div>
+
+          {/* Speed is the closing argument, never the opener. */}
+          <motion.p {...rise(0.24)} className="text-sm text-muted">
+            AI-augmented delivery. Weeks, not quarters.
+          </motion.p>
+
+          <motion.div {...rise(0.32)} className="mt-12 flex items-center gap-4">
+            {socialLinks.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-muted transition-colors duration-200 hover:border-ink/40 hover:text-ink"
+              >
+                <Icon size={17} />
+              </a>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Committed vermilion field: ~38% of the surface. */}
+      <motion.aside
+        {...rise(0.1)}
+        className="flex flex-col justify-end gap-7 bg-verm px-8 py-16 md:absolute md:inset-y-0 md:right-0 md:w-[38%] md:px-12 md:py-14"
       >
-        <span>Scroll</span>
+        <p className="max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-ink md:text-5xl">
+          AI helped. It didn&apos;t decide.
+        </p>
+        <AIModeToggle slop={false} onToggle={onToggle} tone="vermilion" />
+      </motion.aside>
+
+      <motion.div
+        {...rise(0.5)}
+        aria-hidden
+        className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-muted md:block"
+      >
         <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+          animate={reduced ? undefined : { y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
         >
           <ArrowDown size={16} />
         </motion.div>
       </motion.div>
+    </div>
+  );
+}
+
+export default function Hero() {
+  const [slop, toggle] = useSlopMode();
+  const reduced = useReducedMotion();
+
+  return (
+    <section id="hero" className="relative overflow-hidden bg-canvas text-ink">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={slop ? 'slop' : 'craft'}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reduced ? 0.12 : 0.4, ease: EASE_OUT_QUART }}
+        >
+          {slop ? (
+            <SlopHero onToggle={toggle} reduced={reduced} />
+          ) : (
+            <CraftHero onToggle={toggle} reduced={reduced} />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 }
