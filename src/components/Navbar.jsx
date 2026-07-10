@@ -26,14 +26,16 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass py-3 shadow-lg shadow-black/30' : 'py-5 bg-transparent'
+        scrolled
+          ? 'border-b border-ink/10 bg-canvas/85 py-3 backdrop-blur-md'
+          : 'py-5 bg-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
         <motion.a
           href="#hero"
           whileHover={{ scale: 1.05 }}
-          className="text-xl font-bold gradient-text tracking-tight"
+          className="text-xl font-bold text-ink tracking-tight"
         >
           &lt;Jerven /&gt;
         </motion.a>
@@ -49,10 +51,10 @@ export default function Navbar() {
             >
               <a
                 href={link.href}
-                className="text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200 relative group"
+                className="text-sm text-muted hover:text-ink transition-colors duration-200 relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-violet-500 to-sky-400 group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-verm group-hover:w-full transition-all duration-300" />
               </a>
             </motion.li>
           ))}
@@ -63,7 +65,7 @@ export default function Navbar() {
           >
             <a
               href="#cv"
-              className="text-sm px-4 py-2 rounded-lg border border-violet-500/40 text-violet-300 hover:bg-violet-500/10 hover:border-violet-400 transition-all duration-200"
+              className="text-sm px-4 py-2 rounded-full border border-verm/50 text-vermink hover:bg-verm hover:text-ink hover:border-verm transition-colors duration-200"
             >
               Hire Me
             </a>
@@ -72,7 +74,9 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-slate-400 hover:text-slate-100 transition-colors"
+          className="md:hidden text-muted hover:text-ink transition-colors"
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -87,14 +91,14 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden glass border-t border-violet-500/10 mt-2"
+            className="md:hidden mt-2 border-t border-ink/10 bg-canvas/95 backdrop-blur-md"
           >
             <ul className="flex flex-col px-6 py-4 gap-4">
               {links.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-slate-300 hover:text-slate-100 transition-colors"
+                    className="text-muted hover:text-ink transition-colors"
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}

@@ -10,17 +10,25 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-slate-100">
+    <div className="min-h-screen bg-canvas text-ink">
       <Navbar />
       <main>
         <Hero />
-        <About />
-        <TechStack />
-        <Projects />
-        <AIDevelopment />
-        <CV />
+
+        {/* Not yet migrated to the vermilion system. data-legacy keeps them on
+            the old dark tokens so they stay coherent until each is redesigned;
+            remove the wrapper as sections move across. */}
+        <div data-legacy>
+          <About />
+          <TechStack />
+          <Projects />
+          <AIDevelopment />
+          <CV />
+        </div>
       </main>
-      <Footer />
+      <div data-legacy>
+        <Footer />
+      </div>
     </div>
   );
 }

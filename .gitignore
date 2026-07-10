@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Impeccable design context (local only)
+PRODUCT.md
+DESIGN.md
+.impeccable/
