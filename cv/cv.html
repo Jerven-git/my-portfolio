@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Jerven Q. Latayada — Full-Stack Web Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Tokens mirror src/index.css. Contrast verified against WCAG 2.2 AA:
+         ink on canvas 17.68:1 · muted on canvas 6.60:1 · vermink on canvas 5.76:1.
+         Vermilion is used only for rules and large display type — as body text
+         it measures 3.80:1 and fails. */
+      :root {
+        --canvas: #fef7f5;
+        --ink: #1b0f0c;
+        --muted: #6b544e;
+        --verm: #e93f29;
+        --vermink: #c11c04;
+      }
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        padding: 16mm 15mm 12mm;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+        font-size: 9.6pt;
+        line-height: 1.42;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a { color: var(--vermink); text-decoration: none; }
+
+      /* ── Header ─────────────────────────────────────────────── */
+
+      .name {
+        font-size: 30pt;
+        font-weight: 800;
+        letter-spacing: -0.035em;
+        line-height: 0.95;
+        margin: 0;
+      }
+
+      .role {
+        margin: 3pt 0 0;
+        font-size: 12pt;
+        font-weight: 600;
+        color: var(--vermink);
+        letter-spacing: -0.01em;
+      }
+
+      .contact {
+        margin: 9pt 0 0;
+        font-size: 8.7pt;
+        color: var(--muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 10pt;
+      }
+      .contact span::after {
+        content: '·';
+        margin-left: 10pt;
+        color: var(--verm);
+      }
+      .contact span:last-child::after { content: none; }
+
+      .rule {
+        height: 2.5pt;
+        background: var(--verm);
+        margin: 12pt 0 0;
+        border: 0;
+      }
+
+      /* ── Sections ───────────────────────────────────────────── */
+
+      section { margin-top: 13pt; break-inside: avoid; }
+
+      h2 {
+        margin: 0 0 6pt;
+        font-size: 10.5pt;
+        font-weight: 800;
+        letter-spacing: -0.015em;
+        padding-bottom: 3pt;
+        border-bottom: 0.6pt solid rgba(27, 15, 12, 0.18);
+      }
+
+      p { margin: 0; }
+      .summary { color: var(--ink); max-width: 66ch; }
+
+      .entry-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10pt;
+        margin-bottom: 1pt;
+      }
+      .entry-title { font-size: 10.5pt; font-weight: 800; letter-spacing: -0.015em; }
+      .entry-dates { font-size: 8.7pt; color: var(--muted); white-space: nowrap; }
+      .entry-org { font-size: 9.3pt; font-weight: 600; color: var(--vermink); margin-bottom: 5pt; }
+
+      ul { margin: 0; padding: 0; list-style: none; }
+
+      .work li {
+        position: relative;
+        padding-left: 10pt;
+        margin-bottom: 4pt;
+      }
+      /* A round bullet, not a colored side-stripe. */
+      .work li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 5.2pt;
+        width: 3pt;
+        height: 3pt;
+        border-radius: 50%;
+        background: var(--verm);
+      }
+      .work b { font-weight: 700; }
+      .work span { color: var(--muted); }
+
+      .stack-note {
+        margin-top: 6pt;
+        padding-top: 5pt;
+        border-top: 0.6pt solid rgba(27, 15, 12, 0.12);
+        color: var(--muted);
+        font-size: 9.1pt;
+      }
+      .stack-note b { color: var(--ink); font-weight: 700; }
+
+      /* ── Skills ─────────────────────────────────────────────── */
+
+      .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 3pt 20pt; }
+      .skills div { display: grid; grid-template-columns: 68pt 1fr; gap: 6pt; }
+      .skills dt { font-weight: 700; }
+      .skills dd { margin: 0; color: var(--muted); }
+
+      .edu-inst { color: var(--muted); font-size: 9.3pt; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="name">Jerven Q. Latayada</h1>
+      <p class="role">Full-Stack Web Developer</p>
+      <p class="contact">
+        <span>latayada1233@gmail.com</span>
+        <span>+63 956 924 4204</span>
+        <span>Davao City, Philippines</span>
+        <span><a href="https://github.com/Jerven-git">github.com/Jerven-git</a></span>
+        <span><a href="https://www.linkedin.com/in/jerven-latayada-280903230/">linkedin.com/in/jerven-latayada</a></span>
+      </p>
+      <hr class="rule" />
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <p class="summary">
+        Full-stack web developer with four years building and operating production systems end to
+        end — a CRM, a staff management platform, an e-commerce storefront, and a modular CMS — in
+        Laravel and Vue/Nuxt. I ship the application and run the infrastructure underneath it, and
+        I use AI-assisted tooling to do both faster.
+      </p>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+
+      <div class="entry-head">
+        <span class="entry-title">Full-Stack Web Developer</span>
+        <span class="entry-dates">Jul 2022 – Jun 2026</span>
+      </div>
+      <p class="entry-org">PageOne247</p>
+
+      <ul class="work">
+        <li>
+          <b>CRM platform.</b>
+          <span>Client management system with interactive record handling, in daily production use.
+          Laravel, Blade, jQuery, MySQL.</span>
+        </li>
+        <li>
+          <b>Custom CMS.</b>
+          <span>Fully modular CMS with dynamic page building, reusable blocks and sections, a
+          role-based admin panel, and real-time editing. Laravel, Vue/Nuxt, Tailwind CSS.</span>
+        </li>
+        <li>
+          <b>Staff management platform.</b>
+          <span>Laravel backend with a Vue.js frontend, extended by additional modules written in
+          Django and React.</span>
+        </li>
+        <li>
+          <b>E-commerce storefront.</b>
+          <span>Responsive online store on a Nuxt.js storefront backed by a Laravel API.</span>
+        </li>
+        <li>
+          <b>Shopify theme customization.</b>
+          <span>Short-term engagement adding booking calendars and product filters in Liquid, HTML,
+          CSS, and JavaScript.</span>
+        </li>
+        <li>
+          <b>Infrastructure and operations.</b>
+          <span>Ran the hosting, DNS, and TLS behind these applications: DigitalOcean droplet
+          provisioning, SSL certificates and WordPress hosting; Cloudflare DNS and tunnel
+          configuration; HostGator deployments and email forwarding; GoDaddy domains.</span>
+        </li>
+      </ul>
+
+      <p class="stack-note">
+        <b>Working method.</b> AI-assisted development with Claude, Cursor, and Codex, plus n8n
+        automation workflows — used to move faster without handing over architecture or review.
+      </p>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="entry-head">
+        <span class="entry-title">B.Sc. Information Technologies</span>
+        <span class="entry-dates">Aug 2021 – Oct 2025</span>
+      </div>
+      <p class="edu-inst">Interface Computer College</p>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <dl class="skills">
+        <div><dt>Back-end</dt><dd>Laravel, PHP, Django, Python</dd></div>
+        <div><dt>Front-end</dt><dd>Vue, Nuxt, React, JavaScript</dd></div>
+        <div><dt>Infrastructure</dt><dd>DigitalOcean, Cloudflare, HostGator, GoDaddy</dd></div>
+        <div><dt>Ops</dt><dd>Docker, NGINX, Linux, SSL/TLS, DNS</dd></div>
+        <div><dt>E-commerce</dt><dd>Shopify, Liquid</dd></div>
+        <div><dt>Data</dt><dd>MySQL</dd></div>
+        <div><dt>Styling</dt><dd>Tailwind CSS</dd></div>
+        <div><dt>AI tooling</dt><dd>Claude, Cursor, Codex, Gemini, n8n</dd></div>
+      </dl>
+    </section>
+  </body>
+</html>

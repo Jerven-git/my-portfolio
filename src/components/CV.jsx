@@ -4,15 +4,15 @@ import { Download } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 
 const summary =
-  'Full-Stack Web Developer with 3+ years of experience building and maintaining web applications using Laravel and Vue.js/Nuxt.js. I also have hands-on experience with Django, React.js, and Shopify in e-commerce development. Passionate about modern web technologies and continuously exploring how AI can improve development workflows and enhance product innovation.';
+  'Full-stack web developer with four years building and operating production systems end to end — a CRM, a staff management platform, an e-commerce storefront, and a modular CMS — in Laravel and Vue/Nuxt. I ship the application and run the infrastructure underneath it, and I use AI-assisted tooling to do both faster.';
 
 const experience = [
   {
     role: 'Full-Stack Web Developer',
-    company: 'Freelance & Client Projects',
-    period: '2022 – Present',
+    company: 'PageOne247',
+    period: 'Jul 2022 – Jun 2026',
     description:
-      'Building and maintaining full-stack web apps using Laravel and Vue/Nuxt — including a CRM, staff management platform, e-commerce store, custom CMS, and Shopify theme customizations.',
+      'Built and maintained full-stack web apps in Laravel and Vue/Nuxt — a CRM, a staff management platform, an e-commerce storefront, a modular CMS, and Shopify theme customizations — and ran the hosting, DNS, and TLS behind them.',
   },
 ];
 
@@ -25,10 +25,10 @@ const education = [
 ];
 
 const highlights = [
-  '3+ years building production Laravel + Vue/Nuxt applications',
+  'Four years building production Laravel + Vue/Nuxt applications',
   'Full-stack delivery from CRM and staff systems to e-commerce',
   'Hands-on with Django, React.js, and Shopify Liquid',
-  'Cloud deployment with DigitalOcean, Docker, and NGINX',
+  'Hosting, DNS, TLS, and Cloudflare tunnels across four providers',
 ];
 
 /* DNS is the substrate under all four, not four separate achievements — so it
@@ -112,7 +112,7 @@ export default function CV() {
               <motion.div variants={itemVariants} className="mb-8">
                 <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="text-2xl font-bold tracking-[-0.02em]">Infrastructure &amp; operations</h3>
-                  <span className="text-sm text-muted">2022 – Present</span>
+                  <span className="text-sm text-muted">Jul 2022 – Jun 2026</span>
                 </div>
                 <p className="text-muted">
                   I run the hosting, DNS, and TLS behind the apps I ship.
