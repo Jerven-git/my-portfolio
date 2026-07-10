@@ -18,8 +18,13 @@ const here = dirname(fileURLToPath(import.meta.url));
 const SRC = resolve(here, 'cv.html');
 const OUT = resolve(here, '..', 'public', 'cv.pdf');
 
+// A4 at 96dpi. The viewport must match the print width, or the overflow check
+// below measures a layout the printer will never produce.
+const A4 = { width: 794, height: 1123 };
+
 const browser = await chromium.launch();
-const page = await browser.newPage();
+const page = await browser.newPage({ viewport: A4 });
+await page.emulateMedia({ media: 'print' });
 
 await page.goto(`file://${SRC}`, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts.ready);
@@ -34,9 +39,28 @@ if (usedFallback) {
   process.exit(1);
 }
 
-const overflowed = await page.evaluate(() => document.body.scrollHeight > 1123); // A4 @ 96dpi
+// Measure the real content bottom, not documentElement.scrollHeight — that
+// saturates at the viewport height, so it reports "exactly one page" for any
+// document that fits, and tells you nothing about the remaining headroom.
+const height = await page.evaluate(() => {
+  const bottom = Math.max(
+    ...[...document.querySelectorAll('body > *')].map((el) => el.getBoundingClientRect().bottom)
+  );
+  return Math.round(bottom + parseFloat(getComputedStyle(document.body).paddingBottom));
+});
+
 await page.pdf({ path: OUT, format: 'A4', printBackground: true, preferCSSPageSize: true });
 await browser.close();
 
-console.log(`wrote ${OUT}`);
-if (overflowed) console.warn('WARNING: content exceeds one A4 page.');
+const slack = A4.height - height;
+console.log(`wrote ${OUT} — content ${height}px of ${A4.height}px (${slack}px headroom)`);
+
+if (slack < 0) {
+  console.error(`\nERROR: the CV spills onto a second page. A one-page CV is the brief.`);
+  console.error(`Trim ${-slack}px of content, or tighten the type scale.`);
+  process.exit(1);
+}
+if (slack < 25) {
+  console.warn(`WARNING: only ${slack}px of headroom. Font metrics vary between machines;`);
+  console.warn('a build elsewhere could spill to two pages.');
+}

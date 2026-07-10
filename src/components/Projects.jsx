@@ -9,9 +9,9 @@ const projects = [
     title: 'CRM Web App',
     category: 'Full-Stack',
     description:
-      'Built a CRM system for client management with interactive features, using Laravel with Blade templating and jQuery for dynamic UI behavior.',
+      'Added features and modules to an established client-management CRM in production use, working across Laravel with Blade templating and jQuery for dynamic UI behavior.',
     tech: ['Laravel', 'Blade', 'jQuery', 'PHP', 'MySQL'],
-    featured: true,
+    featured: false,
     demo: 'https://crm.databasy.io/login',
   },
   {
@@ -19,7 +19,7 @@ const projects = [
     title: 'Staff Management Platform',
     category: 'Full-Stack',
     description:
-      'Developed a staff management solution with a Laravel backend and Vue.js frontend, with additional modules built in Django and React.js.',
+      'Sole developer. Built a staff management system on a Laravel backend with a Vue.js frontend, extending it with additional modules in Django and React.js.',
     tech: ['Laravel', 'Vue', 'Django', 'React', 'Python'],
     featured: true,
     demo: null,
@@ -29,7 +29,7 @@ const projects = [
     title: 'E-Commerce Web App',
     category: 'E-Commerce',
     description:
-      'Created a responsive online store using Nuxt.js for the storefront and Laravel for the backend API, delivering a dynamic shopping experience.',
+      'Sole developer. Designed and built a responsive online store end to end and shipped it to production — a Nuxt.js storefront on a Laravel backend API.',
     tech: ['Nuxt', 'Vue', 'Laravel', 'PHP'],
     featured: true,
     // Was pointed at a scratch domain (default.testing-testing-123.com). A demo
@@ -41,9 +41,9 @@ const projects = [
     title: 'Custom CMS Platform',
     category: 'Full-Stack',
     description:
-      'Developed a fully modular CMS with dynamic page building, reusable blocks/sections, role-based admin panel, and real-time editing using Laravel, Vue/Nuxt, and Tailwind CSS.',
+      'Sole developer. Built a fully modular CMS from scratch — dynamic page building, reusable blocks and sections, a role-based admin panel, and real-time editing. Laravel, Vue/Nuxt, Tailwind CSS.',
     tech: ['Laravel', 'Vue', 'Nuxt', 'Tailwind CSS'],
-    featured: false,
+    featured: true,
     demo: null,
   },
   {

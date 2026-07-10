@@ -31,12 +31,12 @@
 
       body {
         margin: 0;
-        padding: 16mm 15mm 12mm;
+        padding: 12mm 14mm 8mm;
         background: var(--canvas);
         color: var(--ink);
         font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-        font-size: 9.6pt;
-        line-height: 1.42;
+        font-size: 9.3pt;
+        line-height: 1.36;
         -webkit-font-smoothing: antialiased;
       }
 
@@ -45,7 +45,7 @@
       /* ── Header ─────────────────────────────────────────────── */
 
       .name {
-        font-size: 30pt;
+        font-size: 27pt;
         font-weight: 800;
         letter-spacing: -0.035em;
         line-height: 0.95;
@@ -61,7 +61,7 @@
       }
 
       .contact {
-        margin: 9pt 0 0;
+        margin: 7pt 0 0;
         font-size: 8.7pt;
         color: var(--muted);
         display: flex;
@@ -78,16 +78,16 @@
       .rule {
         height: 2.5pt;
         background: var(--verm);
-        margin: 12pt 0 0;
+        margin: 9pt 0 0;
         border: 0;
       }
 
       /* ── Sections ───────────────────────────────────────────── */
 
-      section { margin-top: 13pt; break-inside: avoid; }
+      section { margin-top: 8.5pt; break-inside: avoid; }
 
       h2 {
-        margin: 0 0 6pt;
+        margin: 0 0 5pt;
         font-size: 10.5pt;
         font-weight: 800;
         letter-spacing: -0.015em;
@@ -114,7 +114,7 @@
       .work li {
         position: relative;
         padding-left: 10pt;
-        margin-bottom: 4pt;
+        margin-bottom: 2.8pt;
       }
       /* A round bullet, not a colored side-stripe. */
       .work li::before {
@@ -131,17 +131,23 @@
       .work span { color: var(--muted); }
 
       .stack-note {
-        margin-top: 6pt;
-        padding-top: 5pt;
+        margin-top: 5pt;
+        padding-top: 4pt;
         border-top: 0.6pt solid rgba(27, 15, 12, 0.12);
         color: var(--muted);
         font-size: 9.1pt;
       }
       .stack-note b { color: var(--ink); font-weight: 700; }
 
+      .proj-note {
+        margin: -1pt 0 6pt;
+        color: var(--muted);
+        font-size: 8.9pt;
+      }
+
       /* ── Skills ─────────────────────────────────────────────── */
 
-      .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 3pt 20pt; }
+      .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 2pt 20pt; }
       .skills div { display: grid; grid-template-columns: 68pt 1fr; gap: 6pt; }
       .skills dt { font-weight: 700; }
       .skills dd { margin: 0; color: var(--muted); }
@@ -166,10 +172,10 @@
     <section>
       <h2>Summary</h2>
       <p class="summary">
-        Full-stack web developer with four years building and operating production systems end to
-        end — a CRM, a staff management platform, an e-commerce storefront, and a modular CMS — in
-        Laravel and Vue/Nuxt. I ship the application and run the infrastructure underneath it, and
-        I use AI-assisted tooling to do both faster.
+        Full-stack web developer with four years at PageOne247. Sole developer on three end-to-end
+        systems — a modular CMS, a staff management platform, and an e-commerce storefront now in
+        production — built in Laravel and Vue/Nuxt. I ship the application and run the hosting, DNS,
+        and TLS underneath it, and I use AI-assisted tooling to do both faster.
       </p>
     </section>
 
@@ -182,30 +188,34 @@
       </div>
       <p class="entry-org">PageOne247</p>
 
+      <!-- Ordered by ownership, not by what sounds biggest. Solo work first;
+           the CRM was an existing system, so it sits below what was built. -->
       <ul class="work">
         <li>
-          <b>CRM platform.</b>
-          <span>Client management system with interactive record handling, in daily production use.
-          Laravel, Blade, jQuery, MySQL.</span>
+          <b>E-commerce storefront — sole developer.</b>
+          <span>Designed and built a responsive online store end to end and shipped it to
+          production: Nuxt.js storefront on a Laravel API.</span>
         </li>
         <li>
-          <b>Custom CMS.</b>
-          <span>Fully modular CMS with dynamic page building, reusable blocks and sections, a
-          role-based admin panel, and real-time editing. Laravel, Vue/Nuxt, Tailwind CSS.</span>
+          <b>Custom CMS — sole developer.</b>
+          <span>Built a fully modular CMS from scratch: dynamic page building, reusable blocks and
+          sections, a role-based admin panel, and real-time editing. Laravel, Vue/Nuxt,
+          Tailwind CSS.</span>
         </li>
         <li>
-          <b>Staff management platform.</b>
-          <span>Laravel backend with a Vue.js frontend, extended by additional modules written in
-          Django and React.</span>
+          <b>Staff management platform — sole developer.</b>
+          <span>Built a staff management system on a Laravel backend with a Vue.js frontend,
+          extending it with modules written in Django and React.</span>
         </li>
         <li>
-          <b>E-commerce storefront.</b>
-          <span>Responsive online store on a Nuxt.js storefront backed by a Laravel API.</span>
+          <b>CRM platform — feature development.</b>
+          <span>Added features and modules to an established CRM in production use, working across
+          Laravel, Blade, jQuery, and MySQL.</span>
         </li>
         <li>
           <b>Shopify theme customization.</b>
-          <span>Short-term engagement adding booking calendars and product filters in Liquid, HTML,
-          CSS, and JavaScript.</span>
+          <span>Short-term engagement on a live storefront, adding booking calendars and product
+          filters in Liquid, HTML, CSS, and JavaScript.</span>
         </li>
         <li>
           <b>Infrastructure and operations.</b>
@@ -219,6 +229,28 @@
         <b>Working method.</b> AI-assisted development with Claude, Cursor, and Codex, plus n8n
         automation workflows — used to move faster without handing over architecture or review.
       </p>
+    </section>
+
+    <section>
+      <h2>Selected Personal Projects</h2>
+      <p class="proj-note">Built with AI-assisted tooling and deployed to private environments.</p>
+      <ul class="work">
+        <li>
+          <b>Multi-tenant e-commerce platform.</b>
+          <span>Custom theme presets, dynamic payment integrations, and per-tenant store and domain
+          management. Nuxt, Laravel, Docker, Bun, NGINX.</span>
+        </li>
+        <li>
+          <b>Dispatching system.</b>
+          <span>Dispatches workers to service requests, coordinating assignments and tracking jobs
+          end to end. Next.js, Laravel, Docker, NGINX.</span>
+        </li>
+        <li>
+          <b>Ticketing system.</b>
+          <span>Event creation and ticket sales, covering event setup, inventory, and checkout.
+          Vue, Laravel, Docker, NGINX.</span>
+        </li>
+      </ul>
     </section>
 
     <section>
