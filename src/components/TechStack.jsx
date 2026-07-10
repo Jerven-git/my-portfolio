@@ -16,8 +16,8 @@ const techCategories = [
     techs: ['Shopify', 'Liquid'],
   },
   {
-    name: 'Cloud & DevOps',
-    techs: ['DigitalOcean', 'HostGator', 'Docker', 'NGINX'],
+    name: 'Cloud & Infrastructure',
+    techs: ['DigitalOcean', 'Cloudflare', 'HostGator', 'GoDaddy', 'Docker', 'NGINX'],
   },
   {
     name: 'AI & Automation',

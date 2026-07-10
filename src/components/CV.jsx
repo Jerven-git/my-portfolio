@@ -31,6 +31,28 @@ const highlights = [
   'Cloud deployment with DigitalOcean, Docker, and NGINX',
 ];
 
+/* DNS is the substrate under all four, not four separate achievements — so it
+   sits in the intro line rather than being repeated on every row. Each row
+   names what is actually distinct about that platform. */
+const infrastructure = [
+  {
+    platform: 'DigitalOcean',
+    detail: 'Droplet provisioning and upkeep, SSL certificates, WordPress hosting.',
+  },
+  {
+    platform: 'Cloudflare',
+    detail: 'DNS management and tunnel configuration.',
+  },
+  {
+    platform: 'HostGator',
+    detail: 'Project deployment and email forwarding.',
+  },
+  {
+    platform: 'GoDaddy',
+    detail: 'Domain and DNS management.',
+  },
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -68,21 +90,47 @@ export default function CV() {
           animate={isInView ? 'visible' : 'hidden'}
           className="grid gap-14 md:grid-cols-2"
         >
-          <div>
-            <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
-              Experience
-            </motion.h3>
+          <div className="space-y-14">
+            <div>
+              <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
+                Experience
+              </motion.h3>
 
-            {experience.map((exp) => (
-              <motion.div key={exp.role} variants={itemVariants} className="border-t border-ink/10 pt-6">
+              {experience.map((exp) => (
+                <motion.div key={exp.role} variants={itemVariants} className="border-t border-ink/10 pt-6">
+                  <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                    <h4 className="text-lg font-bold text-ink">{exp.role}</h4>
+                    <span className="text-sm text-muted">{exp.period}</span>
+                  </div>
+                  <p className="mb-3 text-sm font-semibold text-vermink">{exp.company}</p>
+                  <p className="leading-relaxed text-muted">{exp.description}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <div>
+              <motion.div variants={itemVariants} className="mb-8">
                 <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-                  <h4 className="text-lg font-bold text-ink">{exp.role}</h4>
-                  <span className="text-sm text-muted">{exp.period}</span>
+                  <h3 className="text-2xl font-bold tracking-[-0.02em]">Infrastructure &amp; operations</h3>
+                  <span className="text-sm text-muted">2022 – Present</span>
                 </div>
-                <p className="mb-3 text-sm font-semibold text-vermink">{exp.company}</p>
-                <p className="leading-relaxed text-muted">{exp.description}</p>
+                <p className="text-muted">
+                  I run the hosting, DNS, and TLS behind the apps I ship.
+                </p>
               </motion.div>
-            ))}
+
+              <motion.dl
+                variants={itemVariants}
+                className="divide-y divide-ink/10 border-y border-ink/10"
+              >
+                {infrastructure.map(({ platform, detail }) => (
+                  <div key={platform} className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
+                    <dt className="font-bold text-ink">{platform}</dt>
+                    <dd className="text-muted">{detail}</dd>
+                  </div>
+                ))}
+              </motion.dl>
+            </div>
           </div>
 
           <div className="space-y-14">
