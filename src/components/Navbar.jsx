@@ -51,10 +51,10 @@ export default function Navbar() {
             >
               <a
                 href={link.href}
-                className="text-sm text-muted hover:text-ink transition-colors duration-200 relative group"
+                className="text-sm text-ink transition-colors duration-200 relative group hover:opacity-70"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-verm group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-ink group-hover:w-full transition-all duration-300" />
               </a>
             </motion.li>
           ))}
@@ -65,7 +65,7 @@ export default function Navbar() {
           >
             <a
               href="#cv"
-              className="text-sm px-4 py-2 rounded-full border border-verm/50 text-vermink hover:bg-verm hover:text-ink hover:border-verm transition-colors duration-200"
+              className="text-sm font-semibold px-4 py-2 rounded-full border border-ink/30 text-ink hover:bg-ink hover:text-canvas transition-colors duration-200"
             >
               Hire Me
             </a>

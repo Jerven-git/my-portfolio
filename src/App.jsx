@@ -14,21 +14,13 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-
-        {/* Not yet migrated to the vermilion system. data-legacy keeps them on
-            the old dark tokens so they stay coherent until each is redesigned;
-            remove the wrapper as sections move across. */}
-        <div data-legacy>
-          <About />
-          <TechStack />
-          <Projects />
-          <AIDevelopment />
-          <CV />
-        </div>
+        <About />
+        <TechStack />
+        <Projects />
+        <AIDevelopment />
+        <CV />
       </main>
-      <div data-legacy>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

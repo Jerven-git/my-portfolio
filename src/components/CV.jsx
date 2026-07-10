@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Download, FileText, Briefcase, GraduationCap, Sparkles, User } from 'lucide-react';
+import { Download } from 'lucide-react';
+import SectionHeading from './SectionHeading';
 
 const summary =
   'Full-Stack Web Developer with 3+ years of experience building and maintaining web applications using Laravel and Vue.js/Nuxt.js. I also have hands-on experience with Django, React.js, and Shopify in e-commerce development. Passionate about modern web technologies and continuously exploring how AI can improve development workflows and enhance product innovation.';
@@ -32,12 +33,12 @@ const highlights = [
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } },
 };
 
 export default function CV() {
@@ -45,163 +46,74 @@ export default function CV() {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="cv" className="relative py-28 px-6 overflow-hidden">
-      {/* Decorative */}
-      <div
-        className="absolute left-1/2 bottom-0 w-[500px] h-64 pointer-events-none opacity-5 -translate-x-1/2"
-        style={{ background: 'radial-gradient(ellipse, #6c63ff 0%, transparent 70%)', filter: 'blur(40px)' }}
-      />
+    <section id="cv" className="relative bg-canvas px-6 py-28 text-ink">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading title="Curriculum vitae" lede={summary} />
 
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
+        <motion.a
+          href={`${import.meta.env.BASE_URL}cv.pdf`}
+          download="Jerven_Latayada_CV.pdf"
+          whileHover={{ y: -2 }}
+          whileTap={{ y: 0 }}
+          className="mb-20 inline-flex items-center gap-2.5 rounded-full bg-verm px-7 py-3.5 font-semibold text-ink"
         >
-          <p className="text-violet-400 text-sm font-semibold tracking-widest uppercase mb-3">My Background</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-5">
-            Curriculum <span className="gradient-text">Vitae</span>
-          </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-violet-600 to-sky-400 rounded-full mx-auto mb-5" />
-          <p className="text-slate-400 max-w-xl mx-auto mb-8">
-            A summary of my professional journey, education, and achievements.
-          </p>
+          <Download size={18} />
+          Download CV (PDF)
+        </motion.a>
 
-          {/* Download Button */}
-          <motion.a
-            href={`${import.meta.env.BASE_URL}cv.pdf`}
-            download="Jerven_Latayada_CV.pdf"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 transition-all duration-300 glow"
-          >
-            <Download size={20} />
-            Download CV (PDF)
-            <FileText size={16} className="opacity-70" />
-          </motion.a>
-          <p className="text-slate-400 text-xs mt-3">PDF · Updated 2026</p>
-        </motion.div>
-
-        {/* Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="glass rounded-2xl p-6 mb-12"
-          style={{ border: '1px solid rgba(108,99,255,0.15)' }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center">
-              <User size={20} className="text-violet-400" />
-            </div>
-            <h3 className="text-slate-100 font-bold text-xl">Summary</h3>
-          </div>
-          <p className="text-slate-400 text-sm md:text-base leading-relaxed">{summary}</p>
-        </motion.div>
-
-        {/* Content Grid */}
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid md:grid-cols-2 gap-10"
+          className="grid gap-14 md:grid-cols-2"
         >
-          {/* Experience */}
           <div>
-            <motion.div variants={itemVariants} className="flex items-center gap-3 mb-7">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center">
-                <Briefcase size={20} className="text-violet-400" />
-              </div>
-              <h3 className="text-slate-100 font-bold text-xl">Experience</h3>
-            </motion.div>
+            <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
+              Experience
+            </motion.h3>
 
-            <div className="relative pl-6">
-              {/* Timeline line */}
-              <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/60 via-violet-500/20 to-transparent" />
-
-              <div className="space-y-8">
-                {experience.map((exp, i) => (
-                  <motion.div
-                    key={exp.role}
-                    variants={itemVariants}
-                    className="relative"
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute -left-6 top-1.5 w-3 h-3 rounded-full bg-violet-500 border-2 border-violet-300/30" />
-
-                    <div className="glass rounded-2xl p-5">
-                      <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
-                        <h4 className="text-slate-100 font-semibold">{exp.role}</h4>
-                        <span className="text-xs text-violet-400 bg-violet-500/10 px-2.5 py-1 rounded-full whitespace-nowrap">
-                          {exp.period}
-                        </span>
-                      </div>
-                      <p className="text-slate-400 text-sm font-medium mb-2">{exp.company}</p>
-                      <p className="text-slate-500 text-sm leading-relaxed">{exp.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+            {experience.map((exp) => (
+              <motion.div key={exp.role} variants={itemVariants} className="border-t border-ink/10 pt-6">
+                <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                  <h4 className="text-lg font-bold text-ink">{exp.role}</h4>
+                  <span className="text-sm text-muted">{exp.period}</span>
+                </div>
+                <p className="mb-3 text-sm font-semibold text-vermink">{exp.company}</p>
+                <p className="leading-relaxed text-muted">{exp.description}</p>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Education + Certs */}
-          <div className="space-y-8">
-            {/* Education */}
+          <div className="space-y-14">
             <div>
-              <motion.div variants={itemVariants} className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-sky-500/15 flex items-center justify-center">
-                  <GraduationCap size={20} className="text-sky-400" />
-                </div>
-                <h3 className="text-slate-100 font-bold text-xl">Education</h3>
-              </motion.div>
+              <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
+                Education
+              </motion.h3>
 
               {education.map((edu) => (
-                <motion.div
-                  key={edu.degree}
-                  variants={itemVariants}
-                  className="glass rounded-2xl p-5"
-                  style={{ border: '1px solid rgba(56,189,248,0.15)' }}
-                >
-                  <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
-                    <h4 className="text-slate-100 font-semibold">{edu.degree}</h4>
-                    <span className="text-xs text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded-full">
-                      {edu.period}
-                    </span>
+                <motion.div key={edu.degree} variants={itemVariants} className="border-t border-ink/10 pt-6">
+                  <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                    <h4 className="text-lg font-bold text-ink">{edu.degree}</h4>
+                    <span className="text-sm text-muted">{edu.period}</span>
                   </div>
-                  <p className="text-slate-400 text-sm">{edu.institution}</p>
+                  <p className="text-muted">{edu.institution}</p>
                 </motion.div>
               ))}
             </div>
 
-            {/* Highlights */}
             <div>
-              <motion.div variants={itemVariants} className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center">
-                  <Sparkles size={20} className="text-amber-400" />
-                </div>
-                <h3 className="text-slate-100 font-bold text-xl">Highlights</h3>
-              </motion.div>
+              <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
+                Highlights
+              </motion.h3>
 
-              <div className="space-y-3">
+              <motion.ul variants={itemVariants} className="divide-y divide-ink/10 border-t border-ink/10">
                 {highlights.map((item) => (
-                  <motion.div
-                    key={item}
-                    variants={itemVariants}
-                    whileHover={{ x: 4 }}
-                    className="flex items-center gap-3 glass rounded-xl px-5 py-3.5"
-                    style={{ border: '1px solid rgba(245,158,11,0.15)' }}
-                  >
-                    <div className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
-                    <span className="text-slate-300 text-sm">{item}</span>
-                  </motion.div>
+                  <li key={item} className="py-4 text-muted">
+                    {item}
+                  </li>
                 ))}
-              </div>
+              </motion.ul>
             </div>
           </div>
         </motion.div>

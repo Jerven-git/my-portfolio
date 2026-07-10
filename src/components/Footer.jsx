@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 const socials = [
   { icon: Github, href: 'https://github.com/Jerven-git', label: 'GitHub' },
@@ -14,59 +14,58 @@ const navLinks = [
   { label: 'CV', href: '#cv' },
 ];
 
+/* Inverted: ink ground, canvas type. Closes the page on a hard stop rather than
+   fading out, and gives the primary CTA one last uncontested moment. */
 export default function Footer() {
   return (
-    <footer className="relative border-t border-slate-800 py-14 px-6 overflow-hidden">
-      {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
+    <footer className="bg-ink px-6 py-20 text-canvas">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-16 max-w-2xl">
+          <p className="text-3xl font-extrabold tracking-[-0.03em] md:text-4xl">
+            Hiring, or just curious?
+          </p>
+          <a
+            href="mailto:latayada1233@gmail.com"
+            className="mt-4 inline-block text-xl font-semibold text-verm underline-offset-4 hover:underline md:text-2xl"
+          >
+            latayada1233@gmail.com
+          </a>
+        </div>
 
-      <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-10 mb-12">
-          {/* Brand */}
+        <div className="mb-14 grid gap-10 border-t border-canvas/15 pt-10 md:grid-cols-3">
           <div>
-            <motion.p
-              whileHover={{ scale: 1.02 }}
-              className="text-2xl font-bold gradient-text mb-3"
-            >
-              &lt;Jerven /&gt;
-            </motion.p>
-            <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
-              Full-Stack Web Developer crafting clean, performant, and scalable digital products.
+            <p className="mb-3 text-lg font-bold">&lt;Jerven /&gt;</p>
+            <p className="max-w-xs text-sm leading-relaxed text-canvas/70">
+              Full-stack web developer building clean, performant, scalable systems.
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <p className="text-slate-100 font-semibold text-sm mb-4">Quick Links</p>
+          <nav aria-label="Footer">
+            <p className="mb-4 text-sm font-semibold">Quick links</p>
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-slate-500 hover:text-slate-200 text-sm transition-colors duration-200"
+                    className="text-sm text-canvas/70 transition-colors duration-200 hover:text-canvas"
                   >
                     {link.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Contact */}
           <div>
-            <p className="text-slate-100 font-semibold text-sm mb-4">Get in Touch</p>
-            <p className="text-slate-500 text-sm mb-5">
-              Available for freelance projects, contract work, and full-time opportunities.
-            </p>
+            <p className="mb-4 text-sm font-semibold">Elsewhere</p>
             <div className="flex gap-3">
               {socials.map(({ icon: Icon, href, label }) => (
                 <motion.a
                   key={label}
                   href={href}
                   aria-label={label}
-                  whileHover={{ scale: 1.15, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-100 border border-slate-800 hover:border-violet-500/40 hover:bg-violet-500/10 transition-all duration-200"
+                  whileHover={{ y: -2 }}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-canvas/20 text-canvas/70 transition-colors duration-200 hover:border-canvas/60 hover:text-canvas"
                 >
                   <Icon size={16} />
                 </motion.a>
@@ -75,16 +74,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-400 text-sm">
-            © {new Date().getFullYear()} Jerven Latayada. All rights reserved.
-          </p>
-          <p className="text-slate-400 text-sm flex items-center gap-1.5">
-            Built with
-            <Heart size={12} className="text-violet-400 fill-violet-400" />
-            using React & Framer Motion
-          </p>
+        <div className="flex flex-col gap-3 border-t border-canvas/15 pt-8 text-sm text-canvas/60 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Jerven Latayada.</p>
+          <p>Designed and built by hand. AI helped.</p>
         </div>
       </div>
     </footer>

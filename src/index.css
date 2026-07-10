@@ -8,8 +8,7 @@
    [data-slop=on]   the old AI-template system. Not dead code: the
                     hero's AI Mode toggle swaps the page into it on
                     purpose, and the joke only lands if it's faithful.
-   [data-legacy]    sections not yet redesigned. Keeps them on the
-                    dark system so hero-first doesn't strand them.
+                    Set on <html>, so it flips every section at once.
 
    Contrast verified against WCAG 2.2 AA (see PRODUCT.md):
      ink on canvas ....... 17.68:1
@@ -32,8 +31,7 @@
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-[data-slop="on"],
-[data-legacy] {
+[data-slop="on"] {
   --c-canvas: #0a0a0f;
   --c-surface: #111118;
   --c-ink: #e2e8f0;
@@ -42,11 +40,6 @@
   --c-vermink: #a78bfa;
 
   --f-body: 'Inter', system-ui, -apple-system, sans-serif;
-}
-
-[data-legacy] {
-  background-color: var(--c-canvas);
-  color: var(--c-ink);
 }
 
 @theme inline {
@@ -115,16 +108,16 @@
   max-width: 58ch;
 }
 
-/* ── Legacy / parody system ─────────────────────────────────────
-   Global on purpose: the six not-yet-redesigned sections still use
-   these, and the hero's AI Mode reuses them verbatim.
+/* ── Parody system ──────────────────────────────────────────────
+   Used only by the hero's AI Mode. Every real section now runs on
+   the tokens above, so what's left here is exactly what the joke
+   needs — nothing more.
+
+   Impeccable's detector flags .gradient-text as an AI tell. That is
+   the point. Do not "fix" it.
    ─────────────────────────────────────────────────────────────── */
 
 @layer utilities {
-  .glow {
-    box-shadow: 0 0 40px rgba(108, 99, 255, 0.2), 0 0 80px rgba(108, 99, 255, 0.07);
-  }
-
   .glow-sm {
     box-shadow: 0 0 20px rgba(108, 99, 255, 0.15);
   }
@@ -133,35 +126,11 @@
     text-shadow: 0 0 30px rgba(108, 99, 255, 0.5);
   }
 
-  .glass {
-    background: rgba(17, 17, 24, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(108, 99, 255, 0.15);
-  }
-
   .gradient-text {
     background: linear-gradient(135deg, #6c63ff, #a78bfa, #38bdf8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .gradient-border {
-    position: relative;
-  }
-
-  .gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, #6c63ff, #a78bfa, #38bdf8);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
   }
 }
 
@@ -177,17 +146,8 @@
   50% { transform: translateY(-20px) scale(1.05); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-
 .orb {
   animation: float 8s ease-in-out infinite;
-}
-
-.orb-pulse {
-  animation: pulse-glow 4s ease-in-out infinite;
 }
 
 /* ── Scrollbar ──────────────────────────────────────────────────── */
