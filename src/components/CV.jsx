@@ -4,7 +4,7 @@ import { Download } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 
 const summary =
-  'Full-stack web developer with four years at PageOne247. Sole developer on three end-to-end systems — a modular CMS, a staff management platform, and an e-commerce storefront now in production — built in Laravel and Vue/Nuxt. I ship the application and run the hosting, DNS, and TLS underneath it, and I use AI-assisted tooling to do both faster.';
+  'Full-stack web developer with four years at PageOne247. Sole developer on three end-to-end systems in Laravel and Vue/Nuxt — a modular CMS, a staff management platform, and an e-commerce storefront that shipped to production. I ship the application and run the hosting, DNS, and TLS underneath it, and I use AI-assisted tooling to do both faster.';
 
 const experience = [
   {
@@ -12,7 +12,7 @@ const experience = [
     company: 'PageOne247',
     period: 'Jul 2022 – Jun 2026',
     description:
-      'Sole developer on a modular CMS, a staff management platform, and an e-commerce storefront shipped to production. Added features and modules to an established CRM, customized Shopify themes on a live storefront, and ran the hosting, DNS, and TLS behind all of it.',
+      'Sole developer on three systems — a modular CMS, a staff management platform, and an e-commerce storefront that shipped to production. Added features and modules to an established CRM, customized Shopify themes on a live storefront, and ran the hosting, DNS, and TLS behind all of it.',
   },
 ];
 
