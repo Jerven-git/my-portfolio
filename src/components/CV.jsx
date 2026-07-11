@@ -4,13 +4,13 @@ import { Download } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 
 const summary =
-  'Full-stack web developer with four years at PageOne247. Sole developer on three end-to-end systems in Laravel and Vue/Nuxt — a modular CMS, a staff management platform, and an e-commerce storefront that shipped to production. I ship the application and run the hosting, DNS, and TLS underneath it, and I use AI-assisted tooling to do both faster.';
+  'Full-stack web developer with three years at PageOne247. Sole developer on three end-to-end systems in Laravel and Vue/Nuxt — a modular CMS, a staff management platform, and an e-commerce storefront that shipped to production. I ship the application and run the hosting, DNS, and TLS underneath it, and I use AI-assisted tooling to do both faster.';
 
 const experience = [
   {
     role: 'Full-Stack Web Developer',
     company: 'PageOne247',
-    period: 'Jul 2022 – Jun 2026',
+    period: 'Jul 2023 – Jun 2026',
     description:
       'Sole developer on three systems — a modular CMS, a staff management platform, and an e-commerce storefront that shipped to production. Added features and modules to an established CRM, customized Shopify themes on a live storefront, and ran the hosting, DNS, and TLS behind all of it.',
   },
@@ -25,7 +25,7 @@ const education = [
 ];
 
 const highlights = [
-  'Four years building production Laravel + Vue/Nuxt applications',
+  'Three years building production Laravel + Vue/Nuxt applications',
   'Full-stack delivery from CRM and staff systems to e-commerce',
   'Hands-on with Django, React.js, and Shopify Liquid',
   'Hosting, DNS, TLS, and Cloudflare tunnels across four providers',
@@ -112,7 +112,7 @@ export default function CV() {
               <motion.div variants={itemVariants} className="mb-8">
                 <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="text-2xl font-bold tracking-[-0.02em]">Infrastructure &amp; operations</h3>
-                  <span className="text-sm text-muted">Jul 2022 – Jun 2026</span>
+                  <span className="text-sm text-muted">Jul 2023 – Jun 2026</span>
                 </div>
                 <p className="text-muted">
                   I run the hosting, DNS, and TLS behind the apps I ship.
