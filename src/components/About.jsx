@@ -18,7 +18,7 @@ const highlights = [
   },
   {
     title: 'Cloud & DevOps',
-    description: 'Deploying scalable apps on DigitalOcean with Docker, NGINX, and CI/CD pipelines.',
+    description: 'Deploying scalable apps on DigitalOcean with Docker and NGINX.',
   },
   {
     title: 'E-Commerce',
