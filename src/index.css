@@ -5,17 +5,24 @@
 
    :root            crafted system — committed vermilion on warm
                     off-white, single variable family.
-   [data-slop=on]   the old AI-template system. Not dead code: the
-                    hero's AI Mode toggle swaps the page into it on
-                    purpose, and the joke only lands if it's faithful.
-                    Set on <html>, so it flips every section at once.
+   [data-playful=on]
+                    playful system — maroon and rose on crisp white.
+                    The hero's second mode. Set on <html>, so it flips
+                    every section at once.
+
+   Both systems share one structural rule, which is what lets every
+   section run on the same class names: `verm` is the fill that `ink`
+   sits on top of, `vermink` is the darker sibling for text on canvas.
+   Break that pairing and `bg-verm text-ink` fails in five places.
 
    Contrast verified against WCAG 2.2 AA (see PRODUCT.md):
-     ink on canvas ....... 17.68:1
-     muted on canvas ...... 6.60:1
-     vermink on canvas .... 5.76:1
-     ink on vermilion ..... 4.66:1
-     verm on canvas ....... 3.80:1   fills and large text only
+
+                          crafted   playful
+     ink on canvas ....... 17.68:1  18.25:1
+     muted on canvas ...... 6.60:1   7.13:1
+     vermink on canvas .... 5.76:1   7.63:1
+     ink on vermilion ..... 4.66:1   5.48:1
+     verm on canvas ....... 3.80:1   3.33:1   fills and large text only
    ───────────────────────────────────────────────────────────────── */
 
 :root {
@@ -33,15 +40,19 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slop="on"] {
-  --c-canvas: #0a0a0f;
-  --c-surface: #111118;
-  --c-ink: #e2e8f0;
-  --c-muted: #94a3b8;
-  --c-verm: #6c63ff;
-  --c-vermink: #a78bfa;
+[data-playful="on"] {
+  --c-canvas: #ffffff;
+  --c-surface: #fdf2f5;
+  --c-ink: #2b0912;
+  --c-muted: #7a4a57;
+  --c-verm: #e85c86;
+  --c-vermink: #a31545;
 
-  --f-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --f-body: 'Nunito', system-ui, -apple-system, sans-serif;
+
+  /* Playful mode rounds everything off. Craft mode leaves this at 0 so
+     its corners stay architectural. */
+  --r-playful: 1.5rem;
 }
 
 @theme inline {
@@ -110,49 +121,75 @@
   max-width: 58ch;
 }
 
-/* ── Parody system ──────────────────────────────────────────────
-   Used only by the hero's AI Mode. Every real section now runs on
-   the tokens above, so what's left here is exactly what the joke
-   needs — nothing more.
-
-   Impeccable's detector flags .gradient-text as an AI tell. That is
-   the point. Do not "fix" it.
+/* ── Playful system ─────────────────────────────────────────────
+   Used only by the hero's second mode. The weight here is deliberately
+   physical: chunky radii, offset shadows that sit *under* an element
+   rather than glowing around it, and press states that actually move.
+   Depth comes from the WebGL scene and from real shadow geometry —
+   never from a blur halo, which is the tell the craft side exists to
+   avoid.
    ─────────────────────────────────────────────────────────────── */
 
-@layer utilities {
-  .glow-sm {
-    box-shadow: 0 0 20px rgba(108, 99, 255, 0.15);
-  }
-
-  .glow-text {
-    text-shadow: 0 0 30px rgba(108, 99, 255, 0.5);
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, #6c63ff, #a78bfa, #38bdf8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+.playful-title {
+  font-size: clamp(2.4rem, 6.4vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 900;
 }
 
-.bg-grid {
-  background-image:
-    linear-gradient(rgba(108, 99, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(108, 99, 255, 0.035) 1px, transparent 1px);
-  background-size: 64px 64px;
+/* Chunky sticker button: the shadow is an offset solid, so pressing it
+   moves the face down onto the shadow instead of fading anything. */
+.sticker {
+  border-radius: 999px;
+  font-weight: 800;
+  box-shadow: 0 4px 0 var(--c-vermink);
+  transition: transform 0.14s var(--ease-out-quart),
+              box-shadow 0.14s var(--ease-out-quart);
+}
+.sticker:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--c-vermink);
+}
+.sticker:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--c-vermink);
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
+.sticker-ghost {
+  border-radius: 999px;
+  font-weight: 800;
+  border: 2px solid color-mix(in oklab, var(--c-ink) 18%, transparent);
+  transition: transform 0.14s var(--ease-out-quart),
+              border-color 0.14s var(--ease-out-quart);
+}
+.sticker-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--c-vermink);
+}
+.sticker-ghost:active {
+  transform: translateY(0);
 }
 
-.orb {
-  animation: float 8s ease-in-out infinite;
+/* Soft rose dot field. Sits behind the 3D canvas to give the white
+   ground some texture without competing with it. */
+.bg-dots {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--c-verm) 26%, transparent) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 26px 26px;
 }
 
-/* ── AI Mode: the View Transition ───────────────────────────────
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.bob {
+  animation: bob 3.2s ease-in-out infinite;
+}
+
+/* ── Mode swap: the View Transition ─────────────────────────────
    The site's signature moment.
 
    Choreography, in order:
@@ -161,7 +198,13 @@
      140—640ms the page ground crossfades beneath everything
      220—660ms the new headline arrives, unblurring, having travelled
                from the left column to page centre
-     180—880ms the orb wash blooms up
+     180—880ms the playful 3D stage blooms up
+
+   `mode-wash` names the stage container, not the WebGL canvas itself.
+   A <canvas> cannot be snapshotted meaningfully by a view transition —
+   the browser captures one frame and scales it. Naming the wrapper lets
+   the whole stage bloom while the canvas mounts and starts drawing
+   underneath it.
 
    Two rules learned from watching it run:
 
@@ -171,7 +214,7 @@
       starts at 220ms. The shared group still interpolates the box, so
       the eye reads travel rather than a cut.
 
-   2. The panel and the orb wash carry different view-transition-names.
+   2. The panel and the 3D stage carry different view-transition-names.
       Sharing one name made the group morph a 38%-wide panel into a
       full-viewport box, stretching the vermilion across the whole page
       as a red flash. Separate names give an exit-only and an enter-only

@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
-import { useSlopMode } from '../useSlopMode';
+import { ArrowDown, Github, Linkedin, Mail, ArrowUpRight, MousePointer2 } from 'lucide-react';
+import { usePlayfulMode } from '../usePlayfulMode';
+import PlayfulScene from './PlayfulScene';
+import CursorBubbles from './CursorBubbles';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/Jerven-git', label: 'GitHub' },
@@ -12,17 +14,21 @@ const socialLinks = [
 const EASE_OUT_QUART = [0.25, 1, 0.5, 1];
 
 /* View-transition names. Exactly one element may carry a given name at a time;
-   the craft and slop heroes never render together, so these are morph targets
-   across the swap, not duplicates.
+   the two heroes never render together, so these are morph targets across the
+   swap, not duplicates.
  *
  * `headline` and `toggle` are shared: the same conceptual object exists on both
  * sides, so the browser interpolates its box and it reads as travel.
  *
  * `field` and `wash` are deliberately NOT shared. Sharing them made the group
- * morph from the right-hand panel to the full-viewport orb container, which
- * stretched the vermilion snapshot into a red wash over the whole page. Two
- * names means two independent animations: the panel wipes out, the orbs bloom
- * in. Enter-only and exit-only groups are legal and are what we want here. */
+ * morph from the right-hand panel to the full-width 3D stage, which stretched
+ * the vermilion snapshot into a red wash over the whole page. Two names means
+ * two independent animations: the panel wipes out, the stage blooms in.
+ * Enter-only and exit-only groups are legal and are what we want here.
+ *
+ * `wash` names the stage wrapper rather than the <canvas>: a view transition
+ * snapshots a canvas as a single scaled frame, so naming the element that
+ * actually animates keeps the bloom clean while WebGL starts up beneath it. */
 const VT = {
   headline: { viewTransitionName: 'hero-headline' },
   field: { viewTransitionName: 'mode-field' },
@@ -48,22 +54,22 @@ function useRise(reduced, enabled) {
   };
 }
 
-function AIModeToggle({ slop, onToggle, tone }) {
+function ModeToggle({ playful, onToggle, tone }) {
   const onVermilion = tone === 'vermilion';
 
   return (
     <button
       type="button"
       onClick={onToggle}
-      aria-pressed={slop}
+      aria-pressed={playful}
       style={VT.toggle}
       className={
         onVermilion
           ? 'group inline-flex items-center gap-2 self-start rounded-full border border-ink/25 px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-verm'
-          : 'group inline-flex items-center gap-2 self-start rounded-full border border-violet-400/40 bg-violet-500/10 px-5 py-2.5 text-sm font-semibold text-violet-200 transition-colors duration-200 hover:bg-violet-500/20'
+          : 'sticker group inline-flex items-center gap-2 self-center bg-verm px-6 py-3 text-sm text-ink'
       }
     >
-      {slop ? 'Back to the real one' : 'See the AI version'}
+      {playful ? 'Back to the sharp one' : 'See the playful one'}
       <ArrowUpRight
         size={15}
         className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -72,63 +78,77 @@ function AIModeToggle({ slop, onToggle, tone }) {
   );
 }
 
-/* AI Mode: the page as an unsupervised model would have made it. Kept faithful
-   on purpose. If this looks like a decent portfolio, the joke fails. */
-function SlopHero({ onToggle, reduced, entrance }) {
+/* Playful mode: the same person, off the leash.
+ *
+ * The argument this side makes is that the restraint on the crafted side is a
+ * choice rather than a ceiling — so the execution here has to be as exact as
+ * the quiet version. Loud and sloppy would prove nothing.
+ *
+ * The 3D stage sits above the headline rather than behind it. Text over a
+ * moving maroon blob cannot hold a contrast ratio, and no amount of scrim
+ * fixes that honestly; stacking them keeps every ratio in the table intact. */
+function PlayfulHero({ onToggle, reduced, entrance }) {
   const rise = useRise(reduced, entrance);
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-grid px-6">
-      <div aria-hidden style={VT.wash} className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="orb absolute left-1/4 top-1/4 h-96 w-96 rounded-full opacity-20"
-          style={{ background: 'radial-gradient(circle, #6c63ff 0%, transparent 70%)', filter: 'blur(60px)' }}
-        />
-        <div
-          className="orb absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full opacity-15"
-          style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 70%)', filter: 'blur(60px)', animationDelay: '3s' }}
-        />
-      </div>
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-dots px-6 py-14">
+      <CursorBubbles reduced={reduced} />
 
-      <div className="relative z-10 mx-auto max-w-4xl text-center">
+      {/* The whole column is sized to land the return toggle above the fold at
+          900px tall. Stranding the only way back below the scroll would make
+          the mode feel like a trap rather than a switch. */}
+      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
         <motion.div
           {...rise(0)}
-          className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-sm text-violet-300"
+          style={VT.wash}
+          className="pointer-events-none h-[clamp(140px,22vh,230px)] w-full"
         >
-          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-          Available for new projects
+          <PlayfulScene reduced={reduced} />
         </motion.div>
 
-        <motion.h1
-          {...rise(0.1)}
-          style={VT.headline}
-          className="mb-4 text-5xl font-extrabold leading-tight tracking-tight md:text-7xl"
+        <motion.div
+          {...rise(0.06)}
+          className="mb-4 inline-flex items-center gap-2 rounded-full bg-surface px-4 py-1.5 text-sm font-bold text-vermink"
         >
-          Hi, I&apos;m <span className="gradient-text glow-text">Jerven Latayada</span>
+          <MousePointer2 size={14} className={reduced ? undefined : 'bob'} />
+          Move your cursor
+        </motion.div>
+
+        <motion.h1 {...rise(0.12)} style={VT.headline} className="playful-title mb-5">
+          Same systems.
+          <br />
+          <span className="text-vermink">More bounce.</span>
         </motion.h1>
 
-        <motion.p
-          {...rise(0.2)}
-          className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl"
-        >
-          I build modern full-stack web applications and enjoy learning emerging technologies to
-          deliver scalable, maintainable solutions that help businesses grow and succeed.
+        <motion.p {...rise(0.2)} className="lede mb-7 text-muted">
+          Full-stack developer. CRM platforms, storefronts, and modular CMSs — architected, built,
+          and shipped end to end. The rigour doesn&apos;t change when the palette does.
         </motion.p>
 
-        <motion.div {...rise(0.3)} className="mb-12 flex flex-wrap items-center justify-center gap-4">
-          <span className="glow-sm rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-7 py-3 font-semibold text-white">
-            View My Work
-          </span>
-          <span className="rounded-xl border border-slate-600 px-7 py-3 font-semibold text-slate-200">
+        <motion.div {...rise(0.28)} className="mb-7 flex flex-wrap items-center justify-center gap-4">
+          <a href="mailto:latayada1233@gmail.com" className="sticker bg-verm px-8 py-3.5 text-ink">
+            Email me
+          </a>
+          <a href="#cv" className="sticker-ghost px-8 py-3.5 text-ink">
             Download CV
-          </span>
+          </a>
         </motion.div>
 
-        <motion.div {...rise(0.45)} className="flex flex-col items-center gap-5">
-          <p className="text-sm text-slate-500">
-            Every AI portfolio looks like this. Yours probably did too.
-          </p>
-          <AIModeToggle slop onToggle={onToggle} tone="violet" />
+        <motion.div {...rise(0.36)} className="mb-7 flex items-center gap-4">
+          {socialLinks.map(({ icon: Icon, href, label }) => (
+            <a
+              key={label}
+              href={href}
+              aria-label={label}
+              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ink/15 text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-vermink hover:text-vermink"
+            >
+              <Icon size={18} />
+            </a>
+          ))}
+        </motion.div>
+
+        <motion.div {...rise(0.44)}>
+          <ModeToggle playful onToggle={onToggle} tone="playful" />
         </motion.div>
       </div>
     </div>
@@ -188,8 +208,8 @@ function CraftHero({ onToggle, reduced, entrance }) {
         </div>
       </div>
 
-      {/* Committed vermilion field: ~38% of the surface. Morphs into the orb
-          wash when AI Mode engages. */}
+      {/* Committed vermilion field: ~38% of the surface. Wipes out as the
+          playful 3D stage blooms in. */}
       <motion.aside
         {...rise(0.1)}
         style={VT.field}
@@ -198,7 +218,7 @@ function CraftHero({ onToggle, reduced, entrance }) {
         <p className="max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-ink md:text-5xl">
           AI helped. It didn&apos;t decide.
         </p>
-        <AIModeToggle slop={false} onToggle={onToggle} tone="vermilion" />
+        <ModeToggle playful={false} onToggle={onToggle} tone="vermilion" />
       </motion.aside>
 
       <motion.div
@@ -218,7 +238,7 @@ function CraftHero({ onToggle, reduced, entrance }) {
 }
 
 export default function Hero() {
-  const [slop, toggle] = useSlopMode();
+  const [playful, toggle] = usePlayfulMode();
   const reduced = useReducedMotion();
 
   // The entrance choreography belongs to first paint only. Once the user has
@@ -235,8 +255,8 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative overflow-hidden bg-canvas text-ink">
-      {slop ? (
-        <SlopHero onToggle={handleToggle} reduced={reduced} entrance={entrance} />
+      {playful ? (
+        <PlayfulHero onToggle={handleToggle} reduced={reduced} entrance={entrance} />
       ) : (
         <CraftHero onToggle={handleToggle} reduced={reduced} entrance={entrance} />
       )}
