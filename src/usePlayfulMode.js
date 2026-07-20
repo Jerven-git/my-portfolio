@@ -24,6 +24,29 @@ const REDUCED = '(prefers-reduced-motion: reduce)';
  * under prefers-reduced-motion, this is a plain state flip. The 0.55s body
  * color/font transition still carries it, and the mode still works.
  */
+/**
+ * Read-only view of the mode, for sections that need to know without owning it.
+ *
+ * The <html data-playful> attribute is already the contract every section's CSS
+ * reads; this just makes it legible to JS too. Lifting the hero's state into a
+ * context would couple every consumer to the hero's lifecycle for no gain —
+ * the attribute is the single source of truth either way.
+ */
+export function useIsPlayful() {
+  const [on, setOn] = useState(false);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const read = () => setOn(root.dataset.playful === 'on');
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(root, { attributes: true, attributeFilter: ['data-playful'] });
+    return () => mo.disconnect();
+  }, []);
+
+  return on;
+}
+
 export function usePlayfulMode() {
   const [playful, setPlayful] = useState(false);
 
