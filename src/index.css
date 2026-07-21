@@ -180,6 +180,33 @@
   background-size: 26px 26px;
 }
 
+/* Lets the page backdrop show through.
+ *
+ * Every section paints an opaque `bg-canvas`, so a fixed layer behind them is
+ * invisible no matter what z-index it carries. Clearing that one background in
+ * playful mode is a single rule; the alternative was restructuring six
+ * components to hold their own transparency.
+ *
+ * The app wrapper is in the list for a subtler reason. It carries `bg-canvas`
+ * and creates no stacking context, so by CSS painting order its background is
+ * drawn AFTER negative-z-index descendants — meaning it covered the backdrop
+ * completely even though the backdrop sat at -z-10 inside it. Clearing the
+ * sections alone left the effect invisible and impossible to see in a
+ * screenshot; both had to go. `body` keeps the canvas fill, so the page still
+ * has a ground underneath everything.
+ *
+ * `.bg-verm` sections are deliberately untouched — the AI Development panel is
+ * a committed colour field, and punching a hole in it would let circles drift
+ * through the one surface on the page that is meant to be solid.
+ *
+ * The wrapper keeps its canvas fill, so the page still has a ground; only the
+ * sections stacked on top of it go clear.
+ */
+[data-playful="on"] section.bg-canvas,
+[data-playful="on"] #root > .bg-canvas {
+  background-color: transparent;
+}
+
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-8px); }
