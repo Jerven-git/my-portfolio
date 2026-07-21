@@ -70,12 +70,18 @@ const ledeStill = {
    modes without changing the DOM — swapping between a plain <h2> and a split
    one remounts the heading mid-life, and the remount was half of why the About
    section could come back invisible. */
+/* Match ignoring case and edge punctuation, so a caller can ask for "built"
+   and still hit "built." or "Built". */
+const sameWord = (a, b) =>
+  a.toLowerCase().replace(/^\W+|\W+$/g, '') === b.toLowerCase().replace(/^\W+|\W+$/g, '');
+
 export default function SectionHeading({
   title,
   lede,
   align = 'left',
   jump = false,
   lively = false,
+  beatWord,
 }) {
   const centered = align === 'center';
   const reduced = useReducedMotion();
@@ -84,16 +90,35 @@ export default function SectionHeading({
   const h2 = 'text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-ink md:text-6xl';
   const p = `lede mt-6 text-muted ${centered ? 'mx-auto' : ''}`;
 
+  const words = title.split(' ');
+
+  /* Marks one word for an external timeline to drive. This component never
+     animates it and imports no animation code for it — it only tags the span,
+     so the section that owns the beat can find it with `[data-beat]`. Keeps
+     the shared heading ignorant of WAAPI. */
   if (!jump) {
     return (
       <div className={wrapper}>
-        <h2 className={h2}>{title}</h2>
+        <h2 className={h2}>
+          {beatWord
+            ? words.map((w, i) => (
+                <Fragment key={`${w}-${i}`}>
+                  {sameWord(w, beatWord) ? (
+                    <span data-beat="hop" className="inline-block">
+                      {w}
+                    </span>
+                  ) : (
+                    w
+                  )}
+                  {i < words.length - 1 ? ' ' : null}
+                </Fragment>
+              ))
+            : title}
+        </h2>
         {lede && <p className={p}>{lede}</p>}
       </div>
     );
   }
-
-  const words = title.split(' ');
 
   return (
     <motion.div variants={springy ? groupVariants : groupFlat} className={wrapper}>

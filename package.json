@@ -11,6 +11,7 @@
     "cv": "node cv/build-cv.mjs"
   },
   "dependencies": {
+    "animejs": "^4.5.0",
     "framer-motion": "^12.34.0",
     "lucide-react": "^0.572.0",
     "react": "^19.2.0",
