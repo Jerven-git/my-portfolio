@@ -93,7 +93,7 @@ const techCategories = [
   },
   {
     name: 'E-Commerce',
-    techs: ['Shopify', 'Liquid'],
+    techs: ['Shopify', 'Shopify CLI', 'Liquid'],
   },
   {
     name: 'Cloud & Infrastructure',
