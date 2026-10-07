@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-07T08:16:11+08:00",
+  "title": "Design System: Jerven Portfolio — Mission Grid 199X",
+  "extensions": {
+    "colorMeta": {
+      "command-navy": {
+        "role": "neutral",
+        "displayName": "Command Navy",
+        "canonical": "oklch(28.9% 0.058 252.9)",
+        "tonalRamp": [
+          "oklch(15% 0.058 252.9)",
+          "oklch(27% 0.058 252.9)",
+          "oklch(39% 0.058 252.9)",
+          "oklch(51% 0.058 252.9)",
+          "oklch(63% 0.058 252.9)",
+          "oklch(75% 0.058 252.9)",
+          "oklch(87% 0.058 252.9)",
+          "oklch(95% 0.058 252.9)"
+        ]
+      },
+      "command-navy-soft": {
+        "role": "neutral",
+        "displayName": "Command Navy Soft",
+        "canonical": "oklch(36.6% 0.068 244.5)",
+        "tonalRamp": [
+          "oklch(15% 0.068 244.5)",
+          "oklch(27% 0.068 244.5)",
+          "oklch(39% 0.068 244.5)",
+          "oklch(51% 0.068 244.5)",
+          "oklch(63% 0.068 244.5)",
+          "oklch(75% 0.068 244.5)",
+          "oklch(87% 0.068 244.5)",
+          "oklch(95% 0.068 244.5)"
+        ]
+      },
+      "briefing-sand": {
+        "role": "neutral",
+        "displayName": "Briefing Sand",
+        "canonical": "oklch(88.0% 0.059 84.0)",
+        "tonalRamp": [
+          "oklch(15% 0.059 84.0)",
+          "oklch(27% 0.059 84.0)",
+          "oklch(39% 0.059 84.0)",
+          "oklch(51% 0.059 84.0)",
+          "oklch(63% 0.059 84.0)",
+          "oklch(75% 0.059 84.0)",
+          "oklch(87% 0.059 84.0)",
+          "oklch(95% 0.059 84.0)"
+        ]
+      },
+      "briefing-paper": {
+        "role": "neutral",
+        "displayName": "Briefing Paper",
+        "canonical": "oklch(93.4% 0.045 87.2)",
+        "tonalRamp": [
+          "oklch(15% 0.045 87.2)",
+          "oklch(27% 0.045 87.2)",
+          "oklch(39% 0.045 87.2)",
+          "oklch(51% 0.045 87.2)",
+          "oklch(63% 0.045 87.2)",
+          "oklch(75% 0.045 87.2)",
+          "oklch(87% 0.045 87.2)",
+          "oklch(95% 0.045 87.2)"
+        ]
+      },
+      "signal-ivory": {
+        "role": "neutral",
+        "displayName": "Signal Ivory",
+        "canonical": "oklch(96.9% 0.034 86.3)",
+        "tonalRamp": [
+          "oklch(15% 0.034 86.3)",
+          "oklch(27% 0.034 86.3)",
+          "oklch(39% 0.034 86.3)",
+          "oklch(51% 0.034 86.3)",
+          "oklch(63% 0.034 86.3)",
+          "oklch(75% 0.034 86.3)",
+          "oklch(87% 0.034 86.3)",
+          "oklch(95% 0.034 86.3)"
+        ]
+      },
+      "route-orange": {
+        "role": "primary",
+        "displayName": "Safety Route Orange",
+        "canonical": "oklch(65.2% 0.199 35.3)",
+        "tonalRamp": [
+          "oklch(15% 0.199 35.3)",
+          "oklch(27% 0.199 35.3)",
+          "oklch(39% 0.199 35.3)",
+          "oklch(51% 0.199 35.3)",
+          "oklch(63% 0.199 35.3)",
+          "oklch(75% 0.199 35.3)",
+          "oklch(87% 0.199 35.3)",
+          "oklch(95% 0.199 35.3)"
+        ]
+      },
+      "route-orange-dark": {
+        "role": "primary",
+        "displayName": "Route Orange Dark",
+        "canonical": "oklch(52.5% 0.173 32.3)",
+        "tonalRamp": [
+          "oklch(15% 0.173 32.3)",
+          "oklch(27% 0.173 32.3)",
+          "oklch(39% 0.173 32.3)",
+          "oklch(51% 0.173 32.3)",
+          "oklch(63% 0.173 32.3)",
+          "oklch(75% 0.173 32.3)",
+          "oklch(87% 0.173 32.3)",
+          "oklch(95% 0.173 32.3)"
+        ]
+      },
+      "branch-teal": {
+        "role": "secondary",
+        "displayName": "Branch Teal",
+        "canonical": "oklch(58.7% 0.091 193.0)",
+        "tonalRamp": [
+          "oklch(15% 0.091 193.0)",
+          "oklch(27% 0.091 193.0)",
+          "oklch(39% 0.091 193.0)",
+          "oklch(51% 0.091 193.0)",
+          "oklch(63% 0.091 193.0)",
+          "oklch(75% 0.091 193.0)",
+          "oklch(87% 0.091 193.0)",
+          "oklch(95% 0.091 193.0)"
+        ]
+      },
+      "loadout-teal": {
+        "role": "secondary",
+        "displayName": "Loadout Teal",
+        "canonical": "oklch(44.1% 0.066 214.0)",
+        "tonalRamp": [
+          "oklch(15% 0.066 214.0)",
+          "oklch(27% 0.066 214.0)",
+          "oklch(39% 0.066 214.0)",
+          "oklch(51% 0.066 214.0)",
+          "oklch(63% 0.066 214.0)",
+          "oklch(75% 0.066 214.0)",
+          "oklch(87% 0.066 214.0)",
+          "oklch(95% 0.066 214.0)"
+        ]
+      },
+      "utility-white": {
+        "role": "neutral",
+        "displayName": "Utility White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(39% 0 0)",
+          "oklch(51% 0 0)",
+          "oklch(63% 0 0)",
+          "oklch(75% 0 0)",
+          "oklch(87% 0 0)",
+          "oklch(100% 0 0)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Campaign Display",
+        "purpose": "Oversized all-caps campaign calls and the final contact end-state."
+      },
+      "hero": {
+        "displayName": "Map Briefing Hero",
+        "purpose": "The mixed-case first-viewport claim printed into the terrain clearing."
+      },
+      "headline": {
+        "displayName": "Mission Headline",
+        "purpose": "Section names paired with objective markers and route rules."
+      },
+      "narrative-title": {
+        "displayName": "Narrative Title",
+        "purpose": "Readable human-language claims inside project and profile evidence."
+      },
+      "body": {
+        "displayName": "Campaign Body",
+        "purpose": "Project descriptions, proof, and explanatory copy."
+      },
+      "label": {
+        "displayName": "Cartridge UI Label",
+        "purpose": "Navigation, markers, metadata, status, dates, and actions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "command-rail",
+        "value": "0 4px 18px rgb(5 25 43 / 28%)",
+        "purpose": "Separates the navy command rail from the campaign map."
+      },
+      {
+        "name": "objective-marker",
+        "value": "0 0 0 2px #b9341d, 0 4px 12px rgb(12 32 49 / 20%)",
+        "purpose": "Mounts primary objective labels as printed tiles."
+      },
+      {
+        "name": "command-button",
+        "value": "0 0 0 2px #b9341d, 0 4px 0 rgb(20 44 71 / 45%)",
+        "purpose": "Creates the solid physical offset for primary controls."
+      },
+      {
+        "name": "dossier-lift",
+        "value": "0 -5px 20px rgb(35 50 48 / 28%)",
+        "purpose": "Separates the opening project dossier from the map above."
+      },
+      {
+        "name": "evidence-plate",
+        "value": "0 14px 35px rgb(68 56 35 / 18%)",
+        "purpose": "Provides restrained physical lift to taped interface evidence."
+      },
+      {
+        "name": "persistent-hud",
+        "value": "0 0 0 2px #142c47, 0 8px 24px rgb(9 28 45 / 28%)",
+        "purpose": "Keeps the compact HUD legible over changing campaign terrain."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-quart",
+        "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Color, underline, and standard state transitions."
+      },
+      {
+        "name": "ease-out-quint",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Large mode-transition travel."
+      },
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Hero reveal, section reveals, HUD entry, and view-transition blooms."
+      },
+      {
+        "name": "control-step",
+        "value": "120ms steps(2, end)",
+        "purpose": "Physical command hover and press movement."
+      },
+      {
+        "name": "route-launch",
+        "value": "1050ms cubic-bezier(0.5, 0, 0.2, 1)",
+        "purpose": "Moves the engineer through the primary route before Projects scrolls into view."
+      },
+      {
+        "name": "section-reveal",
+        "value": "620ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "One-time reveal for campaign evidence sections."
+      },
+      {
+        "name": "pointer-burst",
+        "value": "520ms steps(4, end)",
+        "purpose": "Short non-touch feedback on interactive targets only."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "campaign-stack",
+        "value": "980px"
+      },
+      {
+        "name": "hero-flow",
+        "value": "900px"
+      },
+      {
+        "name": "campaign-compact",
+        "value": "680px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Mission Command",
+      "kind": "button",
+      "refersTo": "mission-command-primary",
+      "description": "Primary campaign-advancing action with a solid physical press state.",
+      "html": "<button class=\"ds-mission-command ds-mission-command--primary\" type=\"button\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 5v14l11-7z\"/></svg><span>Start mission</span></button>",
+      "css": ".ds-mission-command{display:grid;grid-template-columns:1.55rem 1fr;align-items:center;min-height:3rem;padding:0 .85rem;border:2px solid #fff4dc;border-radius:2px;font-family:'Jersey 15',ui-monospace,monospace;font-size:1.15rem;letter-spacing:.025em;text-align:left;text-transform:uppercase;cursor:pointer;transition:transform 120ms steps(2,end),filter 120ms linear}.ds-mission-command--primary{color:#fff;background:#f0542b;box-shadow:0 0 0 2px #b9341d,0 4px 0 rgb(20 44 71 / 45%)}.ds-mission-command svg{width:1.15rem;height:1.15rem;fill:currentColor}.ds-mission-command:hover{transform:translateX(5px);filter:brightness(1.045)}.ds-mission-command:active{transform:translate(2px,2px);box-shadow:0 1px 0 rgb(20 44 71 / 45%)}.ds-mission-command:focus-visible{outline:3px solid #fff4dc;outline-offset:3px;box-shadow:0 0 0 6px #142c47}"
+    },
+    {
+      "name": "Secondary Mission Command",
+      "kind": "button",
+      "refersTo": "mission-command-secondary",
+      "description": "Direct email, CV, or supporting action inside the campaign map.",
+      "html": "<a class=\"ds-mission-secondary\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 5h18v14H3zM3 6l9 7 9-7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg><span>Email me</span></a>",
+      "css": ".ds-mission-secondary{display:grid;grid-template-columns:1.55rem 1fr;align-items:center;min-height:3rem;padding:0 .85rem;color:#142c47;background:#fff4dc;border:2px solid rgb(20 44 71 / 64%);border-radius:2px;box-shadow:0 3px 0 rgb(20 44 71 / 45%);font-family:'Jersey 15',ui-monospace,monospace;font-size:1.15rem;letter-spacing:.025em;text-decoration:none;text-transform:uppercase;transition:transform 120ms steps(2,end),filter 120ms linear}.ds-mission-secondary svg{width:1.15rem;height:1.15rem}.ds-mission-secondary:hover{transform:translateX(5px);filter:brightness(1.045)}.ds-mission-secondary:active{transform:translate(2px,2px);box-shadow:0 1px 0 rgb(20 44 71 / 45%)}.ds-mission-secondary:focus-visible{outline:3px solid #fff4dc;outline-offset:3px;box-shadow:0 0 0 6px #142c47}"
+    },
+    {
+      "name": "Command Rail Navigation",
+      "kind": "nav",
+      "description": "Slim navy campaign chrome with one orange active route indicator.",
+      "html": "<nav class=\"ds-command-rail\" aria-label=\"Portfolio sections\"><strong>JERVEN LATAYADA</strong><a class=\"is-active\" href=\"#\">Work</a><a href=\"#\">About</a><a href=\"#\">Skills</a><button type=\"button\" aria-pressed=\"true\">Sound</button></nav>",
+      "css": ".ds-command-rail{display:flex;align-items:center;gap:1.5rem;min-height:3.25rem;padding:0 1rem;color:#fff4dc;background:#142c47;border-bottom:3px solid #315471;box-shadow:0 4px 18px rgb(5 25 43 / 28%);font-family:'Jersey 15',ui-monospace,monospace;letter-spacing:.04em;text-transform:uppercase}.ds-command-rail strong{margin-right:auto;font-size:1.45rem;font-weight:400}.ds-command-rail a,.ds-command-rail button{position:relative;color:inherit;background:transparent;border:0;font:inherit;text-decoration:none;text-transform:inherit;cursor:pointer}.ds-command-rail a::after{content:'';position:absolute;right:0;bottom:-.45rem;left:0;height:3px;background:#f0542b;transform:scaleX(0);transform-origin:left;transition:transform 180ms cubic-bezier(.25,1,.5,1)}.ds-command-rail a:hover::after,.ds-command-rail a.is-active::after{transform:scaleX(1)}.ds-command-rail a:focus-visible,.ds-command-rail button:focus-visible{outline:3px solid #fff4dc;outline-offset:3px}"
+    },
+    {
+      "name": "Mission Section Heading",
+      "kind": "custom",
+      "refersTo": "mission-marker",
+      "description": "Objective marker, cartridge heading, optional context, and a route-like dashed rule.",
+      "html": "<header class=\"ds-mission-heading\"><span class=\"ds-mission-heading__marker\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 3v18M6 4h11l-2 4 2 4H6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg>Mission 02 / Projects</span><div><h2>DataBasy CRM</h2><p>Production feature work inside a living system.</p></div><i aria-hidden=\"true\"></i></header>",
+      "css": ".ds-mission-heading{display:grid;grid-template-columns:auto minmax(0,auto) 1fr;align-items:center;gap:1.25rem;color:#142c47}.ds-mission-heading__marker{display:inline-flex;align-items:center;gap:.65rem;min-height:2.5rem;padding:.3rem .7rem;color:#fff4dc;background:#f0542b;border:2px solid #fff4dc;box-shadow:0 0 0 2px #b9341d;font-family:'Jersey 15',ui-monospace,monospace;font-size:1.2rem;letter-spacing:.035em;text-transform:uppercase;white-space:nowrap}.ds-mission-heading__marker svg{width:1rem;height:1rem}.ds-mission-heading h2{margin:0;font-family:'Jersey 15',ui-monospace,monospace;font-size:clamp(2.3rem,5vw,4.8rem);font-weight:400;line-height:.88;letter-spacing:.015em;text-transform:uppercase}.ds-mission-heading p{max-width:42rem;margin:.7rem 0 0;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:1rem;line-height:1.55}.ds-mission-heading>i{height:2px;background-image:repeating-linear-gradient(90deg,currentColor 0 10px,transparent 10px 18px);opacity:.35}"
+    },
+    {
+      "name": "Primary Objective Marker",
+      "kind": "chip",
+      "refersTo": "mission-marker",
+      "description": "Mounted orange label for the dominant project objective.",
+      "html": "<span class=\"ds-objective-marker\">DATABASY / SSU</span>",
+      "css": ".ds-objective-marker{display:inline-grid;place-items:center;min-height:2.5rem;padding:0 1rem;color:#fff;background:#f0542b;border:2px solid #fff4dc;border-radius:3px;box-shadow:0 0 0 2px #b9341d,0 4px 12px rgb(12 32 49 / 20%);font-family:'Jersey 15',ui-monospace,monospace;font-size:1.35rem;letter-spacing:.025em;white-space:nowrap}"
+    },
+    {
+      "name": "Client Mission Route Item",
+      "kind": "card",
+      "description": "A project row anchored to the continuous orange route rather than a freestanding card.",
+      "html": "<article class=\"ds-route-item\"><span class=\"ds-route-item__node\"><b>A</b></span><div><small>Food commerce + operations</small><h3>Azura Fresh</h3></div><p>Multi-tenant storefront and admin workflows for catalogue, checkout, payments, order tracking, and configurable public content.</p><footer><span>Nuxt 4 · Laravel · MySQL · Docker</span><a href=\"#\">Visit ↗</a></footer></article>",
+      "css": ".ds-route-item{position:relative;display:grid;grid-template-columns:5.25rem minmax(13rem,.8fr) minmax(18rem,1.35fr) minmax(13rem,.9fr);align-items:center;gap:clamp(1rem,3vw,3.5rem);min-height:10rem;padding:2rem 0;color:#fff4dc;background:#142c47;border-bottom:1px solid rgb(255 244 220 / 18%);font-family:'Bricolage Grotesque',system-ui,sans-serif}.ds-route-item__node{display:grid;place-items:center;width:4.75rem;height:4.75rem;color:#142c47;background:#fff4dc;border:7px solid #f0542b;box-shadow:0 0 0 3px #ffb061;font-family:'Jersey 15',ui-monospace,monospace;font-size:2rem;transform:rotate(45deg)}.ds-route-item__node b{font-weight:400;transform:rotate(-45deg)}.ds-route-item small{color:#9ec8cd;font-family:'Jersey 15',ui-monospace,monospace;font-size:1rem;letter-spacing:.045em;text-transform:uppercase}.ds-route-item h3{margin:.4rem 0 0;font-family:'Jersey 15',ui-monospace,monospace;font-size:2.6rem;font-weight:400;line-height:.9;letter-spacing:.025em;text-transform:uppercase}.ds-route-item p{margin:0;color:#d8e1dc;line-height:1.6}.ds-route-item footer{display:flex;flex-direction:column;align-items:flex-start;gap:.85rem;color:#aec2c8;font-size:.88rem;line-height:1.5}.ds-route-item a{color:#fff4dc;font-family:'Jersey 15',ui-monospace,monospace;font-size:1.1rem;letter-spacing:.03em;text-transform:uppercase}.ds-route-item a:focus-visible{outline:3px solid #fff4dc;outline-offset:3px}"
+    },
+    {
+      "name": "Project Briefing Dossier",
+      "kind": "card",
+      "refersTo": "mission-project-brief",
+      "description": "Square paper evidence block for factual project scope and technology.",
+      "html": "<article class=\"ds-project-brief\"><span>Mission 01 / Projects</span><h3>DATABASY / SSU</h3><p>Multi-tenant commerce platform</p><p>Storefront + operational workspace</p><strong>Nuxt 4 + Laravel + MySQL + Reverb</strong></article>",
+      "css": ".ds-project-brief{max-width:38rem;padding:2rem;color:#142c47;background:#f6e8c8;border:2px solid rgb(83 78 61 / 45%);box-shadow:inset 0 0 0 3px rgb(255 248 218 / 20%),0 14px 35px rgb(68 56 35 / 18%);font-family:'Bricolage Grotesque',system-ui,sans-serif}.ds-project-brief>span{display:block;padding-bottom:.75rem;border-bottom:2px dashed rgb(83 78 61 / 56%);color:#b9341d;font-family:'Jersey 15',ui-monospace,monospace;font-size:1.1rem;letter-spacing:.055em;text-transform:uppercase}.ds-project-brief h3{margin:1.5rem 0 .65rem;color:#090909;font-family:'Jersey 15',ui-monospace,monospace;font-size:2.5rem;font-weight:400;line-height:1;letter-spacing:.035em}.ds-project-brief p{margin:.2rem 0;font-size:1rem;line-height:1.4}.ds-project-brief strong{display:block;margin-top:1.15rem;padding-top:.85rem;border-top:1px solid rgb(76 79 66 / 58%);color:#090909;font-family:'Jersey 15',ui-monospace,monospace;font-size:1.2rem;font-weight:400}"
+    },
+    {
+      "name": "Persistent Campaign HUD",
+      "kind": "custom",
+      "refersTo": "mission-hud",
+      "description": "Compact campaign state plus a persistent accessible sound toggle.",
+      "html": "<div class=\"ds-campaign-hud\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\" fill=\"currentColor\"/><path d=\"M5 12a7 7 0 0 1 14 0M2 12a10 10 0 0 1 20 0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg>Campaign live</span><button type=\"button\" aria-pressed=\"true\">Sound on</button></div>",
+      "css": ".ds-campaign-hud{display:inline-flex;align-items:stretch;color:#fff4dc;background:#142c47;border:2px solid #fff4dc;box-shadow:0 0 0 2px #142c47,0 8px 24px rgb(9 28 45 / 28%);font-family:'Jersey 15',ui-monospace,monospace;font-size:1rem;letter-spacing:.025em;text-transform:uppercase}.ds-campaign-hud>span,.ds-campaign-hud button{display:inline-flex;align-items:center;gap:.45rem;padding:.65rem .8rem}.ds-campaign-hud>span{color:#bce6d8;border-right:1px solid rgb(255 244 220 / 24%)}.ds-campaign-hud button{color:inherit;background:transparent;border:0;font:inherit;text-transform:inherit;cursor:pointer}.ds-campaign-hud svg{width:1rem;height:1rem}.ds-campaign-hud button:hover{color:#f0542b}.ds-campaign-hud button:focus-visible{outline:3px solid #fff4dc;outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Mission Grid 199X",
+    "overview": "The Playful identity is a polished retro developer action game expressed as a recruiter-ready portfolio. An overhead campaign route turns each shipped system into an objective: the safety-orange path supplies the first viewport's dominant move, factual project evidence opens as a briefing dossier, and an original engineer token gives the world character without borrowing game IP. It should feel specific, tactile, and exact—not like a skin applied to a conventional portfolio.\n\nThe strongest spectacle belongs to the hero and project proof. Below them, the same world becomes quieter and more editorially useful: briefing paper, route spines, objective markers, fixed information cells, and compact HUD elements carry the grammar while Bricolage Grotesque keeps explanations easy to scan. Interaction is optional enhancement; navigation, links, email, and CV download remain ordinary controls.\n\nMission Grid is only the Playful world. It is activated by `html[data-playful=\"on\"]` and rendered through the Mission Grid hero/campaign subtree. Crafted mode remains the default, separate identity and must retain its own warm off-white/vermilion palette, typography, navbar, project sequence, and footer. Shared factual content and destinations may cross the boundary; Mission Grid styling may not.",
+    "keyCharacteristics": [
+      "Route-dominant overhead campaign map with a visible project dossier at the lower edge.",
+      "Flat navy, sand, paper, orange, teal, and ivory fields with pixel plates and printed texture.",
+      "Jersey 15 for game UI, Madimi One for the map headline, and Bricolage Grotesque for readable body copy.",
+      "Square controls, doubled keylines, dashed rules, diamond nodes, and solid offset depth.",
+      "Factual shipped-work proof inside a playful world; generated interface plates are always identified as illustrative.",
+      "Fully optional motion and sound, with keyboard, touch, reduced-motion, and mute behavior treated as first-class states."
+    ],
+    "rules": [
+      {
+        "name": "The Orange Route Rule",
+        "body": "Safety orange owns the primary path and primary action; teal may branch from it but never compete with it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat-Ink Rule",
+        "body": "Use solid color fields. CSS gradients are allowed only as hard-edged construction devices for grids, stripes, or dashed rules—never as blended atmosphere, gradient text, glow, or an AI-style color wash.",
+        "section": "colors"
+      },
+      {
+        "name": "The Contrast Is Evidence Rule",
+        "body": "Preserve WCAG 2.2 AA for text and controls. Orange is a fill and large-mark color; ordinary body copy stays navy on sand/paper or ivory on navy/teal.",
+        "section": "colors"
+      },
+      {
+        "name": "The Pixel UI, Human Body Rule",
+        "body": "Jersey 15 may label and announce; it must not carry long paragraphs. All explanatory content remains Bricolage Grotesque at an ordinary reading size.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Terminal Costume Rule",
+        "body": "Monospaced fallbacks are resilience only. Do not introduce green-on-black, command prompts, code rain, or monospace body copy to make the work feel technical.",
+        "section": "typography"
+      },
+      {
+        "name": "The Route Before Cards Rule",
+        "body": "Project navigation is a path with nodes, not a centered card gallery. If a new project cannot fit the route grammar, use a dossier or fixed mission row before reaching for a conventional card.",
+        "section": "layout"
+      },
+      {
+        "name": "The Loud-to-Quiet Rule",
+        "body": "Hero and primary project proof carry the full map spectacle; later sections inherit the geometry, materials, and markers without repeating the entire map.",
+        "section": "layout"
+      },
+      {
+        "name": "The Solid Depth Rule",
+        "body": "Use borders, offsets, tape, overlap, and physical plate shadows. Never substitute glow or translucent glass for construction.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat-at-Rest Rule",
+        "body": "Most campaign sections remain planar. Stronger depth appears only on controls, movable tokens, taped evidence, and the hero dossier edge.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Punched-Tile Rule",
+        "body": "Every decorative shape should read as a printed rule, punched marker, mounted label, taped plate, or route part—not an abstract blob.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do scope Mission Grid selectors, tokens, assets, and component patterns to Playful mode and its Mission Grid subtrees.",
+      "Do preserve the route-dominant first viewport, ordinary anchor navigation, email action, CV download, and factual project destinations.",
+      "Do keep long copy in Bricolage Grotesque and reserve pixel display type for headings, labels, and controls.",
+      "Do label generated interface plates as illustrative and retain accurate alternative text.",
+      "Do preserve keyboard focus, WCAG 2.2 AA contrast, touch-sized controls, persistent mute, and reduced-motion equivalents.",
+      "Do use solid offset geometry, tape, borders, rules, and purposeful pixel assets to create depth."
+    ],
+    "donts": [
+      "Don't let Mission Grid styles leak into Crafted mode or replace Crafted mode's existing palette, navbar, project sequence, radii, typography, or footer.",
+      "Don't create a half-Crafted, half-Mission-Grid hybrid; the mode boundary is part of the product argument.",
+      "Don't reopen the prohibited lanes: dark hacker terminal, violet/indigo AI gradients, glassmorphism, blurred orbs, glow, editorial-serif magazine, or corporate SaaS tiles.",
+      "Don't use weapons, copied game IP, camouflage, combat language, fake metrics, invented clients, fabricated achievements, or mandatory gameplay.",
+      "Don't use pixel fonts for paragraphs, hide proof behind interaction, or make audio and motion prerequisites for comprehension.",
+      "Don't promote the teal branch, later sections, or decorative HUD above the primary orange route and DATABASY / SSU objective."
+    ]
+  }
+}

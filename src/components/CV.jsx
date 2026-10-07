@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion as Motion, useInView } from 'framer-motion';
 import { Download } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 
@@ -72,7 +72,7 @@ export default function CV() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading title="Curriculum vitae" lede={summary} />
 
-        <motion.a
+        <Motion.a
           href={`${import.meta.env.BASE_URL}cv.pdf`}
           download="Jerven_Latayada_CV.pdf"
           whileHover={{ y: -2 }}
@@ -81,9 +81,9 @@ export default function CV() {
         >
           <Download size={18} />
           Download CV (PDF)
-        </motion.a>
+        </Motion.a>
 
-        <motion.div
+        <Motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
@@ -92,24 +92,24 @@ export default function CV() {
         >
           <div className="space-y-14">
             <div>
-              <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
+              <Motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
                 Experience
-              </motion.h3>
+              </Motion.h3>
 
               {experience.map((exp) => (
-                <motion.div key={exp.role} variants={itemVariants} className="border-t border-ink/10 pt-6">
+                <Motion.div key={exp.role} variants={itemVariants} className="border-t border-ink/10 pt-6">
                   <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                     <h4 className="text-lg font-bold text-ink">{exp.role}</h4>
                     <span className="text-sm text-muted">{exp.period}</span>
                   </div>
                   <p className="mb-3 text-sm font-semibold text-vermink">{exp.company}</p>
                   <p className="leading-relaxed text-muted">{exp.description}</p>
-                </motion.div>
+                </Motion.div>
               ))}
             </div>
 
             <div>
-              <motion.div variants={itemVariants} className="mb-8">
+              <Motion.div variants={itemVariants} className="mb-8">
                 <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="text-2xl font-bold tracking-[-0.02em]">Infrastructure &amp; operations</h3>
                   <span className="text-sm text-muted">Jul 2023 – Jun 2026</span>
@@ -117,9 +117,9 @@ export default function CV() {
                 <p className="text-muted">
                   I run the hosting, DNS, and TLS behind the apps I ship.
                 </p>
-              </motion.div>
+              </Motion.div>
 
-              <motion.dl
+              <Motion.dl
                 variants={itemVariants}
                 className="divide-y divide-ink/10 border-y border-ink/10"
               >
@@ -129,42 +129,42 @@ export default function CV() {
                     <dd className="text-muted">{detail}</dd>
                   </div>
                 ))}
-              </motion.dl>
+              </Motion.dl>
             </div>
           </div>
 
           <div className="space-y-14">
             <div>
-              <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
+              <Motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
                 Education
-              </motion.h3>
+              </Motion.h3>
 
               {education.map((edu) => (
-                <motion.div key={edu.degree} variants={itemVariants} className="border-t border-ink/10 pt-6">
+                <Motion.div key={edu.degree} variants={itemVariants} className="border-t border-ink/10 pt-6">
                   <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                     <h4 className="text-lg font-bold text-ink">{edu.degree}</h4>
                     <span className="text-sm text-muted">{edu.period}</span>
                   </div>
                   <p className="text-muted">{edu.institution}</p>
-                </motion.div>
+                </Motion.div>
               ))}
             </div>
 
             <div>
-              <motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
+              <Motion.h3 variants={itemVariants} className="mb-8 text-2xl font-bold tracking-[-0.02em]">
                 Highlights
-              </motion.h3>
+              </Motion.h3>
 
-              <motion.ul variants={itemVariants} className="divide-y divide-ink/10 border-t border-ink/10">
+              <Motion.ul variants={itemVariants} className="divide-y divide-ink/10 border-t border-ink/10">
                 {highlights.map((item) => (
                   <li key={item} className="py-4 text-muted">
                     {item}
                   </li>
                 ))}
-              </motion.ul>
+              </Motion.ul>
             </div>
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   );

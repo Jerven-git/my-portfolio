@@ -25,5 +25,5 @@ dist-ssr
 
 # Impeccable design context (local only)
 PRODUCT.md
-DESIGN.md
-.impeccable/
+.impeccable/*
+!.impeccable/design.json

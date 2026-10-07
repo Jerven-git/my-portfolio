@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion as Motion, useReducedMotion } from 'framer-motion';
 
 /**
  * One heading treatment for every section.
@@ -121,7 +121,7 @@ export default function SectionHeading({
   }
 
   return (
-    <motion.div variants={springy ? groupVariants : groupFlat} className={wrapper}>
+    <Motion.div variants={springy ? groupVariants : groupFlat} className={wrapper}>
       {/* Split by word, not by letter. Per-letter staggering on a display
           heading turns a two-word phrase into eight separate events and reads
           as effect; per-word keeps it one gesture. No overflow mask, because
@@ -134,21 +134,21 @@ export default function SectionHeading({
       <h2 className={h2}>
         {words.map((w, i) => (
           <Fragment key={`${w}-${i}`}>
-            <motion.span
+            <Motion.span
               variants={reduced ? wordStill : springy ? wordSpring : wordCalm}
               className="inline-block"
             >
               {w}
-            </motion.span>
+            </Motion.span>
             {i < words.length - 1 ? ' ' : null}
           </Fragment>
         ))}
       </h2>
       {lede && (
-        <motion.p variants={reduced ? ledeStill : ledeVariants} className={p}>
+        <Motion.p variants={reduced ? ledeStill : ledeVariants} className={p}>
           {lede}
-        </motion.p>
+        </Motion.p>
       )}
-    </motion.div>
+    </Motion.div>
   );
 }
