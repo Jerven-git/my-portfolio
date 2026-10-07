@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion as Motion, useInView } from 'framer-motion';
 
 const aiProjects = [
   {
@@ -60,7 +60,7 @@ export default function AIDevelopment() {
           </p>
         </div>
 
-        <motion.div
+        <Motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
@@ -68,7 +68,7 @@ export default function AIDevelopment() {
           className="border-t border-ink/25"
         >
           {aiProjects.map(({ id, title, description, tech }) => (
-            <motion.article
+            <Motion.article
               key={id}
               variants={rowVariants}
               className="grid gap-5 border-b border-ink/25 py-10 md:grid-cols-[1fr_1.4fr] md:gap-14"
@@ -90,9 +90,9 @@ export default function AIDevelopment() {
                   ))}
                 </ul>
               </div>
-            </motion.article>
+            </Motion.article>
           ))}
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   );

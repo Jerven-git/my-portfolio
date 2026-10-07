@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 
 const REDUCED = '(prefers-reduced-motion: reduce)';
@@ -33,7 +33,7 @@ const REDUCED = '(prefers-reduced-motion: reduce)';
  * the attribute is the single source of truth either way.
  */
 export function useIsPlayful() {
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState(() => typeof window !== 'undefined' && window.__MISSION_GRID_REVIEW__ === true);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -48,7 +48,8 @@ export function useIsPlayful() {
 }
 
 export function usePlayfulMode() {
-  const [playful, setPlayful] = useState(false);
+  const [playful, setPlayful] = useState(() => typeof window !== 'undefined' && window.__MISSION_GRID_REVIEW__ === true);
+  const transitionRef = useRef(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -56,17 +57,63 @@ export function usePlayfulMode() {
     else delete root.dataset.playful;
   }, [playful]);
 
-  const toggle = useCallback(() => {
-    const flip = () => setPlayful((p) => !p);
+  const toggle = useCallback((origin) => {
+    if (transitionRef.current) return;
+
+    const root = document.documentElement;
+    const next = !playful;
+    const x = Number.isFinite(origin?.x) ? origin.x : window.innerWidth * 0.82;
+    const y = Number.isFinite(origin?.y) ? origin.y : window.innerHeight * 0.72;
+
+    root.style.setProperty('--mode-origin-x', `${x}px`);
+    root.style.setProperty('--mode-origin-y', `${y}px`);
+    root.dataset.modeTransition = next ? 'to-playful' : 'to-crafted';
+
+    const flip = () => {
+      if (next) root.dataset.playful = 'on';
+      else delete root.dataset.playful;
+      setPlayful(next);
+    };
+
+    const resetPlayfulScroll = () => {
+      if (!next) return;
+      const previousScrollBehavior = root.style.scrollBehavior;
+      const previousOverflowAnchor = root.style.overflowAnchor;
+      root.style.scrollBehavior = 'auto';
+      root.style.overflowAnchor = 'none';
+      const reset = () => {
+        root.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
+      };
+      reset();
+      window.requestAnimationFrame(() => {
+        reset();
+        window.requestAnimationFrame(() => {
+          reset();
+          root.style.scrollBehavior = previousScrollBehavior;
+          root.style.overflowAnchor = previousOverflowAnchor;
+        });
+      });
+    };
 
     const reduced = window.matchMedia(REDUCED).matches;
     if (reduced || typeof document.startViewTransition !== 'function') {
       flip();
+      resetPlayfulScroll();
+      delete root.dataset.modeTransition;
       return;
     }
 
-    document.startViewTransition(() => flushSync(flip));
-  }, []);
+    const transition = document.startViewTransition(() => flushSync(flip));
+    transitionRef.current = transition;
+    const cleanupTransition = () => {
+      if (transitionRef.current === transition) transitionRef.current = null;
+      delete root.dataset.modeTransition;
+      resetPlayfulScroll();
+    };
+    transition.finished.then(cleanupTransition, cleanupTransition);
+  }, [playful]);
 
   return [playful, toggle];
 }

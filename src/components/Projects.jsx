@@ -1,285 +1,267 @@
-import { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { useRef } from 'react';
+import { motion as Motion, useInView, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, Check, Database, LayoutDashboard, Server, ShieldCheck, Store } from 'lucide-react';
 import SectionHeading from './SectionHeading';
 import { useIsPlayful } from '../usePlayfulMode';
-import { useSyncedBeat } from '../useSyncedBeat';
 
-const SHAPES = [0, 1, 2];
-
-const projects = [
+const featuredProjects = [
   {
-    id: 1,
-    title: 'CRM Web App',
-    category: 'Full-Stack',
+    id: 'databasy-platform',
+    name: 'DATABASY / SSU',
+    type: 'Multi-tenant commerce platform',
+    statement: 'A branded storefront for each merchant. One operational workspace behind every store.',
     description:
-      'Added features and modules to an established client-management CRM in production use, working across Laravel with Blade templating and jQuery for dynamic UI behavior.',
-    tech: ['Laravel', 'Blade', 'jQuery', 'PHP', 'MySQL'],
-    featured: false,
-    demo: 'https://crm.databasy.io/login',
+      'Built end to end with Nuxt and Laravel: tenant-resolved storefronts, catalogue and order workflows, configurable themes, subscriptions, payments, domains, staff access, and separate tenant and platform administration.',
+    role: 'Full-stack architecture, product UI, backend APIs, infrastructure',
+    system: 'Nuxt 4 · Laravel · MySQL · Reverb',
+    delivery: 'Docker · NGINX · tenant-aware production stack',
+    proof: ['Host-based tenant isolation', 'Storefront + admin', '2FA and role boundaries'],
+    preview: 'commerce',
+    link: null,
   },
   {
-    id: 2,
-    title: 'Staff Management Platform',
-    category: 'Full-Stack',
+    id: 'databasy-crm',
+    name: 'DataBasy CRM',
+    type: 'Production client-management system',
+    statement: 'Feature work inside a living CRM—not a greenfield demo.',
     description:
-      'Sole developer. Built a staff management system on a Laravel backend with a Vue.js frontend, extending it with additional modules in Django and React.js.',
-    tech: ['Laravel', 'Vue', 'Django', 'React', 'Python'],
-    featured: true,
-    demo: null,
-  },
-  {
-    id: 3,
-    title: 'E-Commerce Web App',
-    category: 'E-Commerce',
-    description:
-      'Sole developer. Designed and built a responsive online store end to end and shipped it to production — a Nuxt.js storefront on a Laravel backend API.',
-    tech: ['Nuxt', 'Vue', 'Laravel', 'PHP'],
-    featured: true,
-    // Was pointed at a scratch domain (default.testing-testing-123.com). A demo
-    // link that reads as a placeholder costs more credibility than no link.
-    demo: null,
-  },
-  {
-    id: 4,
-    title: 'Custom CMS Platform',
-    category: 'Full-Stack',
-    description:
-      'Sole developer. Built a fully modular CMS from scratch — dynamic page building, reusable blocks and sections, a role-based admin panel, and real-time editing. Laravel, Vue/Nuxt, Tailwind CSS.',
-    tech: ['Laravel', 'Vue', 'Nuxt', 'Tailwind CSS'],
-    featured: true,
-    demo: null,
-  },
-  {
-    id: 5,
-    title: 'Shopify Theme Customization',
-    category: 'E-Commerce',
-    description:
-      'Customized Shopify themes on a short-term project, adding features like calendars and product filters using Liquid, HTML, CSS, and JavaScript.',
-    tech: ['Shopify', 'Liquid', 'JavaScript', 'CSS'],
-    featured: false,
-    demo: 'https://sasrentals.com.au/',
+      'Extended an established client-management platform with production features and modules, working across Laravel, Blade, jQuery, PHP, and MySQL while preserving the behaviour of an existing system.',
+    role: 'Full-stack feature delivery and production maintenance',
+    system: 'Laravel · Blade · jQuery · PHP · MySQL',
+    delivery: 'Existing production application with live authentication',
+    proof: ['Mature codebase', 'Server-rendered UI', 'Live production surface'],
+    preview: 'crm',
+    link: 'https://crm.databasy.io/login',
   },
 ];
 
-const categories = ['All', 'Full-Stack', 'E-Commerce'];
+const supportingProjects = [
+  {
+    name: 'Azura Fresh',
+    type: 'Food commerce + operations',
+    description:
+      'A multi-tenant food storefront and admin system covering catalogue, cart, checkout, payments, order tracking, delivery locations, and configurable public content.',
+    tech: 'Nuxt 4 · Laravel · Pinia · MySQL · Docker',
+    link: 'https://azura-fresh.pageone247.com',
+  },
+  {
+    name: 'Sharon Comello Art',
+    type: 'Gallery + art commerce',
+    description:
+      'A contemporary gallery experience for original artwork, collections, commissions, journal stories, gift cards, enquiries, and secure purchasing.',
+    tech: 'Nuxt 4 · Laravel · Pinia · Stripe · Square',
+    link: 'https://sca.pageone247.com',
+  },
+  {
+    name: 'Elite Optometry United',
+    type: 'Optometry + appointment platform',
+    description:
+      'A configurable optometry website and store with services, practice locations, suburb landing pages, embedded appointment booking, and commerce administration.',
+    tech: 'Nuxt 4 · Laravel · Pinia · MySQL · NGINX',
+    link: 'https://eliteoptometry.com.au',
+  },
+  {
+    name: 'Tan',
+    type: 'Configurable commerce platform',
+    description:
+      'A storefront and admin build spanning products, services, commissions, gift cards, editorial content, checkout, payments, and backorders.',
+    tech: 'Nuxt 4 · Laravel · Pinia · MySQL · Docker',
+    status: 'Private staging build',
+  },
+  {
+    name: 'Staff Management Platform',
+    type: 'Internal operations',
+    description:
+      'Sole developer on a Laravel and Vue staff-management system, later extended with Django and React modules.',
+    tech: 'Laravel · Vue · Django · React · Python',
+  },
+  {
+    name: 'Custom CMS Platform',
+    type: 'Content infrastructure',
+    description:
+      'A modular CMS with page building, reusable blocks, role-based administration, and real-time editing.',
+    tech: 'Laravel · Nuxt · Vue · Tailwind CSS',
+  },
+  {
+    name: 'Shopify Storefront Work',
+    type: 'Theme customization',
+    description:
+      'Production theme customization including product filtering, booking-calendar behaviour, and responsive storefront refinements.',
+    tech: 'Shopify · Liquid · JavaScript · CSS',
+    link: 'https://sasrentals.com.au/',
+  },
+];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+const reveal = {
+  hidden: { opacity: 0, y: 26 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.62, ease: [0.25, 1, 0.5, 1] } },
 };
 
-const rowVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 1, 0.5, 1] } },
-  exit: { opacity: 0, transition: { duration: 0.25 } },
-};
-
-/**
- * The three advance-markers beside each index.
- *
- * Hover is driven by one paused WAAPI animation per shape, played forward on
- * enter and reversed on leave. A fresh `animate()` call per event would restart
- * from zero and make a fast in-out flicker; reversing an existing animation
- * picks up from wherever it got to, so an interrupted hover unwinds smoothly.
- */
-function Shapes({ hovered }) {
-  const ref = useRef(null);
-  const animsRef = useRef([]);
-
-  useEffect(() => {
-    const host = ref.current;
-    if (!host) return undefined;
-    const marks = [...host.children];
-    if (!marks.length || typeof marks[0].animate !== 'function') return undefined;
-
-    const anims = marks.map((el, i) => {
-      const a = el.animate(
-        // `translate`, not `transform` — the synced pulse owns scale/opacity on
-        // these same elements, and separate properties compose cleanly.
-        { translate: ['0px', '14px'] },
-        { duration: 420, delay: i * 70, fill: 'both', easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
-      );
-      a.pause();
-      return a;
-    });
-    animsRef.current = anims;
-
-    return () => {
-      anims.forEach((a) => a.cancel());
-      animsRef.current = [];
-    };
-  }, []);
-
-  /* Driven by the row's hover, not this element's. The markers are three 14px
-     bars; requiring the cursor to land on them would make the effect
-     undiscoverable. Hovering anywhere on the project advances them. */
-  useEffect(() => {
-    animsRef.current.forEach((a) => {
-      a.playbackRate = hovered ? 1 : -1;
-      a.play();
-    });
-  }, [hovered]);
-
+function CommercePreview() {
   return (
-    <span ref={ref} aria-hidden className="flex items-center gap-1" data-shapes>
-      {SHAPES.map((i) => (
-        <span
-          key={i}
-          data-beat="pulse"
-          data-beat-delay={i * 110}
-          className="block h-1 w-3.5 rounded-full bg-verm"
-        />
-      ))}
-    </span>
+    <div className="project-preview project-preview--commerce" role="group" aria-label="Illustrative DATABASY storefront and workspace preview">
+      <div className="project-preview__label">
+        <span>DATABASY</span>
+        <span>Storefront + workspace</span>
+      </div>
+      <div className="commerce-preview__stage">
+        <div className="commerce-preview__admin">
+          <div className="commerce-preview__rail" aria-hidden="true">
+            <span className="commerce-preview__mark">D</span>
+            <LayoutDashboard size={14} />
+            <Store size={14} />
+            <Database size={14} />
+          </div>
+          <div className="commerce-preview__workspace">
+            <span className="project-preview__micro">Store workspace</span>
+            <strong>Run the work behind every sale.</strong>
+            <div className="commerce-preview__tasks" aria-hidden="true">
+              <span><Check size={12} /> Catalogue</span>
+              <span><Check size={12} /> Orders</span>
+              <span><Check size={12} /> Appearance</span>
+            </div>
+          </div>
+        </div>
+        <div className="commerce-preview__storefront">
+          <div className="commerce-preview__browser" aria-hidden="true"><i /><i /><i /></div>
+          <span className="project-preview__micro">Tenant storefront</span>
+          <strong>Each store keeps its own identity.</strong>
+          <div className="commerce-preview__product" aria-hidden="true">
+            <span />
+            <span />
+          </div>
+        </div>
+      </div>
+      <p className="project-preview__note">Interface preview based on the real DATABASY product structure.</p>
+    </div>
   );
 }
 
-/* Ruled rows, not a card grid. Featured work gets a larger title and a wider
-   measure; the rest sit tighter. Identical cards repeated five times was the
-   tell — and it gave a CRM the same visual weight as a theme tweak. */
-function ProjectRow({ project, index, animate }) {
-  const { title, description, tech, demo, featured, category } = project;
-  const [hovered, setHovered] = useState(false);
-
+function CrmPreview() {
   return (
-    <motion.article
-      layout
-      variants={rowVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      onPointerEnter={animate ? () => setHovered(true) : undefined}
-      onPointerLeave={animate ? () => setHovered(false) : undefined}
-      className="group grid gap-5 border-b border-ink/10 py-10 md:grid-cols-[1fr_1.4fr] md:gap-14"
-    >
-      <div>
-        {/* The index is the section's spine and stays in both modes — it is
-            information design, not decoration. Only the shapes beside it move,
-            and only in playful mode.
-
-            The number is the project's position in the full list, not in the
-            filtered view. Renumbering per filter would make "01" refer to a
-            different project depending on which button is pressed; the gaps
-            are honest and quietly say there is more behind the filter. */}
-        <div className="mb-3 flex items-center gap-3">
-          <span className="font-mono text-sm font-bold tabular-nums text-vermink">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-          {/* Rendered only when they can move. Static, the three marks are
-              decoration that means nothing — they read as advance-markers
-              purely because they advance. */}
-          {animate && <Shapes hovered={hovered} />}
+    <div className="project-preview project-preview--crm" role="group" aria-label="Illustrative DataBasy CRM workspace preview">
+      <div className="project-preview__label">
+        <span>DataBasy CRM</span>
+        <span>Production system</span>
+      </div>
+      <div className="crm-preview__shell">
+        <div className="crm-preview__nav">
+          <span className="crm-preview__brand">DB</span>
+          <span className="is-active">Workspace</span>
+          <span>Records</span>
+          <span>Modules</span>
         </div>
+        <div className="crm-preview__main">
+          <div>
+            <span className="project-preview__micro">Client management</span>
+            <strong>Production features in an established application.</strong>
+          </div>
+          <div className="crm-preview__rows" aria-hidden="true">
+            <span><i /> Laravel modules <b>Live</b></span>
+            <span><i /> Blade interface <b>Maintained</b></span>
+            <span><i /> MySQL data layer <b>Production</b></span>
+          </div>
+        </div>
+      </div>
+      <p className="project-preview__note">Illustrative view; the live link opens the product login.</p>
+    </div>
+  );
+}
 
-        <h3
-          className={`font-extrabold tracking-[-0.03em] text-ink ${
-            featured ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'
-          }`}
-        >
-          {title}
-        </h3>
-        <p className="mt-2 text-sm text-muted">{category}</p>
+function FeaturedProject({ project, index }) {
+  return (
+    <Motion.article
+      variants={reveal}
+      className={`featured-project ${index % 2 ? 'featured-project--reverse' : ''}`}
+    >
+      <div className="featured-project__visual">
+        {project.preview === 'commerce' ? <CommercePreview /> : <CrmPreview />}
       </div>
 
-      <div>
-        <p className={`leading-relaxed text-muted ${featured ? 'text-lg' : 'text-base'}`}>
-          {description}
-        </p>
+      <div className="featured-project__copy">
+        <div className="featured-project__identity">
+          <span>{project.type}</span>
+          <h3>{project.name}</h3>
+        </div>
+        <p className="featured-project__statement">{project.statement}</p>
+        <p className="featured-project__description">{project.description}</p>
 
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {tech.map((t) => (
-            <li key={t} className="rounded-full border border-ink/15 px-3 py-1 text-xs font-medium text-ink">
-              {t}
-            </li>
-          ))}
+        <dl className="featured-project__facts">
+          <div><dt>Role</dt><dd>{project.role}</dd></div>
+          <div><dt>System</dt><dd>{project.system}</dd></div>
+          <div><dt>Delivery</dt><dd>{project.delivery}</dd></div>
+        </dl>
+
+        <ul className="featured-project__proof" aria-label={`${project.name} project highlights`}>
+          {project.proof.map((item) => <li key={item}><ShieldCheck size={15} />{item}</li>)}
         </ul>
 
-        {demo ? (
-          <a
-            href={demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-vermink underline-offset-4 hover:underline"
-          >
-            Visit the live site
-            <ArrowUpRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        {project.link ? (
+          <a className="featured-project__link" href={project.link} target="_blank" rel="noopener noreferrer">
+            Open the live login <ArrowUpRight size={16} />
           </a>
         ) : (
-          <p className="mt-6 text-sm text-muted">Private client work — no public demo.</p>
+          <p className="featured-project__private"><Server size={15} /> Private product build</p>
         )}
       </div>
-    </motion.article>
+    </Motion.article>
   );
 }
 
 export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState('All');
   const ref = useRef(null);
-  const sectionRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
   const playful = useIsPlayful();
   const reduced = useReducedMotion();
-  const animate = playful && !reduced;
-
-  const filtered =
-    activeFilter === 'All' ? projects : projects.filter((p) => p.category === activeFilter);
-
-  /* `activeFilter` is the re-attach signal: rows unmount on filter change, so
-     their animations die with them and the survivors need re-tagging. The hook
-     keeps its epoch across runs, so nothing re-phases. */
-  useSyncedBeat(sectionRef, animate, activeFilter);
+  const lively = playful && !reduced;
 
   return (
-    <section ref={sectionRef} id="projects" className="relative bg-canvas px-6 py-28 text-ink">
-      <div className="mx-auto max-w-6xl">
+    <section id={playful ? 'project-archive' : 'projects'} className="projects-showcase relative bg-canvas px-6 py-28 text-ink">
+      <Motion.div
+        ref={ref}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+        variants={{ visible: { transition: { staggerChildren: reduced ? 0 : 0.12 } } }}
+        className="mx-auto max-w-6xl"
+      >
         <SectionHeading
-          title="What I've built"
-          beatWord={animate ? 'built' : undefined}
-          lede="Full-stack applications, e-commerce storefronts, and the infrastructure underneath them."
+          title="Systems in production"
+          beatWord={lively ? 'production' : undefined}
+          lede="The work behind the claim: platform architecture, a living CRM, and client products operating across commerce, healthcare, food, and art."
         />
 
-        <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label="Filter projects by category">
-          {categories.map((cat) => {
-            const active = activeFilter === cat;
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveFilter(cat)}
-                aria-pressed={active}
-                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 ${
-                  active
-                    ? 'bg-verm text-ink'
-                    : 'border border-ink/15 text-muted hover:border-ink/40 hover:text-ink'
-                }`}
-              >
-                {cat}
-              </button>
-            );
-          })}
+        <div className="featured-projects">
+          {featuredProjects.map((project, index) => (
+            <FeaturedProject key={project.id} project={project} index={index} />
+          ))}
         </div>
 
-        <motion.div
-          ref={ref}
-          layout
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="border-t border-ink/10"
-        >
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
-              <ProjectRow
-                key={project.id}
-                project={project}
-                index={projects.indexOf(project)}
-                animate={animate}
-              />
+        <Motion.div variants={reveal} className="supporting-projects">
+          <div className="supporting-projects__intro">
+            <h3>More shipped work</h3>
+            <p>Named client products and selected systems across distinct industries.</p>
+          </div>
+          <div className="supporting-projects__list">
+            {supportingProjects.map((project) => (
+              <article key={project.name} className="supporting-project">
+                <div>
+                  <span>{project.type}</span>
+                  <h4>{project.name}</h4>
+                </div>
+                <p>{project.description}</p>
+                <div className="supporting-project__meta">
+                  <span>{project.tech}{project.status ? ` · ${project.status}` : ''}</span>
+                  {project.link && (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.name}`}>
+                      <ArrowUpRight size={17} />
+                    </a>
+                  )}
+                </div>
+              </article>
             ))}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+          </div>
+        </Motion.div>
+      </Motion.div>
     </section>
   );
 }

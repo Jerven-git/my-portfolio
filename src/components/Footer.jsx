@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 
 const socials = [
@@ -60,7 +60,7 @@ export default function Footer() {
             <p className="mb-4 text-sm font-semibold">Elsewhere</p>
             <div className="flex gap-3">
               {socials.map(({ icon: Icon, href, label }) => (
-                <motion.a
+                <Motion.a
                   key={label}
                   href={href}
                   aria-label={label}
@@ -68,7 +68,7 @@ export default function Footer() {
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-canvas/20 text-canvas/70 transition-colors duration-200 hover:border-canvas/60 hover:text-canvas"
                 >
                   <Icon size={16} />
-                </motion.a>
+                </Motion.a>
               ))}
             </div>
           </div>

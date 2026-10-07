@@ -1,9 +1,8 @@
 import { useCallback, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail, ArrowUpRight, MousePointer2 } from 'lucide-react';
+import { motion as Motion, useReducedMotion } from 'framer-motion';
+import { ArrowDown, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 import { usePlayfulMode } from '../usePlayfulMode';
-import PlayfulScene from './PlayfulScene';
-import CursorBubbles from './CursorBubbles';
+import MissionGridHero from './MissionGridHero';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/Jerven-git', label: 'GitHub' },
@@ -60,13 +59,20 @@ function ModeToggle({ playful, onToggle, tone }) {
   return (
     <button
       type="button"
-      onClick={onToggle}
+      onClick={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const pointerTriggered = event.clientX !== 0 || event.clientY !== 0;
+        onToggle({
+          x: pointerTriggered ? event.clientX : rect.left + rect.width / 2,
+          y: pointerTriggered ? event.clientY : rect.top + rect.height / 2,
+        });
+      }}
       aria-pressed={playful}
       style={VT.toggle}
       className={
         onVermilion
-          ? 'group inline-flex items-center gap-2 self-start rounded-full border border-ink/25 px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-ink hover:text-verm'
-          : 'sticker group inline-flex items-center gap-2 self-center bg-verm px-6 py-3 text-sm text-ink'
+          ? 'group inline-flex items-center gap-2 self-start rounded-full border border-ink/25 px-5 py-2.5 text-sm font-semibold text-ink transition duration-200 hover:bg-ink hover:text-verm active:scale-[0.96]'
+          : 'sticker group inline-flex items-center gap-2 self-center bg-verm px-6 py-3 text-sm text-ink active:scale-[0.96]'
       }
     >
       {playful ? 'Back to the sharp one' : 'See the playful one'}
@@ -87,72 +93,8 @@ function ModeToggle({ playful, onToggle, tone }) {
  * The 3D stage sits above the headline rather than behind it. Text over a
  * moving maroon blob cannot hold a contrast ratio, and no amount of scrim
  * fixes that honestly; stacking them keeps every ratio in the table intact. */
-function PlayfulHero({ onToggle, reduced, entrance }) {
-  const rise = useRise(reduced, entrance);
-
-  return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-dots px-6 py-14">
-      <CursorBubbles reduced={reduced} />
-
-      {/* The whole column is sized to land the return toggle above the fold at
-          900px tall. Stranding the only way back below the scroll would make
-          the mode feel like a trap rather than a switch. */}
-      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
-        <motion.div
-          {...rise(0)}
-          style={VT.wash}
-          className="pointer-events-none h-[clamp(140px,22vh,230px)] w-full"
-        >
-          <PlayfulScene reduced={reduced} />
-        </motion.div>
-
-        <motion.div
-          {...rise(0.06)}
-          className="mb-4 inline-flex items-center gap-2 rounded-full bg-surface px-4 py-1.5 text-sm font-bold text-vermink"
-        >
-          <MousePointer2 size={14} className={reduced ? undefined : 'bob'} />
-          Move your cursor
-        </motion.div>
-
-        <motion.h1 {...rise(0.12)} style={VT.headline} className="playful-title mb-5">
-          Same systems.
-          <br />
-          <span className="text-vermink">More bounce.</span>
-        </motion.h1>
-
-        <motion.p {...rise(0.2)} className="lede mb-7 text-muted">
-          Full-stack developer. CRM platforms, storefronts, and modular CMSs — architected, built,
-          and shipped end to end. The rigour doesn&apos;t change when the palette does.
-        </motion.p>
-
-        <motion.div {...rise(0.28)} className="mb-7 flex flex-wrap items-center justify-center gap-4">
-          <a href="mailto:latayada1233@gmail.com" className="sticker bg-verm px-8 py-3.5 text-ink">
-            Email me
-          </a>
-          <a href="#cv" className="sticker-ghost px-8 py-3.5 text-ink">
-            Download CV
-          </a>
-        </motion.div>
-
-        <motion.div {...rise(0.36)} className="mb-7 flex items-center gap-4">
-          {socialLinks.map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              aria-label={label}
-              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ink/15 text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-vermink hover:text-vermink"
-            >
-              <Icon size={18} />
-            </a>
-          ))}
-        </motion.div>
-
-        <motion.div {...rise(0.44)}>
-          <ModeToggle playful onToggle={onToggle} tone="playful" />
-        </motion.div>
-      </div>
-    </div>
-  );
+function PlayfulHero({ onToggle }) {
+  return <MissionGridHero onExit={() => onToggle()} />;
 }
 
 function CraftHero({ onToggle, reduced, entrance }) {
@@ -162,18 +104,18 @@ function CraftHero({ onToggle, reduced, entrance }) {
     <div className="relative min-h-screen">
       <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-x-10 px-6 md:grid-cols-12">
         <div className="py-24 md:col-span-7 md:py-0">
-          <motion.h1 {...rise(0)} style={VT.headline} className="display mb-7">
+          <Motion.h1 {...rise(0)} style={VT.headline} className="display mb-7">
             I build entire
             <br />
             systems. Alone.
-          </motion.h1>
+          </Motion.h1>
 
-          <motion.p {...rise(0.08)} className="lede mb-10 text-muted">
+          <Motion.p {...rise(0.08)} className="lede mb-10 text-muted">
             Full-stack developer. CRM platforms, storefronts, and modular CMSs — architected,
             built, and shipped end to end.
-          </motion.p>
+          </Motion.p>
 
-          <motion.div {...rise(0.16)} className="mb-8 flex flex-wrap items-center gap-3">
+          <Motion.div {...rise(0.16)} className="mb-8 flex flex-wrap items-center gap-3">
             <a
               href="mailto:latayada1233@gmail.com"
               className="rounded-full bg-verm px-7 py-3.5 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0"
@@ -181,19 +123,19 @@ function CraftHero({ onToggle, reduced, entrance }) {
               Email me
             </a>
             <a
-              href="#cv"
+              href="/cv.pdf"
+              download
               className="rounded-full border border-ink/20 px-7 py-3.5 font-semibold text-ink transition-colors duration-200 hover:border-ink/50"
             >
               Download CV
             </a>
-          </motion.div>
+          </Motion.div>
 
-          {/* Speed is the closing argument, never the opener. */}
-          <motion.p {...rise(0.24)} className="text-sm text-muted">
-            AI-augmented delivery. Weeks, not quarters.
-          </motion.p>
+          <Motion.p {...rise(0.24)} className="text-sm text-muted">
+            Based in Davao City · Available for full-stack product work.
+          </Motion.p>
 
-          <motion.div {...rise(0.32)} className="mt-12 flex items-center gap-4">
+          <Motion.div {...rise(0.32)} className="mt-12 flex items-center gap-4">
             {socialLinks.map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
@@ -204,13 +146,13 @@ function CraftHero({ onToggle, reduced, entrance }) {
                 <Icon size={17} />
               </a>
             ))}
-          </motion.div>
+          </Motion.div>
         </div>
       </div>
 
       {/* Committed vermilion field: ~38% of the surface. Wipes out as the
           playful 3D stage blooms in. */}
-      <motion.aside
+      <Motion.aside
         {...rise(0.1)}
         style={VT.field}
         className="flex flex-col justify-end gap-7 bg-verm px-8 py-16 md:absolute md:inset-y-0 md:right-0 md:w-[38%] md:px-12 md:py-14"
@@ -219,20 +161,20 @@ function CraftHero({ onToggle, reduced, entrance }) {
           AI helped. It didn&apos;t decide.
         </p>
         <ModeToggle playful={false} onToggle={onToggle} tone="vermilion" />
-      </motion.aside>
+      </Motion.aside>
 
-      <motion.div
+      <Motion.div
         {...rise(0.5)}
         aria-hidden
         className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-muted md:block"
       >
-        <motion.div
+        <Motion.div
           animate={reduced ? undefined : { y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
         >
           <ArrowDown size={16} />
-        </motion.div>
-      </motion.div>
+        </Motion.div>
+      </Motion.div>
     </div>
   );
 }
@@ -246,9 +188,9 @@ export default function Hero() {
   // holding `opacity: 0` when the browser snapshots the incoming DOM.
   const [hasToggled, setHasToggled] = useState(false);
 
-  const handleToggle = useCallback(() => {
+  const handleToggle = useCallback((origin) => {
     setHasToggled(true);
-    toggle();
+    toggle(origin);
   }, [toggle]);
 
   const entrance = !hasToggled;

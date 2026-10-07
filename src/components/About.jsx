@@ -1,4 +1,4 @@
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion as Motion, useInView, useReducedMotion } from 'framer-motion';
 import { useRef } from 'react';
 import SectionHeading from './SectionHeading';
 import { useIsPlayful } from '../usePlayfulMode';
@@ -135,7 +135,7 @@ export default function About() {
   return (
     <section id="about" className="relative bg-canvas px-6 py-28 text-ink">
       <div className="mx-auto max-w-6xl">
-        <motion.div ref={ref} variants={containerVariants} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
+        <Motion.div ref={ref} variants={containerVariants} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
           {/* Always split, in both modes. `lively` changes only the timing, so
               the DOM never churns on a toggle. Conditionally swapping between a
               plain and a split heading remounted it mid-life and left the words
@@ -147,12 +147,12 @@ export default function About() {
             lede="I turn complex problems into systems that hold up in production — and I've been doing it across the whole stack for three years."
           />
 
-          <motion.dl
+          <Motion.dl
             variants={lively ? staggerOn : staggerOff}
             className="mb-20 flex flex-col gap-8 border-y border-ink/10 py-8 sm:flex-row sm:gap-16"
           >
             {stats.map(({ value, label }) => (
-              <motion.div
+              <Motion.div
                 key={label}
                 variants={statVariant}
                 className="group flex items-baseline gap-3"
@@ -162,22 +162,22 @@ export default function About() {
                   {/* Only the number lifts on hover. Moving the label with it
                       would drag the whole row and lose the sense that the
                       figure itself is the object being touched. */}
-                  <motion.span
+                  <Motion.span
                     whileHover={lively ? spring(-6) : undefined}
                     className={`inline-block text-4xl font-extrabold tracking-[-0.04em] text-verm transition-colors duration-200${
                       lively ? ' cursor-default group-hover:text-vermink' : ''
                     }`}
                   >
                     {value}
-                  </motion.span>
+                  </Motion.span>
                   <span className="max-w-[16ch] text-sm leading-snug text-muted">{label}</span>
                 </dd>
-              </motion.div>
+              </Motion.div>
             ))}
-          </motion.dl>
+          </Motion.dl>
 
           <div className="grid items-start gap-14 md:grid-cols-2">
-            <motion.div variants={itemVariants} className="space-y-5">
+            <Motion.div variants={itemVariants} className="space-y-5">
               <p className="text-lg leading-relaxed text-ink">
                 I work across the full web stack — front-ends with Vue, Nuxt, and React, back-ends
                 with Laravel, Django, and Python.
@@ -200,33 +200,33 @@ export default function About() {
                   </div>
                 ))}
               </dl>
-            </motion.div>
+            </Motion.div>
 
             {/* A ruled list, not a card grid. Five identical cards with an icon
                 tile above each heading was the template tell. */}
-            <motion.ul
+            <Motion.ul
               variants={lively ? listStaggerOn : staggerOff}
               className="divide-y divide-ink/10 border-y border-ink/10"
             >
               {highlights.map(({ title, description }) => (
-                <motion.li key={title} variants={rowVariant} className="group py-5">
+                <Motion.li key={title} variants={rowVariant} className="group py-5">
                   {/* Only the title reacts to hover. Lifting the description
                       with it would move a paragraph the reader may be mid-way
                       through, which is motion working against reading. The
                       colour shift is original craft behaviour and stays in both
                       modes; only the lift is playful-only. */}
-                  <motion.h3
+                  <Motion.h3
                     whileHover={lively ? spring(-3) : undefined}
                     className="mb-1.5 origin-left text-base font-bold text-ink transition-colors group-hover:text-verm"
                   >
                     {title}
-                  </motion.h3>
+                  </Motion.h3>
                   <p className="text-sm leading-relaxed text-muted">{description}</p>
-                </motion.li>
+                </Motion.li>
               ))}
-            </motion.ul>
+            </Motion.ul>
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   );

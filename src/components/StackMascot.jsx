@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
 
 /**
  * The stack section's mascot. Playful mode only.
@@ -43,7 +43,7 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1];
  */
 function Character({ reduced }) {
   return (
-    <motion.svg
+    <Motion.svg
       width="62"
       height="62"
       viewBox="0 0 62 62"
@@ -53,14 +53,14 @@ function Character({ reduced }) {
       transition={{ repeat: Infinity, duration: 2.4, ease: 'easeInOut' }}
     >
       {/* waving hand — behind the head, so any overlap reads as depth */}
-      <motion.g
+      <Motion.g
         style={{ transformBox: 'fill-box', transformOrigin: 'bottom center' }}
         animate={reduced ? { rotate: -14 } : { rotate: [-12, 16, -12] }}
         transition={{ repeat: Infinity, duration: 1.05, ease: 'easeInOut' }}
       >
         <rect x="46.5" y="25" width="8" height="15" rx="4" fill={BODY} />
         <circle cx="50.5" cy="23" r="6.4" fill={SKIN} />
-      </motion.g>
+      </Motion.g>
 
       {/* head */}
       <circle cx="27" cy="32" r="19" fill={SKIN} />
@@ -83,7 +83,7 @@ function Character({ reduced }) {
         strokeLinecap="round"
         fill="none"
       />
-    </motion.svg>
+    </Motion.svg>
   );
 }
 
@@ -96,7 +96,7 @@ export default function StackMascot({ active }) {
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <AnimatePresence>
         {active && (
-          <motion.div
+          <Motion.div
             key="mascot"
             className="absolute right-2 flex items-center gap-2"
             initial={{ opacity: 0, x: 26 }}
@@ -111,7 +111,7 @@ export default function StackMascot({ active }) {
               x: { duration: 0.32, ease: EASE_OUT_EXPO },
             }}
           >
-            <motion.div
+            <Motion.div
               key={active.key}
               initial={{ opacity: 0, y: 6, scale: 0.94 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -121,10 +121,10 @@ export default function StackMascot({ active }) {
               {active.el.hi}
               {/* bubble tail */}
               <span className="absolute -right-1 top-1/2 h-3 w-3 -translate-y-1/2 rotate-45 rounded-[3px] bg-surface" />
-            </motion.div>
+            </Motion.div>
 
             <Character reduced={false} />
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
     </div>

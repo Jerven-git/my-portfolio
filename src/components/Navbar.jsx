@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useIsPlayful } from '../usePlayfulMode';
 
 const links = [
+  { label: 'Projects', href: '#projects' },
   { label: 'About', href: '#about' },
   { label: 'Stack', href: '#stack' },
-  { label: 'Projects', href: '#projects' },
   { label: 'AI Dev', href: '#ai-development' },
   { label: 'CV', href: '#cv' },
 ];
 
 export default function Navbar() {
+  const playful = useIsPlayful();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -20,8 +22,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (playful) return null;
+
   return (
-    <motion.nav
+    <Motion.nav
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -32,18 +36,18 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-        <motion.a
+        <Motion.a
           href="#hero"
           whileHover={{ scale: 1.05 }}
           className="text-xl font-bold text-ink tracking-tight"
         >
           &lt;Jerven /&gt;
-        </motion.a>
+        </Motion.a>
 
         {/* Desktop Links */}
         <ul className="hidden md:flex items-center gap-8">
           {links.map((link, i) => (
-            <motion.li
+            <Motion.li
               key={link.label}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -56,20 +60,20 @@ export default function Navbar() {
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-ink group-hover:w-full transition-all duration-300" />
               </a>
-            </motion.li>
+            </Motion.li>
           ))}
-          <motion.li
+          <Motion.li
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
             <a
-              href="#cv"
+              href="mailto:latayada1233@gmail.com"
               className="text-sm font-semibold px-4 py-2 rounded-full border border-ink/30 text-ink hover:bg-ink hover:text-canvas transition-colors duration-200"
             >
-              Hire Me
+              Email Jerven
             </a>
-          </motion.li>
+          </Motion.li>
         </ul>
 
         {/* Mobile Menu Button */}
@@ -86,7 +90,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -106,9 +110,9 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </Motion.nav>
   );
 }

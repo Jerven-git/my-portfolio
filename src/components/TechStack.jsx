@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion as Motion, useInView } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import SectionHeading from './SectionHeading';
@@ -122,7 +122,7 @@ const CategoryRow = forwardRef(function CategoryRow(
   ref
 ) {
   return (
-    <motion.div
+    <Motion.div
       ref={ref}
       variants={rowVariants}
       onPointerEnter={onEnter}
@@ -175,7 +175,7 @@ const CategoryRow = forwardRef(function CategoryRow(
           </a>
         )}
       </div>
-    </motion.div>
+    </Motion.div>
   );
 });
 
@@ -261,7 +261,7 @@ export default function TechStack() {
           lede="Front-end frameworks, real-time 3D, back-end systems, e-commerce platforms, cloud infrastructure, and AI-assisted development."
         />
 
-        <motion.div
+        <Motion.div
           ref={(node) => {
             ref.current = node;
             listRef.current = node;
@@ -289,7 +289,7 @@ export default function TechStack() {
               onLeave={handleLeave}
             />
           ))}
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   );
