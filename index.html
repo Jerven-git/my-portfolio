@@ -7,6 +7,15 @@
     <meta name="description" content="Jerven — Full-Stack Web Developer. Building modern web applications with React, Laravel, Vue, Django, and more." />
     <meta name="theme-color" content="#fef7f5" />
     <title>Jerven | Full-Stack Web Developer</title>
+    <script>
+      try {
+        if (window.localStorage.getItem('jerven-portfolio-mode') === 'playful') {
+          document.documentElement.dataset.playful = 'on';
+        }
+      } catch {
+        // Storage can be unavailable in privacy-restricted browsers.
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

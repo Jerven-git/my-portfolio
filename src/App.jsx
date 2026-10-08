@@ -8,6 +8,7 @@ import AIDevelopment from './components/AIDevelopment';
 import CV from './components/CV';
 import Footer from './components/Footer';
 import MissionGridCampaign from './components/MissionGridCampaign';
+import PixelPortalTransition from './components/PixelPortalTransition';
 import { useIsPlayful } from './usePlayfulMode';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-canvas text-ink">
+      <PixelPortalTransition />
       <Navbar />
       <main>
         <Hero />

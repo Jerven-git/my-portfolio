@@ -1,7 +1,33 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 
 const REDUCED = '(prefers-reduced-motion: reduce)';
+const MODE_STORAGE_KEY = 'jerven-portfolio-mode';
+const PORTAL_COVER_MS = 520;
+const PORTAL_REVEAL_MS = 540;
+const REDUCED_COVER_MS = 90;
+const REDUCED_REVEAL_MS = 130;
+let portalTransitionActive = false;
+
+function readPlayfulPreference() {
+  if (typeof window === 'undefined') return false;
+  if (window.__MISSION_GRID_REVIEW__ === true) return true;
+  if (document.documentElement.dataset.playful === 'on') return true;
+
+  try {
+    return window.localStorage.getItem(MODE_STORAGE_KEY) === 'playful';
+  } catch {
+    return false;
+  }
+}
+
+function storePlayfulPreference(playful) {
+  try {
+    window.localStorage.setItem(MODE_STORAGE_KEY, playful ? 'playful' : 'crafted');
+  } catch {
+    // The mode still works for this visit when storage is unavailable.
+  }
+}
 
 /**
  * Playful mode: flips the page into the maroon-and-white system.
@@ -14,15 +40,11 @@ const REDUCED = '(prefers-reduced-motion: reduce)';
  * State lives on <html data-playful> rather than in React so that CSS alone
  * drives the swap — every section responds without threading props.
  *
- * The toggle is the site's signature moment, so it runs through the View
- * Transitions API: the headline morphs in place, the vermilion field wipes out
- * as the 3D stage blooms in, the toggle button travels. flushSync is required —
- * the browser snapshots the DOM the instant the callback returns, so the React
- * update has to be synchronous or it captures the old tree twice.
- *
- * Progressive enhancement: without startViewTransition (Firefox today), or
- * under prefers-reduced-motion, this is a plain state flip. The 0.55s body
- * color/font transition still carries it, and the mode still works.
+ * The toggle is the site's signature moment. A full-screen pixel portal grows
+ * from the control the visitor activated, covers the viewport, swaps worlds,
+ * then collapses to reveal the destination. Because the swap happens only
+ * while the portal is opaque, it works consistently without relying on the
+ * View Transitions API. Reduced-motion visitors get a short color handoff.
  */
 /**
  * Read-only view of the mode, for sections that need to know without owning it.
@@ -33,7 +55,7 @@ const REDUCED = '(prefers-reduced-motion: reduce)';
  * the attribute is the single source of truth either way.
  */
 export function useIsPlayful() {
-  const [on, setOn] = useState(() => typeof window !== 'undefined' && window.__MISSION_GRID_REVIEW__ === true);
+  const [on, setOn] = useState(readPlayfulPreference);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -48,35 +70,44 @@ export function useIsPlayful() {
 }
 
 export function usePlayfulMode() {
-  const [playful, setPlayful] = useState(() => typeof window !== 'undefined' && window.__MISSION_GRID_REVIEW__ === true);
-  const transitionRef = useRef(null);
+  const [playful, setPlayful] = useState(readPlayfulPreference);
 
   useEffect(() => {
     const root = document.documentElement;
-    if (playful) root.dataset.playful = 'on';
-    else delete root.dataset.playful;
-  }, [playful]);
+    const read = () => setPlayful(root.dataset.playful === 'on');
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(root, { attributes: true, attributeFilter: ['data-playful'] });
+    return () => mo.disconnect();
+  }, []);
 
   const toggle = useCallback((origin) => {
-    if (transitionRef.current) return;
+    if (portalTransitionActive) return;
 
     const root = document.documentElement;
+    const app = document.getElementById('root');
     const next = !playful;
     const x = Number.isFinite(origin?.x) ? origin.x : window.innerWidth * 0.82;
     const y = Number.isFinite(origin?.y) ? origin.y : window.innerHeight * 0.72;
+    const reduced = window.matchMedia(REDUCED).matches;
+    const coverDuration = reduced ? REDUCED_COVER_MS : PORTAL_COVER_MS;
+    const revealDuration = reduced ? REDUCED_REVEAL_MS : PORTAL_REVEAL_MS;
 
     root.style.setProperty('--mode-origin-x', `${x}px`);
     root.style.setProperty('--mode-origin-y', `${y}px`);
-    root.dataset.modeTransition = next ? 'to-playful' : 'to-crafted';
+    root.dataset.portalDirection = next ? 'enter' : 'exit';
+    root.dataset.portalPhase = 'cover';
+    app?.setAttribute('aria-busy', 'true');
+    portalTransitionActive = true;
 
     const flip = () => {
       if (next) root.dataset.playful = 'on';
       else delete root.dataset.playful;
+      storePlayfulPreference(next);
       setPlayful(next);
     };
 
-    const resetPlayfulScroll = () => {
-      if (!next) return;
+    const resetDestinationScroll = () => {
       const previousScrollBehavior = root.style.scrollBehavior;
       const previousOverflowAnchor = root.style.overflowAnchor;
       root.style.scrollBehavior = 'auto';
@@ -97,22 +128,18 @@ export function usePlayfulMode() {
       });
     };
 
-    const reduced = window.matchMedia(REDUCED).matches;
-    if (reduced || typeof document.startViewTransition !== 'function') {
-      flip();
-      resetPlayfulScroll();
-      delete root.dataset.modeTransition;
-      return;
-    }
+    window.setTimeout(() => {
+      flushSync(flip);
+      resetDestinationScroll();
+      root.dataset.portalPhase = 'reveal';
 
-    const transition = document.startViewTransition(() => flushSync(flip));
-    transitionRef.current = transition;
-    const cleanupTransition = () => {
-      if (transitionRef.current === transition) transitionRef.current = null;
-      delete root.dataset.modeTransition;
-      resetPlayfulScroll();
-    };
-    transition.finished.then(cleanupTransition, cleanupTransition);
+      window.setTimeout(() => {
+        delete root.dataset.portalPhase;
+        delete root.dataset.portalDirection;
+        app?.removeAttribute('aria-busy');
+        portalTransitionActive = false;
+      }, revealDuration);
+    }, coverDuration);
   }, [playful]);
 
   return [playful, toggle];
