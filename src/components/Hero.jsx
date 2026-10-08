@@ -12,35 +12,11 @@ const socialLinks = [
 
 const EASE_OUT_QUART = [0.25, 1, 0.5, 1];
 
-/* View-transition names. Exactly one element may carry a given name at a time;
-   the two heroes never render together, so these are morph targets across the
-   swap, not duplicates.
- *
- * `headline` and `toggle` are shared: the same conceptual object exists on both
- * sides, so the browser interpolates its box and it reads as travel.
- *
- * `field` and `wash` are deliberately NOT shared. Sharing them made the group
- * morph from the right-hand panel to the full-width 3D stage, which stretched
- * the vermilion snapshot into a red wash over the whole page. Two names means
- * two independent animations: the panel wipes out, the stage blooms in.
- * Enter-only and exit-only groups are legal and are what we want here.
- *
- * `wash` names the stage wrapper rather than the <canvas>: a view transition
- * snapshots a canvas as a single scaled frame, so naming the element that
- * actually animates keeps the bloom clean while WebGL starts up beneath it. */
-const VT = {
-  headline: { viewTransitionName: 'hero-headline' },
-  field: { viewTransitionName: 'mode-field' },
-  wash: { viewTransitionName: 'mode-wash' },
-  toggle: { viewTransitionName: 'mode-toggle' },
-};
-
 /**
  * Entrance choreography, first page load only.
  *
- * On a mode toggle the View Transition snapshots the new DOM the instant React
- * commits. If framer were still holding `opacity: 0` for its entrance, that's
- * what the browser would capture — the page would morph into nothing.
+ * On a mode toggle the pixel portal owns the scene change, so the first-load
+ * choreography must not restart underneath it.
  */
 function useRise(reduced, enabled) {
   return (delay = 0) => {
@@ -68,7 +44,6 @@ function ModeToggle({ playful, onToggle, tone }) {
         });
       }}
       aria-pressed={playful}
-      style={VT.toggle}
       className={
         onVermilion
           ? 'group inline-flex items-center gap-2 self-start rounded-full border border-ink/25 px-5 py-2.5 text-sm font-semibold text-ink transition duration-200 hover:bg-ink hover:text-verm active:scale-[0.96]'
@@ -94,7 +69,7 @@ function ModeToggle({ playful, onToggle, tone }) {
  * moving maroon blob cannot hold a contrast ratio, and no amount of scrim
  * fixes that honestly; stacking them keeps every ratio in the table intact. */
 function PlayfulHero({ onToggle }) {
-  return <MissionGridHero onExit={() => onToggle()} />;
+  return <MissionGridHero onExit={onToggle} />;
 }
 
 function CraftHero({ onToggle, reduced, entrance }) {
@@ -104,7 +79,7 @@ function CraftHero({ onToggle, reduced, entrance }) {
     <div className="relative min-h-screen">
       <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-x-10 px-6 md:grid-cols-12">
         <div className="py-24 md:col-span-7 md:py-0">
-          <Motion.h1 {...rise(0)} style={VT.headline} className="display mb-7">
+          <Motion.h1 {...rise(0)} className="display mb-7">
             I build entire
             <br />
             systems. Alone.
@@ -154,7 +129,6 @@ function CraftHero({ onToggle, reduced, entrance }) {
           playful 3D stage blooms in. */}
       <Motion.aside
         {...rise(0.1)}
-        style={VT.field}
         className="flex flex-col justify-end gap-7 bg-verm px-8 py-16 md:absolute md:inset-y-0 md:right-0 md:w-[38%] md:px-12 md:py-14"
       >
         <p className="max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-ink md:text-5xl">
@@ -184,8 +158,8 @@ export default function Hero() {
   const reduced = useReducedMotion();
 
   // The entrance choreography belongs to first paint only. Once the user has
-  // toggled, the View Transition owns the motion — and framer must not be
-  // holding `opacity: 0` when the browser snapshots the incoming DOM.
+  // toggled, the portal owns the motion and the entrance should not replay
+  // underneath it.
   const [hasToggled, setHasToggled] = useState(false);
 
   const handleToggle = useCallback((origin) => {

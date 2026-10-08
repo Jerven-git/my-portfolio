@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   Bot,
   Check,
+  DoorOpen,
   Download,
   ExternalLink,
   Flag,
@@ -19,7 +20,9 @@ import {
 import crmInterface from '../../assets/plates/crm-interface.png';
 import engineerToken from '../../assets/plates/engineer-token.png';
 import projectPaper from '../../assets/plates/project-paper.png';
+import PixelTargetCursor from './PixelTargetCursor';
 import { useArcadeSound } from '../useArcadeSound';
+import { usePlayfulMode } from '../usePlayfulMode';
 
 const clientMissions = [
   {
@@ -104,7 +107,7 @@ function MissionHeading({ marker, children, description }) {
   );
 }
 
-function PersistentHud({ visible, soundOn, onSound }) {
+function PersistentHud({ visible, soundOn, onSound, onExit }) {
   return (
     <div className={`campaign-hud ${visible ? 'is-visible' : ''}`} aria-hidden={!visible}>
       <span><Radio aria-hidden="true" /> Campaign live</span>
@@ -118,6 +121,16 @@ function PersistentHud({ visible, soundOn, onSound }) {
         {soundOn ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
         <span>{soundOn ? 'Sound on' : 'Sound off'}</span>
       </button>
+      <button
+        className="campaign-hud__exit"
+        type="button"
+        onClick={onExit}
+        aria-label="Return to the Crafted portfolio"
+        title="Return to Crafted"
+        tabIndex={visible ? 0 : -1}
+      >
+        <DoorOpen aria-hidden="true" />
+      </button>
     </div>
   );
 }
@@ -127,9 +140,10 @@ export default function MissionGridCampaign() {
   const staticReview = typeof window !== 'undefined' && window.__MISSION_GRID_REVIEW__ === true;
   const calm = reduced || staticReview;
   const { soundOn, toggleSound, blip } = useArcadeSound();
+  const [, toggleMode] = usePlayfulMode();
   const [hudVisible, setHudVisible] = useState(false);
   const [bursts, setBursts] = useState([]);
-  const rootRef = useRef(null);
+  const burstTimersRef = useRef(new Set());
 
   useEffect(() => {
     const update = () => setHudVisible(window.scrollY > window.innerHeight * 0.72);
@@ -138,21 +152,60 @@ export default function MissionGridCampaign() {
     return () => window.removeEventListener('scroll', update);
   }, []);
 
-  const handlePointerDown = (event) => {
-    if (calm || event.pointerType === 'touch' || !event.target.closest('a,button')) return;
-    const id = `${Date.now()}-${Math.random()}`;
-    setBursts((current) => [...current.slice(-3), { id, x: event.clientX, y: event.clientY }]);
-    window.setTimeout(() => setBursts((current) => current.filter((burst) => burst.id !== id)), 520);
+  useEffect(() => {
+    const burstTimers = burstTimersRef.current;
+
+    const handlePointerDown = (event) => {
+      if (!event.isPrimary || event.button !== 0) return;
+
+      if (!staticReview) {
+        const toneTarget = event.target instanceof Element
+          ? event.target.closest('[data-arcade-tone]')
+          : null;
+        blip(toneTarget?.dataset.arcadeTone || 'select');
+      }
+
+      if (calm) return;
+
+      const id = `${Date.now()}-${Math.random()}`;
+      setBursts((current) => [...current.slice(-3), { id, x: event.clientX, y: event.clientY }]);
+
+      const timer = window.setTimeout(() => {
+        setBursts((current) => current.filter((burst) => burst.id !== id));
+        burstTimers.delete(timer);
+      }, 520);
+      burstTimers.add(timer);
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      burstTimers.forEach((timer) => window.clearTimeout(timer));
+      burstTimers.clear();
+    };
+  }, [blip, calm, staticReview]);
+
+  const handleExit = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pointerTriggered = event.clientX !== 0 || event.clientY !== 0;
+    toggleMode({
+      x: pointerTriggered ? event.clientX : rect.left + rect.width / 2,
+      y: pointerTriggered ? event.clientY : rect.top + rect.height / 2,
+    });
   };
 
   return (
     <div
-      ref={rootRef}
       className="campaign-world"
       style={{ '--campaign-paper': `url(${projectPaper})` }}
-      onPointerDown={handlePointerDown}
     >
-      <PersistentHud visible={hudVisible} soundOn={soundOn} onSound={toggleSound} />
+      <PixelTargetCursor disabled={calm} />
+      <PersistentHud
+        visible={hudVisible}
+        soundOn={soundOn}
+        onSound={toggleSound}
+        onExit={handleExit}
+      />
       {bursts.map((burst) => (
         <i key={burst.id} className="campaign-burst" style={{ left: burst.x, top: burst.y }} aria-hidden="true" />
       ))}
@@ -176,7 +229,7 @@ export default function MissionGridCampaign() {
                 <div><dt>Terrain</dt><dd>Mature authenticated codebase</dd></div>
                 <div><dt>Status</dt><dd><span className="campaign-status"><Check aria-hidden="true" /> Live system</span></dd></div>
               </dl>
-              <a href="https://crm.databasy.io/login" target="_blank" rel="noopener noreferrer" onClick={() => blip('collect')}>
+              <a href="https://crm.databasy.io/login" target="_blank" rel="noopener noreferrer" data-arcade-tone="collect">
                 Open live login <ArrowUpRight aria-hidden="true" />
               </a>
             </div>
@@ -208,7 +261,7 @@ export default function MissionGridCampaign() {
               <div className="campaign-route-item__meta">
                 <span>{mission.tech}</span>
                 {mission.link ? (
-                  <a href={mission.link} target="_blank" rel="noopener noreferrer" onClick={() => blip()} aria-label={`Visit ${mission.name}`}>
+                  <a href={mission.link} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${mission.name}`}>
                     Visit <ExternalLink aria-hidden="true" />
                   </a>
                 ) : <strong>{mission.status}</strong>}
@@ -298,7 +351,7 @@ export default function MissionGridCampaign() {
             </article>
           ))}
         </div>
-        <a className="campaign-career__download" href="/cv.pdf" download="Jerven_Latayada_CV.pdf" onClick={() => blip('collect')}>
+        <a className="campaign-career__download" href="/cv.pdf" download="Jerven_Latayada_CV.pdf" data-arcade-tone="collect">
           <Download aria-hidden="true" /> Download CV (PDF)
         </a>
       </section>
@@ -307,7 +360,7 @@ export default function MissionGridCampaign() {
         <span className="campaign-end__status"><ShieldCheck aria-hidden="true" /> Campaign data complete</span>
         <h2>Ready to start<br />the next mission?</h2>
         <p>For full-stack product work, production support, or a project conversation:</p>
-        <a className="campaign-end__email" href="mailto:latayada1233@gmail.com" onClick={() => blip('collect')}>
+        <a className="campaign-end__email" href="mailto:latayada1233@gmail.com" data-arcade-tone="collect">
           <Mail aria-hidden="true" /> Email Jerven
         </a>
         <div className="campaign-end__links">

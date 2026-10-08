@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion as Motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, FileDown, Flag, Mail, Play, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, DoorOpen, FileDown, Flag, Mail, Play, Volume2, VolumeX } from 'lucide-react';
 import campaignMap from '../../assets/plates/campaign-map.png';
 import engineerToken from '../../assets/plates/engineer-token.png';
 import projectPaper from '../../assets/plates/project-paper.png';
 import databasyInterface from '../../assets/plates/databasy-interface.png';
 import crmInterface from '../../assets/plates/crm-interface.png';
-import { useArcadeSound } from '../useArcadeSound';
+import { ARCADE_VOLUME_MAX, ARCADE_VOLUME_MIN, useArcadeSound } from '../useArcadeSound';
 
 const NAV_ITEMS = [
   { label: 'Work', href: '#projects' },
@@ -15,7 +15,9 @@ const NAV_ITEMS = [
   { label: 'Contact', href: 'mailto:latayada1233@gmail.com' },
 ];
 
-function CommandRail({ onExit, soundOn, onSoundToggle }) {
+function CommandRail({ onExit, soundOn, onSoundToggle, volumePercent, onVolumeChange }) {
+  const volumeLevel = ((volumePercent / 100 - ARCADE_VOLUME_MIN) / (ARCADE_VOLUME_MAX - ARCADE_VOLUME_MIN)) * 100;
+
   return (
     <header className="mission-rail">
       <button className="mission-brand" type="button" onClick={onExit} aria-label="Return to the crafted portfolio">
@@ -29,12 +31,39 @@ function CommandRail({ onExit, soundOn, onSoundToggle }) {
           </a>
         ))}
       </nav>
-      <button className="mission-sound" type="button" onClick={onSoundToggle} aria-pressed={soundOn}>
-        {soundOn ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
-        <span>Sound</span>
-        <i className="mission-sound__meter" aria-hidden="true">
-          <b /><b /><b /><b />
-        </i>
+      <div className="mission-sound">
+        <button
+          className="mission-sound__toggle"
+          type="button"
+          onClick={onSoundToggle}
+          aria-label={soundOn ? 'Mute arcade sound' : 'Enable arcade sound'}
+          aria-pressed={soundOn}
+        >
+          {soundOn ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
+          <span>{soundOn ? `${volumePercent}%` : 'Off'}</span>
+        </button>
+        <input
+          className="mission-volume"
+          type="range"
+          min={ARCADE_VOLUME_MIN * 100}
+          max={ARCADE_VOLUME_MAX * 100}
+          step="10"
+          value={volumePercent}
+          onChange={(event) => onVolumeChange(Number(event.target.value) / 100)}
+          aria-label="Arcade sound volume"
+          aria-valuetext={`${volumePercent}%`}
+          disabled={!soundOn}
+          style={{ '--volume-level': `${volumeLevel}%` }}
+        />
+      </div>
+      <button
+        className="mission-exit-door"
+        type="button"
+        onClick={onExit}
+        aria-label="Return to the Crafted portfolio"
+        title="Return to Crafted"
+      >
+        <DoorOpen aria-hidden="true" />
       </button>
     </header>
   );
@@ -56,12 +85,21 @@ export default function MissionGridHero({ onExit }) {
   const reduced = useReducedMotion();
   const staticReview = typeof window !== 'undefined' && window.__MISSION_GRID_REVIEW__ === true;
   const calm = reduced || staticReview;
-  const { soundOn, toggleSound, blip } = useArcadeSound();
+  const { soundOn, toggleSound, blip, volumePercent, setVolume } = useArcadeSound();
   const mapRef = useRef(null);
   const engineerRef = useRef(null);
   const scrollTimerRef = useRef(null);
   const [missionPhase, setMissionPhase] = useState('idle');
   const [routePath, setRoutePath] = useState({ x: [0], y: [0] });
+
+  const handleExit = useCallback((event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pointerTriggered = event.clientX !== 0 || event.clientY !== 0;
+    onExit({
+      x: pointerTriggered ? event.clientX : rect.left + rect.width / 2,
+      y: pointerTriggered ? event.clientY : rect.top + rect.height / 2,
+    });
+  }, [onExit]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -75,9 +113,9 @@ export default function MissionGridHero({ onExit }) {
     });
   }, [reduced]);
 
-  const completeMission = useCallback(() => {
+  const completeMission = useCallback((withSound = true) => {
     setMissionPhase('complete');
-    blip('collect');
+    if (withSound) blip('collect');
     window.clearTimeout(scrollTimerRef.current);
     scrollTimerRef.current = window.setTimeout(scrollToBrief, reduced ? 0 : 480);
   }, [blip, reduced, scrollToBrief]);
@@ -89,9 +127,8 @@ export default function MissionGridHero({ onExit }) {
       return;
     }
 
-    blip('launch');
     if (calm || !mapRef.current || !engineerRef.current) {
-      completeMission();
+      completeMission(false);
       return;
     }
 
@@ -116,11 +153,17 @@ export default function MissionGridHero({ onExit }) {
       y: [0, ...waypoints.map(([, y]) => mapBox.top + mapBox.height * y - origin.y)],
     });
     setMissionPhase('running');
-  }, [blip, calm, completeMission, missionPhase, scrollToBrief]);
+  }, [calm, completeMission, missionPhase, scrollToBrief]);
 
   return (
     <div className={`mission-grid mission-grid--${missionPhase}`}>
-      <CommandRail onExit={onExit} soundOn={soundOn} onSoundToggle={toggleSound} />
+      <CommandRail
+        onExit={handleExit}
+        soundOn={soundOn}
+        onSoundToggle={toggleSound}
+        volumePercent={volumePercent}
+        onVolumeChange={setVolume}
+      />
 
       <div ref={mapRef} className="mission-map" aria-label="Campaign map showing Jerven's portfolio missions">
         <img className="mission-map__terrain" src={campaignMap} alt="Pixel-art island campaign map with routes between project objectives" />
@@ -136,9 +179,9 @@ export default function MissionGridHero({ onExit }) {
           I build entire<br />systems. Alone.
         </Motion.h1>
 
-        <span className="mission-label mission-label--contact">Contact</span>
-        <span className="mission-label mission-label--databasy">DATABASY / SSU</span>
-        <span className="mission-label mission-label--crm">DataBasy CRM</span>
+        <span className="mission-label mission-label--contact"><span>Contact</span></span>
+        <span className="mission-label mission-label--databasy"><span>DATABASY / SSU</span></span>
+        <span className="mission-label mission-label--crm"><span>DataBasy CRM</span></span>
 
         <Motion.img
           ref={engineerRef}
@@ -155,7 +198,7 @@ export default function MissionGridHero({ onExit }) {
           transition={!calm && missionPhase === 'running'
             ? { duration: 2.6, times: [0, 0.12, 0.28, 0.43, 0.58, 0.72, 0.86, 1], ease: [0.45, 0, 0.2, 1] }
             : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          onAnimationComplete={missionPhase === 'running' ? completeMission : undefined}
+          onAnimationComplete={missionPhase === 'running' ? () => completeMission(true) : undefined}
         />
 
         <div className="mission-commands" aria-label="Primary portfolio actions">
@@ -163,6 +206,7 @@ export default function MissionGridHero({ onExit }) {
             className="mission-command mission-command--primary"
             type="button"
             onClick={startMission}
+            data-arcade-tone={missionPhase === 'idle' ? 'launch' : 'select'}
             disabled={missionPhase === 'running'}
             aria-describedby="mission-route-status"
           >
@@ -175,11 +219,11 @@ export default function MissionGridHero({ onExit }) {
                   : 'Start mission'}
             </span>
           </button>
-          <a className="mission-command" href="mailto:latayada1233@gmail.com" onClick={() => blip()}>
+          <a className="mission-command" href="mailto:latayada1233@gmail.com">
             <Mail aria-hidden="true" />
             <span>Email me</span>
           </a>
-          <a className="mission-command" href="/cv.pdf" download onClick={() => blip()}>
+          <a className="mission-command" href="/cv.pdf" download>
             <FileDown aria-hidden="true" />
             <span>Download CV</span>
           </a>
