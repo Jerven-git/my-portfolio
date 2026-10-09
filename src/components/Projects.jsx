@@ -54,17 +54,17 @@ const supportingProjects = [
   },
   {
     name: 'Elite Optometry United',
-    type: 'Optometry + appointment platform',
+    type: 'Optometry services + appointments',
     description:
-      'A configurable optometry website and store with services, practice locations, suburb landing pages, embedded appointment booking, and commerce administration.',
+      'A configurable optometry services website with practice locations, suburb landing pages, and embedded appointment booking, adapted from the SSU codebase.',
     tech: 'Nuxt 4 · Laravel · Pinia · MySQL · NGINX',
     link: 'https://eliteoptometry.com.au',
   },
   {
     name: 'Tan',
-    type: 'Configurable commerce platform',
+    type: 'Configurable services website',
     description:
-      'A storefront and admin build spanning products, services, commissions, gift cards, editorial content, checkout, payments, and backorders.',
+      'A services-focused website and administration experience adapted from the SSU codebase for presenting services and managing public content.',
     tech: 'Nuxt 4 · Laravel · Pinia · MySQL · Docker',
     status: 'Private staging build',
   },
@@ -227,7 +227,7 @@ export default function Projects() {
         <SectionHeading
           title="Systems in production"
           beatWord={lively ? 'production' : undefined}
-          lede="The work behind the claim: platform architecture, a living CRM, and client products operating across commerce, healthcare, food, and art."
+          lede="The work behind the claim: platform architecture, a living CRM, and client products across commerce, healthcare, food, art, and services."
         />
 
         <div className="featured-projects">

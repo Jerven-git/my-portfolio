@@ -44,16 +44,16 @@ const clientMissions = [
   {
     code: 'C',
     name: 'Elite Optometry United',
-    type: 'Optometry + appointments',
-    description: 'A configurable practice website and store with services, locations, suburb landing pages, appointment booking, and commerce administration.',
+    type: 'Optometry services + appointments',
+    description: 'A configurable optometry services website with practice locations, suburb landing pages, and embedded appointment booking, adapted from the SSU codebase.',
     tech: 'Nuxt 4 · Laravel · Pinia · MySQL · NGINX',
     link: 'https://eliteoptometry.com.au',
   },
   {
     code: 'D',
     name: 'Tan',
-    type: 'Configurable commerce platform',
-    description: 'A storefront and admin build spanning products, services, commissions, gift cards, editorial content, checkout, payments, and backorders.',
+    type: 'Configurable services website',
+    description: 'A services-focused website and administration experience adapted from the SSU codebase for presenting services and managing public content.',
     tech: 'Nuxt 4 · Laravel · Pinia · MySQL · Docker',
     status: 'Private staging build',
   },
@@ -238,7 +238,7 @@ export default function MissionGridCampaign() {
       </section>
 
       <section className="campaign-section campaign-quests" aria-labelledby="client-missions-title">
-        <MissionHeading marker="Client missions" description="Named work across food, art, healthcare, and commerce.">
+        <MissionHeading marker="Client missions" description="Named work across food, art, healthcare, commerce, and services.">
           Shipped across different worlds
         </MissionHeading>
         <h2 id="client-missions-title" className="sr-only">Client project missions</h2>
