@@ -56,7 +56,7 @@ const supportingProjects = [
     name: 'Elite Optometry United',
     type: 'Optometry services + appointments',
     description:
-      'A configurable optometry services website with practice locations, suburb landing pages, and embedded appointment booking, adapted from the SSU codebase.',
+      'A configurable optometry services website with practice locations, suburb landing pages, and embedded appointment booking.',
     tech: 'Nuxt 4 · Laravel · Pinia · MySQL · NGINX',
     link: 'https://eliteoptometry.com.au',
   },
@@ -64,7 +64,7 @@ const supportingProjects = [
     name: 'Tan',
     type: 'Configurable services website',
     description:
-      'A services-focused website and administration experience adapted from the SSU codebase for presenting services and managing public content.',
+      'A services-focused website and administration experience for presenting services and managing public content.',
     tech: 'Nuxt 4 · Laravel · Pinia · MySQL · Docker',
     status: 'Private staging build',
   },
