@@ -3,12 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <title>Jerven Q. Latayada — Full-Stack Web Developer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
-      rel="stylesheet"
-    />
     <style>
       /* Tokens mirror src/index.css. Contrast verified against WCAG 2.2 AA:
          ink on canvas 17.68:1 · muted on canvas 6.60:1 · vermink on canvas 5.76:1.
@@ -22,6 +16,34 @@
         --vermink: #c11c04;
       }
 
+      @font-face {
+        font-family: 'Bricolage Grotesque';
+        src: url('../src/assets/bricolage-400.ttf') format('truetype');
+        font-style: normal;
+        font-weight: 400;
+      }
+
+      @font-face {
+        font-family: 'Bricolage Grotesque';
+        src: url('../src/assets/bricolage-600.ttf') format('truetype');
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      @font-face {
+        font-family: 'Bricolage Grotesque';
+        src: url('../src/assets/bricolage-700.ttf') format('truetype');
+        font-style: normal;
+        font-weight: 700;
+      }
+
+      @font-face {
+        font-family: 'Bricolage Grotesque';
+        src: url('../src/assets/bricolage-800.ttf') format('truetype');
+        font-style: normal;
+        font-weight: 800;
+      }
+
       @page {
         size: A4;
         margin: 0;
@@ -31,12 +53,12 @@
 
       body {
         margin: 0;
-        padding: 12mm 14mm 8mm;
+        padding: 9mm 12mm 5mm;
         background: var(--canvas);
         color: var(--ink);
         font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-        font-size: 9.3pt;
-        line-height: 1.36;
+        font-size: 8.8pt;
+        line-height: 11.6pt;
         -webkit-font-smoothing: antialiased;
       }
 
@@ -45,24 +67,24 @@
       /* ── Header ─────────────────────────────────────────────── */
 
       .name {
-        font-size: 27pt;
+        font-size: 25pt;
         font-weight: 800;
         letter-spacing: -0.035em;
-        line-height: 0.95;
+        line-height: 33pt;
         margin: 0;
       }
 
       .role {
-        margin: 3pt 0 0;
-        font-size: 12pt;
+        margin: 0;
+        font-size: 11.5pt;
         font-weight: 600;
         color: var(--vermink);
         letter-spacing: -0.01em;
       }
 
       .contact {
-        margin: 7pt 0 0;
-        font-size: 8.7pt;
+        margin: 5pt 0 0;
+        font-size: 8pt;
         color: var(--muted);
         display: flex;
         flex-wrap: wrap;
@@ -76,22 +98,22 @@
       .contact span:last-child::after { content: none; }
 
       .rule {
-        height: 2.5pt;
+        height: 2.2pt;
         background: var(--verm);
-        margin: 9pt 0 0;
+        margin: 6pt 0 0;
         border: 0;
       }
 
       /* ── Sections ───────────────────────────────────────────── */
 
-      section { margin-top: 8.5pt; break-inside: avoid; }
+      section { margin-top: 6.5pt; break-inside: avoid; }
 
       h2 {
-        margin: 0 0 5pt;
-        font-size: 10.5pt;
+        margin: 0 0 4pt;
+        font-size: 10pt;
         font-weight: 800;
         letter-spacing: -0.015em;
-        padding-bottom: 3pt;
+        padding-bottom: 2.5pt;
         border-bottom: 0.6pt solid rgba(27, 15, 12, 0.18);
       }
 
@@ -105,16 +127,16 @@
         gap: 10pt;
         margin-bottom: 1pt;
       }
-      .entry-title { font-size: 10.5pt; font-weight: 800; letter-spacing: -0.015em; }
-      .entry-dates { font-size: 8.7pt; color: var(--muted); white-space: nowrap; }
-      .entry-org { font-size: 9.3pt; font-weight: 600; color: var(--vermink); margin-bottom: 5pt; }
+      .entry-title { font-size: 10pt; font-weight: 800; letter-spacing: -0.015em; }
+      .entry-dates { font-size: 8.2pt; color: var(--muted); white-space: nowrap; }
+      .entry-org { font-size: 8.8pt; font-weight: 600; color: var(--vermink); margin-bottom: 4pt; }
 
       ul { margin: 0; padding: 0; list-style: none; }
 
       .work li {
         position: relative;
         padding-left: 10pt;
-        margin-bottom: 2.8pt;
+        margin-bottom: 2.2pt;
       }
       /* A round bullet, not a colored side-stripe. */
       .work li::before {
@@ -131,28 +153,82 @@
       .work span { color: var(--muted); }
 
       .stack-note {
-        margin-top: 5pt;
-        padding-top: 4pt;
+        margin-top: 4pt;
+        padding-top: 3pt;
         border-top: 0.6pt solid rgba(27, 15, 12, 0.12);
         color: var(--muted);
-        font-size: 9.1pt;
+        font-size: 8.5pt;
       }
       .stack-note b { color: var(--ink); font-weight: 700; }
 
       .proj-note {
-        margin: -1pt 0 6pt;
+        margin: -1pt 0 4pt;
         color: var(--muted);
-        font-size: 8.9pt;
+        font-size: 8.3pt;
       }
+
+      .featured-projects,
+      .client-projects {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5pt 14pt;
+      }
+
+      .project {
+        break-inside: avoid;
+      }
+
+      .project h3 {
+        margin: 0 0 1pt;
+        font-size: 9.2pt;
+        line-height: 12.2pt;
+      }
+
+      .project h3 a { color: inherit; }
+
+      .project-type {
+        display: block;
+        margin-bottom: 1.5pt;
+        color: var(--vermink);
+        font-size: 7.8pt;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+
+      .project p {
+        color: var(--muted);
+      }
+
+      .project-tech {
+        margin-top: 1.5pt;
+        color: var(--ink) !important;
+        font-size: 7.8pt;
+        font-weight: 600;
+      }
+
+      .client-projects {
+        margin-top: 5pt;
+        padding-top: 5pt;
+        border-top: 0.6pt solid rgba(27, 15, 12, 0.16);
+        gap: 4pt 14pt;
+      }
+
+      .additional-builds {
+        margin-top: 4pt;
+        color: var(--muted);
+        font-size: 8.2pt;
+      }
+
+      .additional-builds b { color: var(--ink); }
 
       /* ── Skills ─────────────────────────────────────────────── */
 
-      .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 2pt 20pt; }
+      .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5pt 20pt; }
       .skills div { display: grid; grid-template-columns: 68pt 1fr; gap: 6pt; }
       .skills dt { font-weight: 700; }
       .skills dd { margin: 0; color: var(--muted); }
 
-      .edu-inst { color: var(--muted); font-size: 9.3pt; }
+      .edu-inst { color: var(--muted); font-size: 8.8pt; }
     </style>
   </head>
   <body>
@@ -173,10 +249,10 @@
     <section>
       <h2>Summary</h2>
       <p class="summary">
-        Full-stack web developer with three years at PageOne247. Sole developer on three end-to-end
-        systems in Laravel and Vue/Nuxt — a modular CMS, a staff management platform, and an
-        e-commerce storefront that shipped to production. I ship the application and run the hosting,
-        DNS, and TLS underneath it, and I use AI-assisted tooling to do both faster.
+        Full-stack web developer with three years at PageOne247, delivering multi-tenant commerce,
+        CMS, staff-management, and CRM systems with Laravel and Vue/Nuxt. I work across product UI,
+        backend APIs, data, deployment, DNS, and TLS, using AI-assisted tooling to accelerate delivery
+        while keeping architecture and review human-owned.
       </p>
     </section>
 
@@ -189,40 +265,32 @@
       </div>
       <p class="entry-org">PageOne247</p>
 
-      <!-- Ordered by ownership, not by what sounds biggest. Solo work first;
-           the CRM was an existing system, so it sits below what was built. -->
       <ul class="work">
         <li>
-          <b>E-commerce storefront — sole developer.</b>
-          <span>Designed and built a responsive online store end to end and shipped it to
-          production: Nuxt.js storefront on a Laravel API.</span>
+          <b>End-to-end systems — sole developer.</b>
+          <span>Designed, built, and shipped a Nuxt/Laravel commerce storefront, a modular CMS with
+          page building and role-based administration, and a Laravel/Vue staff platform later
+          extended with Django and React modules.</span>
         </li>
         <li>
-          <b>Custom CMS — sole developer.</b>
-          <span>Built a fully modular CMS from scratch: dynamic page building, reusable blocks and
-          sections, a role-based admin panel, and real-time editing. Laravel, Vue/Nuxt,
-          Tailwind CSS.</span>
+          <b>Production CRM delivery.</b>
+          <span>Added features and modules to an established client-management application across
+          Laravel, Blade, jQuery, PHP, and MySQL while preserving existing production behaviour.</span>
         </li>
         <li>
-          <b>Staff management platform — sole developer.</b>
-          <span>Built a staff management system on a Laravel backend with a Vue.js frontend,
-          extending it with modules written in Django and React.</span>
-        </li>
-        <li>
-          <b>CRM platform — feature development.</b>
-          <span>Added features and modules to an established CRM in production use, working across
-          Laravel, Blade, jQuery, and MySQL.</span>
-        </li>
-        <li>
-          <b>Shopify theme customization.</b>
-          <span>Short-term engagement on a live storefront, adding booking calendars and product
-          filters in Liquid, HTML, CSS, and JavaScript.</span>
+          <b>Client commerce and content platforms.</b>
+          <span>Delivered configurable storefront, administration, appointment, gallery, checkout,
+          payment, and editorial workflows for food, art, healthcare, and commerce clients.</span>
         </li>
         <li>
           <b>Infrastructure and operations.</b>
-          <span>Ran the hosting, DNS, and TLS behind these applications: DigitalOcean droplet
-          provisioning, SSL certificates and WordPress hosting; Cloudflare DNS and tunnel
-          configuration; HostGator deployments and email forwarding; GoDaddy domains.</span>
+          <span>Managed Docker/NGINX deployments, DigitalOcean droplets, SSL/TLS, Cloudflare DNS and
+          tunnels, HostGator deployments and email forwarding, WordPress hosting, and domains.</span>
+        </li>
+        <li>
+          <b>Shopify customization.</b>
+          <span>Implemented booking-calendar behaviour, product filtering, and responsive storefront
+          refinements with Liquid, HTML, CSS, and JavaScript.</span>
         </li>
       </ul>
 
@@ -233,25 +301,61 @@
     </section>
 
     <section>
-      <h2>Selected Personal Projects</h2>
-      <p class="proj-note">Built with AI-assisted tooling and deployed to private environments.</p>
-      <ul class="work">
-        <li>
-          <b>Multi-tenant e-commerce platform.</b>
-          <span>Custom theme presets, dynamic payment integrations, and per-tenant store and domain
-          management. Nuxt, Laravel, Docker, Bun, NGINX.</span>
-        </li>
-        <li>
-          <b>Dispatching system.</b>
-          <span>Dispatches workers to service requests, coordinating assignments and tracking jobs
-          end to end. Next.js, Laravel, Docker, NGINX.</span>
-        </li>
-        <li>
-          <b>Ticketing system.</b>
-          <span>Event creation and ticket sales, covering event setup, inventory, and checkout.
-          Vue, Laravel, Docker, NGINX.</span>
-        </li>
-      </ul>
+      <h2>Selected Systems &amp; Client Projects</h2>
+      <p class="proj-note">Named project work reflected in the portfolio; private environments are labelled.</p>
+
+      <div class="featured-projects">
+        <article class="project">
+          <span class="project-type">Multi-tenant commerce platform · Private build</span>
+          <h3>DATABASY / SSU</h3>
+          <p>Built tenant-resolved storefronts and administration for catalogue, orders, themes,
+          subscriptions, payments, domains, staff access, 2FA, and role boundaries.</p>
+          <p class="project-tech">Nuxt 4 · Laravel · MySQL · Reverb · Docker · NGINX</p>
+        </article>
+
+        <article class="project">
+          <span class="project-type">Production client-management system</span>
+          <h3><a href="https://crm.databasy.io/login">DataBasy CRM</a></h3>
+          <p>Delivered full-stack features and production maintenance inside a mature authenticated
+          codebase without replacing its established behaviour.</p>
+          <p class="project-tech">Laravel · Blade · jQuery · PHP · MySQL</p>
+        </article>
+      </div>
+
+      <div class="client-projects">
+        <article class="project">
+          <span class="project-type">Food commerce + operations</span>
+          <h3><a href="https://azura-fresh.pageone247.com">Azura Fresh</a></h3>
+          <p>Multi-tenant catalogue, cart, checkout, payments, order tracking, delivery locations,
+          and configurable public content.</p>
+        </article>
+
+        <article class="project">
+          <span class="project-type">Gallery + art commerce</span>
+          <h3><a href="https://sca.pageone247.com">Sharon Comello Art</a></h3>
+          <p>Original artwork, collections, commissions, journals, gift cards, enquiries, and secure
+          purchasing with Stripe and Square.</p>
+        </article>
+
+        <article class="project">
+          <span class="project-type">Optometry + appointments</span>
+          <h3><a href="https://eliteoptometry.com.au">Elite Optometry United</a></h3>
+          <p>Services, practice locations, suburb landing pages, embedded appointment booking,
+          storefront, and commerce administration.</p>
+        </article>
+
+        <article class="project">
+          <span class="project-type">Configurable commerce · Private staging</span>
+          <h3>Tan</h3>
+          <p>Products, services, commissions, gift cards, editorial content, checkout, payments,
+          and backorder workflows.</p>
+        </article>
+      </div>
+
+      <p class="additional-builds">
+        <b>Additional builds:</b> service-request dispatching with assignment and job tracking;
+        event ticketing with inventory, checkout, and operational management.
+      </p>
     </section>
 
     <section>
