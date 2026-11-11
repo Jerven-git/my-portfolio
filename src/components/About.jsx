@@ -14,24 +14,24 @@ const stats = [
 
 const highlights = [
   {
-    title: 'Full-Stack Dev',
-    description: 'Building end-to-end web solutions with modern frameworks and clean architecture.',
+    title: 'Understand the problem',
+    description: 'Start with the people, tasks, and constraints the software needs to support.',
   },
   {
-    title: 'Cloud & DevOps',
-    description: 'Deploying scalable apps on DigitalOcean with Docker and NGINX.',
+    title: 'Consider the whole system',
+    description: 'Connect the customer experience, administration, backend, and deployment.',
   },
   {
-    title: 'E-Commerce',
-    description: 'Crafting high-converting stores on Shopify, WooCommerce, and custom platforms.',
+    title: 'Build on what works',
+    description: 'Extend existing applications and storefronts with care for their current behaviour.',
   },
   {
-    title: 'Performance First',
-    description: 'Optimizing every layer — from database queries to front-end rendering speed.',
+    title: 'Make it useful day to day',
+    description: 'Keep interfaces clear, content manageable, and operational workflows practical.',
   },
   {
-    title: 'AI & Automation',
-    description: 'Leveraging AI tools like Claude and Cursor, plus n8n workflows, to build and automate faster.',
+    title: 'Keep responsibility with the developer',
+    description: 'Use AI-assisted tools for implementation while owning architecture, review, and verification.',
   },
 ];
 
@@ -39,7 +39,7 @@ const facts = [
   ['Location', 'Davao City, PH'],
   ['Experience', '3+ Years'],
   ['Role', 'Full-Stack Developer'],
-  ['Availability', 'Open to Work'],
+  ['Collaboration', 'Project inquiries'],
 ];
 
 const containerVariants = {
@@ -134,6 +134,7 @@ export default function About() {
 
   return (
     <section id="about" className="relative bg-canvas px-6 py-28 text-ink">
+      <span id="stack" className="anchor-alias" aria-hidden="true" />
       <div className="mx-auto max-w-6xl">
         <Motion.div ref={ref} variants={containerVariants} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
           {/* Always split, in both modes. `lively` changes only the timing, so
@@ -143,8 +144,8 @@ export default function About() {
           <SectionHeading
             jump
             lively={lively}
-            title="About me"
-            lede="I turn complex problems into systems that hold up in production — and I've been doing it across the whole stack for three years."
+            title="A practical approach to your next project"
+            lede="I’m Jerven Latayada, a full-stack developer working across business websites, commerce platforms, CRM features, and internal tools."
           />
 
           <Motion.dl
@@ -179,17 +180,17 @@ export default function About() {
           <div className="grid items-start gap-14 md:grid-cols-2">
             <Motion.div variants={itemVariants} className="space-y-5">
               <p className="text-lg leading-relaxed text-ink">
-                I work across the full web stack — front-ends with Vue, Nuxt, and React, back-ends
-                with Laravel, Django, and Python.
+                My work connects what customers see with the tools a business needs behind the scenes.
+                That includes storefronts, content management, customer records, and staff workflows.
               </p>
               <p className="leading-relaxed text-muted">
-                I'm comfortable with managed hosting and deployment, working with DigitalOcean and
-                HostGator, and configuring production-grade setups using Docker and NGINX.
+                I work across interfaces, backend APIs, and deployment. Experience with Vue, Nuxt,
+                React, Laravel, Django, Docker, and NGINX helps me consider how the pieces fit together.
               </p>
               <p className="leading-relaxed text-muted">
-                Beyond traditional development, I use AI-assisted tools like Claude, Cursor, and
-                Codex to work smarter and ship faster, and I build automation workflows with n8n to
-                streamline repetitive tasks and connect the systems businesses rely on.
+                Whether the project starts with an idea or an established application, I focus on
+                understanding the requirements and making changes that serve the people using it.
+                AI-assisted tooling and n8n workflows support that work where appropriate.
               </p>
 
               <dl className="grid grid-cols-2 gap-x-6 gap-y-5 pt-6">

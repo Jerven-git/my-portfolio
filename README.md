@@ -1,16 +1,31 @@
-# React + Vite
+# Jerven Latayada — Software Development & Digital Solutions
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An existing React portfolio refactored into a services website for business owners, startups, and prospective clients. The original Crafted and interactive Mission Grid identities remain available.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```sh
+npm ci
+npm run dev
+```
 
-## React Compiler
+## Validation and build
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```sh
+npm run lint
+npm run build
+npm run preview
+```
 
-## Expanding the ESLint configuration
+The Vite build uses a relative base for custom domains and GitHub Pages project paths. No deployment configuration is changed by the services refactor.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Content and sections
+
+- `src/content/business.js`: shared navigation, positioning, services, solution examples, and editable email inquiry outline.
+- `src/content/projects.js`: project descriptions, roles, technologies, links, and private/staging status shared by both identities.
+- `src/App.jsx`: Hero → Services → Solutions → Projects → About → Contact.
+- `src/index.css`: existing design tokens and mode-specific responsive styling.
+
+Project inquiries use the existing email address through `mailto:` links. Visitors send an email from their own mail app; the site has no submission backend or simulated success message. The email address is also visible for copying.
+
+The existing CV remains at `public/cv.pdf`, with its source and generator in `cv/`. It is outside the primary website journey. `npm run cv` retains the original PDF generation workflow.

@@ -1,32 +1,41 @@
 import { useState, useEffect } from 'react';
-import { motion as Motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useIsPlayful } from '../usePlayfulMode';
 
-const links = [
-  { label: 'Projects', href: '#projects' },
-  { label: 'About', href: '#about' },
-  { label: 'Stack', href: '#stack' },
-  { label: 'AI Dev', href: '#ai-development' },
-  { label: 'CV', href: '#cv' },
-];
+import { navigationLinks as links } from '../content/business';
 
 export default function Navbar() {
   const playful = useIsPlayful();
+  const reduced = useReducedMotion();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        document.getElementById('site-menu-toggle')?.focus();
+      }
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [menuOpen]);
 
   if (playful) return null;
 
   return (
     <Motion.nav
-      initial={{ y: -80, opacity: 0 }}
+      aria-label="Main navigation"
+      initial={reduced ? false : { y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -45,7 +54,7 @@ export default function Navbar() {
         </Motion.a>
 
         {/* Desktop Links */}
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="hidden lg:flex items-center gap-5">
           {links.map((link, i) => (
             <Motion.li
               key={link.label}
@@ -68,17 +77,20 @@ export default function Navbar() {
             transition={{ delay: 0.6 }}
           >
             <a
-              href="mailto:latayada1233@gmail.com"
+              href="#contact"
               className="text-sm font-semibold px-4 py-2 rounded-full border border-ink/30 text-ink hover:bg-ink hover:text-canvas transition-colors duration-200"
             >
-              Email Jerven
+              Start a Project
             </a>
           </Motion.li>
         </ul>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-muted hover:text-ink transition-colors"
+          id="site-menu-toggle"
+          type="button"
+          aria-controls="site-mobile-menu"
+          className="lg:hidden flex h-11 w-11 items-center justify-center text-ink transition-colors"
           aria-expanded={menuOpen}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -91,24 +103,26 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <Motion.div
-            initial={{ opacity: 0, height: 0 }}
+            initial={reduced ? false : { opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden mt-2 border-t border-ink/10 bg-canvas/95 backdrop-blur-md"
+            id="site-mobile-menu"
+            className="lg:hidden mt-2 border-t border-ink/10 bg-canvas/95 backdrop-blur-md"
           >
             <ul className="flex flex-col px-6 py-4 gap-4">
               {links.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-muted hover:text-ink transition-colors"
+                    className="inline-flex min-h-11 items-center text-ink transition-colors"
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}
                   </a>
                 </li>
               ))}
+              <li><a href="#contact" className="project-inquiry" onClick={() => setMenuOpen(false)}>Start a Project</a></li>
             </ul>
           </Motion.div>
         )}

@@ -101,9 +101,9 @@ components:
 
 **Creative North Star: "Mission Grid 199X"**
 
-The Playful identity is a polished retro developer action game expressed as a recruiter-ready portfolio. An overhead campaign route turns each shipped system into an objective: the safety-orange path supplies the first viewport's dominant move, factual project evidence opens as a briefing dossier, and an original engineer token gives the world character without borrowing game IP. It should feel specific, tactile, and exact—not like a skin applied to a conventional portfolio.
+The Playful identity is a polished retro developer action game expressed as a client-focused software services website. An overhead campaign route turns each shipped system into an objective: the safety-orange path supplies the first viewport's dominant move, factual project evidence opens as a briefing dossier, and an original engineer token gives the world character without borrowing game IP. It should feel specific, tactile, and exact—not like a skin applied to a conventional portfolio.
 
-The strongest spectacle belongs to the hero and project proof. Below them, the same world becomes quieter and more editorially useful: briefing paper, route spines, objective markers, fixed information cells, and compact HUD elements carry the grammar while Bricolage Grotesque keeps explanations easy to scan. Interaction is optional enhancement; navigation, links, email, and CV download remain ordinary controls.
+The strongest spectacle belongs to the hero and project proof. Below them, the same world becomes quieter and more editorially useful: briefing paper, route spines, objective markers, fixed information cells, and compact HUD elements carry the grammar while Bricolage Grotesque keeps explanations easy to scan. Interaction is optional enhancement; navigation, project links, and project inquiries remain ordinary controls.
 
 Mission Grid is only the Playful world. It is activated by `html[data-playful="on"]` and rendered through the Mission Grid hero/campaign subtree. Crafted mode remains the default, separate identity and must retain its own warm off-white/vermilion palette, typography, navbar, project sequence, and footer. Shared factual content and destinations may cross the boundary; Mission Grid styling may not.
 
@@ -135,7 +135,7 @@ The palette behaves like a printed cartridge-era campaign kit: navy establishes 
 - **Command Navy:** Main ink, command rails, dark project terrain, footer, focus-ring backing, and the stable visual anchor across the Playful experience.
 - **Command Navy Soft:** Long-form text on paper when pure navy would feel too hard; never use it where full contrast or command priority is required.
 - **Briefing Sand:** Base campaign terrain and connective background.
-- **Briefing Paper:** Dossiers, profile evidence, career history, and other document-like surfaces; normally paired with the paper texture plate.
+- **Briefing Paper:** Dossiers, profile evidence, project requirements, and other document-like surfaces; normally paired with the paper texture plate.
 - **Signal Ivory:** Text on dark terrain, secondary command fills, borders, and high-visibility UI keylines.
 - **Utility White:** Reserved for the highest-contrast text on orange actions and true white requirements; it is not a page surface.
 
@@ -238,12 +238,12 @@ The shipping plate set is `assets/plates/campaign-map.png`, `engineer-token.png`
 
 Every main project/campaign section begins with a top command rule and a heading group: objective marker, Jersey mission title, optional Bricolage description, and a dashed line that absorbs remaining width. Alternate terrain by purpose:
 
-- Paper for focused evidence, profile, and career history.
+- Paper for focused evidence, profile, and project evidence.
 - Navy for the client mission route and campaign end-state.
 - Deep teal for the skills/loadout rack.
 - Orange for the AI-assisted build station, with navy type and rules.
 
-Client projects use a continuous orange route spine and diamond letter nodes. DATABASY / SSU and DataBasy CRM receive the strongest featured evidence; later clients use scannable mission rows, not decorative mockups or fake dashboards. The page's sequence remains taste and real systems first, speed/AI assistance later, and contact as the closing action.
+Client projects use a continuous orange route spine and diamond letter nodes. DATABASY / SSU and DataBasy CRM receive the strongest featured evidence; later clients use scannable mission rows, not decorative mockups or fake dashboards. The page follows Hero → Services → Solutions → Projects → About → Contact. Services and solutions explain business needs; projects provide factual evidence; AI-assisted tooling remains supporting process information.
 
 ### Persistent HUD
 
@@ -262,7 +262,7 @@ Under `prefers-reduced-motion: reduce`, mode switching becomes a direct state fl
 ### Do:
 
 - **Do** scope Mission Grid selectors, tokens, assets, and component patterns to Playful mode and its Mission Grid subtrees.
-- **Do** preserve the route-dominant first viewport, ordinary anchor navigation, email action, CV download, and factual project destinations.
+- **Do** preserve the route-dominant first viewport, ordinary anchor navigation, Start a Project and Explore Solutions actions, and factual project destinations.
 - **Do** keep long copy in Bricolage Grotesque and reserve pixel display type for headings, labels, and controls.
 - **Do** label generated interface plates as illustrative and retain accurate alternative text.
 - **Do** preserve keyboard focus, WCAG 2.2 AA contrast, touch-sized controls, persistent mute, and reduced-motion equivalents.
@@ -276,3 +276,12 @@ Under `prefers-reduced-motion: reduce`, mode switching becomes a direct state fl
 - **Don't** use weapons, copied game IP, camouflage, combat language, fake metrics, invented clients, fabricated achievements, or mandatory gameplay.
 - **Don't** use pixel fonts for paragraphs, hide proof behind interaction, or make audio and motion prerequisites for comprehension.
 - **Don't** promote the teal branch, later sections, or decorative HUD above the primary orange route and DATABASY / SSU objective.
+
+
+## Business positioning refactor
+
+The audience is business owners, startups, entrepreneurs, and prospective clients. Preserve both Crafted and Mission Grid identities. Shared services, solutions, project records, and an email-based inquiry experience keep the two presentations consistent. The interactive campaign route remains optional and opens the project section after Services and Solutions. The CV PDF and source remain available but career history and CV downloads are outside the main conversion flow. No new routes, dependencies, testimonials, clients, measurable results, or delivery guarantees are introduced.
+
+Business body copy remains in Bricolage Grotesque. Mission Grid uses Jersey 15 for section headings and Madimi One for its hero; full project explanations use ordinary document flow rather than fixed-height map overlays. Navigation wraps at smaller widths, with every destination and a Start a Project action available.
+
+New business copy uses a darker navy (#0d2034) on route orange for a 4.72:1 text contrast ratio. The shared Mission Grid muted text (#40596c) reaches 5.10:1 on sand; accent text uses #9c2e19. The navy/sand/orange identity stays intact. Thick section boundaries are part of the existing cartridge world; section surfaces are square, while Crafted inquiry controls retain the existing pill treatment.

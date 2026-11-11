@@ -3,6 +3,7 @@ import { motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 import { usePlayfulMode } from '../usePlayfulMode';
 import MissionGridHero from './MissionGridHero';
+import { positioning } from '../content/business';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/Jerven-git', label: 'GitHub' },
@@ -78,36 +79,32 @@ function CraftHero({ onToggle, reduced, entrance }) {
   return (
     <div className="relative min-h-screen">
       <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-x-10 px-6 md:grid-cols-12">
-        <div className="py-24 md:col-span-7 md:py-0">
-          <Motion.h1 {...rise(0)} className="display mb-7">
-            I build entire
-            <br />
-            systems. Alone.
+        <div className="craft-hero-copy py-28 md:col-span-7">
+          <Motion.h1 {...rise(0)} className="display business-hero-title mb-7">
+            {positioning.headline}
           </Motion.h1>
 
           <Motion.p {...rise(0.08)} className="lede mb-10 text-muted">
-            Full-stack developer. CRM platforms, storefronts, and modular CMSs — architected,
-            built, and shipped end to end.
+            {positioning.description}
           </Motion.p>
 
           <Motion.div {...rise(0.16)} className="mb-8 flex flex-wrap items-center gap-3">
             <a
-              href="mailto:latayada1233@gmail.com"
+              href="#contact"
               className="rounded-full bg-verm px-7 py-3.5 font-semibold text-ink transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0"
             >
-              Email me
+              Start a Project
             </a>
             <a
-              href="/cv.pdf"
-              download
+              href="#solutions"
               className="rounded-full border border-ink/20 px-7 py-3.5 font-semibold text-ink transition-colors duration-200 hover:border-ink/50"
             >
-              Download CV
+              Explore Solutions
             </a>
           </Motion.div>
 
           <Motion.p {...rise(0.24)} className="text-sm text-muted">
-            Based in Davao City · Available for full-stack product work.
+            Jerven Latayada · Full-stack developer · Davao City, Philippines.
           </Motion.p>
 
           <Motion.div {...rise(0.32)} className="mt-12 flex items-center gap-4">
@@ -132,7 +129,7 @@ function CraftHero({ onToggle, reduced, entrance }) {
         className="flex flex-col justify-end gap-7 bg-verm px-8 py-16 md:absolute md:inset-y-0 md:right-0 md:w-[38%] md:px-12 md:py-14"
       >
         <p className="max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-ink md:text-5xl">
-          AI helped. It didn&apos;t decide.
+          From the first idea to the system behind it.
         </p>
         <ModeToggle playful={false} onToggle={onToggle} tone="vermilion" />
       </Motion.aside>
