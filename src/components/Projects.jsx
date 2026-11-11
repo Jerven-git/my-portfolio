@@ -4,93 +4,7 @@ import { ArrowUpRight, Check, Database, LayoutDashboard, Server, ShieldCheck, St
 import SectionHeading from './SectionHeading';
 import { useIsPlayful } from '../usePlayfulMode';
 
-const featuredProjects = [
-  {
-    id: 'databasy-platform',
-    name: 'DATABASY / SSU',
-    type: 'Multi-tenant commerce platform',
-    statement: 'A branded storefront for each merchant. One operational workspace behind every store.',
-    description:
-      'Built end to end with Nuxt and Laravel: tenant-resolved storefronts, catalogue and order workflows, configurable themes, subscriptions, payments, domains, staff access, and separate tenant and platform administration.',
-    role: 'Full-stack architecture, product UI, backend APIs, infrastructure',
-    system: 'Nuxt 4 · Laravel · MySQL · Reverb',
-    delivery: 'Docker · NGINX · tenant-aware production stack',
-    proof: ['Host-based tenant isolation', 'Storefront + admin', '2FA and role boundaries'],
-    preview: 'commerce',
-    link: null,
-  },
-  {
-    id: 'databasy-crm',
-    name: 'DataBasy CRM',
-    type: 'Production client-management system',
-    statement: 'Feature work inside a living CRM—not a greenfield demo.',
-    description:
-      'Extended an established client-management platform with production features and modules, working across Laravel, Blade, jQuery, PHP, and MySQL while preserving the behaviour of an existing system.',
-    role: 'Full-stack feature delivery and production maintenance',
-    system: 'Laravel · Blade · jQuery · PHP · MySQL',
-    delivery: 'Existing production application with live authentication',
-    proof: ['Mature codebase', 'Server-rendered UI', 'Live production surface'],
-    preview: 'crm',
-    link: 'https://crm.databasy.io/login',
-  },
-];
-
-const supportingProjects = [
-  {
-    name: 'Azura Fresh',
-    type: 'Food commerce + operations',
-    description:
-      'A multi-tenant food storefront and admin system covering catalogue, cart, checkout, payments, order tracking, delivery locations, and configurable public content.',
-    tech: 'Nuxt 4 · Laravel · Pinia · MySQL · Docker',
-    link: 'https://azura-fresh.pageone247.com',
-  },
-  {
-    name: 'Sharon Comello Art',
-    type: 'Gallery + art commerce',
-    description:
-      'A contemporary gallery experience for original artwork, collections, commissions, journal stories, gift cards, enquiries, and secure purchasing.',
-    tech: 'Nuxt 4 · Laravel · Pinia · Stripe · Square',
-    link: 'https://sca.pageone247.com',
-  },
-  {
-    name: 'Elite Optometry United',
-    type: 'Optometry services + appointments',
-    description:
-      'A configurable optometry services website with practice locations, suburb landing pages, and embedded appointment booking.',
-    tech: 'Nuxt 4 · Laravel · Pinia · MySQL · NGINX',
-    link: 'https://eliteoptometry.com.au',
-  },
-  {
-    name: 'Tan',
-    type: 'Configurable services website',
-    description:
-      'A services-focused website and administration experience for presenting services and managing public content.',
-    tech: 'Nuxt 4 · Laravel · Pinia · MySQL · Docker',
-    status: 'Private staging build',
-  },
-  {
-    name: 'Staff Management Platform',
-    type: 'Internal operations',
-    description:
-      'Sole developer on a Laravel and Vue staff-management system, later extended with Django and React modules.',
-    tech: 'Laravel · Vue · Django · React · Python',
-  },
-  {
-    name: 'Custom CMS Platform',
-    type: 'Content infrastructure',
-    description:
-      'A modular CMS with page building, reusable blocks, role-based administration, and real-time editing.',
-    tech: 'Laravel · Nuxt · Vue · Tailwind CSS',
-  },
-  {
-    name: 'Shopify Storefront Work',
-    type: 'Theme customization',
-    description:
-      'Production theme customization including product filtering, booking-calendar behaviour, and responsive storefront refinements.',
-    tech: 'Shopify · Liquid · JavaScript · CSS',
-    link: 'https://sasrentals.com.au/',
-  },
-];
+import { featuredProjects, supportingProjects } from '../content/projects';
 
 const reveal = {
   hidden: { opacity: 0, y: 26 },
@@ -187,6 +101,8 @@ function FeaturedProject({ project, index }) {
         <p className="featured-project__description">{project.description}</p>
 
         <dl className="featured-project__facts">
+          <div><dt>Problem</dt><dd>{project.problem}</dd></div>
+          <div><dt>Use</dt><dd>{project.application}</dd></div>
           <div><dt>Role</dt><dd>{project.role}</dd></div>
           <div><dt>System</dt><dd>{project.system}</dd></div>
           <div><dt>Delivery</dt><dd>{project.delivery}</dd></div>
@@ -225,9 +141,9 @@ export default function Projects() {
         className="mx-auto max-w-6xl"
       >
         <SectionHeading
-          title="Systems in production"
-          beatWord={lively ? 'production' : undefined}
-          lede="The work behind the claim: platform architecture, a living CRM, and client products across commerce, healthcare, food, art, and services."
+          title="Projects built around real requirements"
+          beatWord={lively ? 'requirements' : undefined}
+          lede="Commerce, customer management, content, and internal operations. Explore the systems I built and the existing products I helped extend."
         />
 
         <div className="featured-projects">
@@ -238,8 +154,8 @@ export default function Projects() {
 
         <Motion.div variants={reveal} className="supporting-projects">
           <div className="supporting-projects__intro">
-            <h3>More shipped work</h3>
-            <p>Named client products and selected systems across distinct industries.</p>
+            <h3>More projects &amp; applications</h3>
+            <p>Websites and software across distinct industries, including private systems.</p>
           </div>
           <div className="supporting-projects__list">
             {supportingProjects.map((project) => (
@@ -248,7 +164,11 @@ export default function Projects() {
                   <span>{project.type}</span>
                   <h4>{project.name}</h4>
                 </div>
-                <p>{project.description}</p>
+                <div className="supporting-project__description">
+                  <p className="font-semibold text-ink">{project.problem}</p>
+                  <p>{project.description}</p>
+                  <p><strong>Business use:</strong> {project.application}</p>
+                </div>
                 <div className="supporting-project__meta">
                   <span>{project.tech}{project.status ? ` · ${project.status}` : ''}</span>
                   {project.link && (

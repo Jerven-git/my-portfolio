@@ -1,19 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion as Motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, DoorOpen, FileDown, Flag, Mail, Play, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, DoorOpen, Mail, Play, Volume2, VolumeX } from 'lucide-react';
 import campaignMap from '../../assets/plates/campaign-map.png';
 import engineerToken from '../../assets/plates/engineer-token.png';
-import projectPaper from '../../assets/plates/project-paper.png';
-import databasyInterface from '../../assets/plates/databasy-interface.png';
-import crmInterface from '../../assets/plates/crm-interface.png';
 import { ARCADE_VOLUME_MAX, ARCADE_VOLUME_MIN, useArcadeSound } from '../useArcadeSound';
-
-const NAV_ITEMS = [
-  { label: 'Work', href: '#projects' },
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#stack' },
-  { label: 'Contact', href: 'mailto:latayada1233@gmail.com' },
-];
+import { navigationLinks as NAV_ITEMS, positioning } from '../content/business';
 
 function CommandRail({ onExit, soundOn, onSoundToggle, volumePercent, onVolumeChange }) {
   const volumeLevel = ((volumePercent / 100 - ARCADE_VOLUME_MIN) / (ARCADE_VOLUME_MAX - ARCADE_VOLUME_MIN)) * 100;
@@ -25,11 +16,12 @@ function CommandRail({ onExit, soundOn, onSoundToggle, volumePercent, onVolumeCh
       </button>
       <span className="mission-role">Full-stack developer</span>
       <nav className="mission-nav" aria-label="Portfolio sections">
-        {NAV_ITEMS.map((item, index) => (
-          <a key={item.label} className={index === 0 ? 'is-active' : undefined} href={item.href}>
+        {NAV_ITEMS.map((item) => (
+          <a key={item.label} href={item.href}>
             {item.label}
           </a>
         ))}
+        <a className="mission-nav__inquiry" href="#contact">Start a Project</a>
       </nav>
       <div className="mission-sound">
         <button
@@ -170,14 +162,17 @@ export default function MissionGridHero({ onExit }) {
         <div className="mission-map__grid" aria-hidden="true" />
         <MapCompass />
 
-        <Motion.h1
-          className="mission-headline"
-          initial={calm ? false : { opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
-          animate={{ opacity: 1, clipPath: 'inset(0 0 0 0)' }}
-          transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
-        >
-          I build entire<br />systems. Alone.
-        </Motion.h1>
+        <div className="mission-intro">
+          <Motion.h1
+            className="mission-headline"
+            initial={calm ? false : { opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
+            animate={{ opacity: 1, clipPath: 'inset(0 0 0 0)' }}
+            transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {positioning.headline}
+          </Motion.h1>
+          <p>{positioning.description}</p>
+        </div>
 
         <span className="mission-label mission-label--contact"><span>Contact</span></span>
         <span className="mission-label mission-label--databasy"><span>DATABASY / SSU</span></span>
@@ -201,9 +196,11 @@ export default function MissionGridHero({ onExit }) {
           onAnimationComplete={missionPhase === 'running' ? () => completeMission(true) : undefined}
         />
 
-        <div className="mission-commands" aria-label="Primary portfolio actions">
+        <div className="mission-commands" aria-label="Primary project actions">
+          <a className="mission-command mission-command--primary" href="#contact"><Mail aria-hidden="true" /><span>Start a Project</span></a>
+          <a className="mission-command" href="#solutions"><ArrowRight aria-hidden="true" /><span>Explore Solutions</span></a>
           <button
-            className="mission-command mission-command--primary"
+            className="mission-command"
             type="button"
             onClick={startMission}
             data-arcade-tone={missionPhase === 'idle' ? 'launch' : 'select'}
@@ -211,22 +208,8 @@ export default function MissionGridHero({ onExit }) {
             aria-describedby="mission-route-status"
           >
             <Play aria-hidden="true" />
-            <span>
-              {missionPhase === 'running'
-                ? 'Following route…'
-                : missionPhase === 'complete'
-                  ? 'View mission brief'
-                  : 'Start mission'}
-            </span>
+            <span>{missionPhase === 'running' ? 'Following route…' : 'Follow project route'}</span>
           </button>
-          <a className="mission-command" href="mailto:latayada1233@gmail.com">
-            <Mail aria-hidden="true" />
-            <span>Email me</span>
-          </a>
-          <a className="mission-command" href="/cv.pdf" download>
-            <FileDown aria-hidden="true" />
-            <span>Download CV</span>
-          </a>
         </div>
         <span id="mission-route-status" className="sr-only" role="status" aria-live="polite">
           {missionPhase === 'running'
@@ -236,33 +219,6 @@ export default function MissionGridHero({ onExit }) {
               : 'Ready to start the DATABASY mission.'}
         </span>
       </div>
-
-      <section id="projects" className="mission-dossier" style={{ '--mission-paper-texture': `url(${projectPaper})` }}>
-        <header className="mission-dossier__header">
-          <Flag aria-hidden="true" />
-          <h2>MISSION 01 / PROJECTS</h2>
-          <span aria-hidden="true" />
-        </header>
-
-        <figure className="mission-dossier__primary-visual">
-          <img src={databasyInterface} alt="Illustrative DATABASY storefront and operational workspace interface" />
-          <figcaption>Illustrative interface</figcaption>
-        </figure>
-
-        <div className="mission-dossier__copy">
-          <h3>DATABASY / SSU</h3>
-          <p>Multi-tenant commerce platform</p>
-          <p>Storefront + operational workspace</p>
-          <span>Nuxt 4 + Laravel + MySQL + Reverb</span>
-        </div>
-
-        <ArrowRight className="mission-dossier__arrow" aria-hidden="true" />
-        <figure className="mission-dossier__next">
-          <figcaption>Next objective</figcaption>
-          <img src={crmInterface} alt="Illustrative DataBasy CRM interface" />
-          <strong>DataBasy CRM</strong>
-        </figure>
-      </section>
     </div>
   );
 }
