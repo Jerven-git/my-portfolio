@@ -3230,9 +3230,10 @@ html[data-portal-phase="reveal"] .pixel-portal__status {
 }
 .supporting-project__description p { margin: 0 0 0.75rem; color: var(--c-muted); font-size: 0.88rem; line-height: 1.6; }
 .supporting-project__description p:first-child { color: var(--c-ink); }
-.campaign-route-item__description p { margin: 0 0 1rem; color: #1b4260; line-height: 1.65; }
+.campaign-route-item__description p { margin: 0 0 1rem; color: #d8e1dc; line-height: 1.65; }
+.campaign-route-item__description p:first-child { color: var(--campaign-ivory); }
 @media (max-width: 980px) { .campaign-route-item__description { grid-column: 2; } }
-@media (max-width: 600px) { .campaign-route-item__description { grid-column: 1 / -1; } }
+@media (max-width: 680px) { .campaign-route-item__description { grid-column: 1 / -1; padding-left: 4.25rem; } }
 /* Let mobile hero copy determine height so project actions follow it directly. */
 @media (max-width: 900px) {
   .mission-map { height: auto; min-height: 0; padding-block: 1rem; }
